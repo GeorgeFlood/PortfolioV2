@@ -1,0 +1,279 @@
+/* ═══════════════════════════════════
+   Android Mobile Experience
+   ═══════════════════════════════════ */
+
+.android {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #1a1a2e;
+  font-family: 'Roboto', 'Inter', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.android__wallpaper {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.android__wallpaper--next {
+  opacity: 0;
+  transition: opacity ease-in-out;
+  z-index: 1;
+}
+
+.android__wallpaper--fading {
+  opacity: 1;
+}
+
+/* ── Status Bar ── */
+
+.android__status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px;
+  height: 36px;
+  flex-shrink: 0;
+  z-index: 10;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.android__status--app {
+  background: #f8f9fa;
+  color: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+
+.android__status-time {
+  font-size: 13px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.android__status-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.7;
+}
+
+/* ── Home Screen ── */
+
+.android__home {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 24px;
+  gap: 28px;
+  overflow-y: auto;
+  position: relative;
+  z-index: 5;
+}
+
+/* Widget */
+
+.android__widget {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px 0 8px;
+}
+
+.android__widget-time {
+  font-size: 56px;
+  font-weight: 200;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: -0.02em;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+}
+
+.android__widget-date {
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 4px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Search Bar */
+
+.android__search-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  border-radius: 28px;
+  color: rgba(0, 0, 0, 0.35);
+  font-size: 15px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* App Grid */
+
+.android__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px 12px;
+  padding: 8px 0;
+}
+
+.android__app-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.android__app-icon:active .android__icon-shape {
+  transform: scale(0.9);
+}
+
+.android__icon-shape {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s;
+}
+
+.android__icon-shape svg {
+  width: 28px;
+  height: 28px;
+}
+
+.android__app-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.95);
+  text-align: center;
+  max-width: 68px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Activity (Open App) ── */
+
+.android__activity {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f2f4f8;
+  animation: activitySlideUp 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  position: relative;
+  z-index: 5;
+}
+
+@keyframes activitySlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(56px) scale(0.97);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.005);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.android__app-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 8px 16px;
+  flex-shrink: 0;
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--app-color, #4285f4) 18%, #ffffff),
+    color-mix(in srgb, var(--app-color, #4285f4) 8%, #f2f4f8) 100%
+  );
+}
+
+.android__back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: color-mix(in srgb, var(--app-color, #4285f4) 70%, #000000);
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+
+.android__back-btn:active {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.android__back-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.android__app-bar-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.android__app-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+  background: #ffffff;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.04);
+}
+
+.android__app-content .app-hero {
+  margin: 0;
+  border-radius: 0;
+}
+
+.android__app-content .app-body {
+  padding: 20px;
+}
+
+/* ── Navigation Bar ── */
+
+.android__navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0 12px;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.android__nav-pill {
+  width: 120px;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.4);
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+
+.android__nav-pill:active {
+  background: rgba(255, 255, 255, 0.7);
+}

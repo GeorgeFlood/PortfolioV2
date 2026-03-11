@@ -1,0 +1,187 @@
+.window {
+  position: absolute;
+  width: 720px;
+  max-width: calc(100vw - 40px);
+  height: 520px;
+  max-height: calc(100vh - 120px);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: rgba(235, 237, 242, 0.62);
+  backdrop-filter: blur(52px) saturate(200%) brightness(1.04);
+  -webkit-backdrop-filter: blur(52px) saturate(200%) brightness(1.04);
+  box-shadow:
+    0 40px 90px rgba(0, 0, 0, 0.2),
+    0 8px 24px rgba(0, 0, 0, 0.1),
+    0 0 0 0.5px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  animation: windowOpen 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform;
+}
+
+.window--active {
+  box-shadow:
+    0 48px 100px rgba(0, 0, 0, 0.28),
+    0 12px 32px rgba(0, 0, 0, 0.12),
+    0 0 0 0.5px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.window--dragging {
+  transition: none !important;
+  opacity: 0.93;
+  cursor: grabbing;
+}
+
+@keyframes windowOpen {
+  0% {
+    opacity: 0;
+    transform: scale(0.82) translateY(24px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.015) translateY(-3px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ── Title Bar ── */
+
+.window__titlebar {
+  height: 48px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.72) 0%,
+    rgba(248, 248, 252, 0.58) 100%
+  );
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  cursor: grab;
+  flex-shrink: 0;
+  position: relative;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.window__titlebar:active {
+  cursor: grabbing;
+}
+
+.window--active .window__titlebar {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.84) 0%,
+    rgba(244, 244, 250, 0.68) 100%
+  );
+}
+
+/* ── Traffic Lights ── */
+
+.window__traffic-lights {
+  display: flex;
+  gap: 8px;
+  z-index: 1;
+}
+
+.window__btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  position: relative;
+  transition: filter 0.15s;
+}
+
+.window__btn--close {
+  background: #ff5f57;
+}
+.window__btn--minimize {
+  background: #febc2e;
+}
+.window__btn--fullscreen {
+  background: #28c840;
+}
+
+.window:not(.window--active) .window__btn {
+  background: #d4d4d4;
+}
+
+.window__btn::after {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 800;
+  color: rgba(0, 0, 0, 0.45);
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.window__traffic-lights:hover .window__btn::after {
+  opacity: 1;
+}
+
+.window__traffic-lights:hover .window__btn--close::after {
+  content: '✕';
+  font-size: 7px;
+}
+.window__traffic-lights:hover .window__btn--minimize::after {
+  content: '−';
+  font-size: 12px;
+}
+.window__traffic-lights:hover .window__btn--fullscreen::after {
+  content: '⤢';
+  font-size: 9px;
+}
+
+/* ── Title ── */
+
+.window__title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.85);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.window:not(.window--active) .window__title {
+  color: rgba(0, 0, 0, 0.35);
+}
+
+/* ── Content ── */
+
+.window__content {
+  flex: 1;
+  overflow-y: auto;
+  background: rgba(252, 252, 255, 0.92);
+  padding: 28px;
+}
+
+.window__content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.window__content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.window__content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+.window__content::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
