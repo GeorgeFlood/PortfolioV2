@@ -79,8 +79,8 @@ const FeedIcon = () => (
 const dockApps: DockApp[] = [
   { id: 'about', name: 'About Me', color: '#007AFF', icon: <PersonIcon /> },
   { id: 'projects', name: 'Projects', color: '#5856D6', icon: <CodeIcon /> },
-  { id: 'github', name: 'GitHub', color: '#111827', icon: <GitHubIcon /> },
   { id: 'feed', name: 'Feed', color: '#0EA5E9', icon: <FeedIcon /> },
+  { id: 'github', name: 'GitHub', color: '#111827', icon: <GitHubIcon /> },
   { id: 'contact', name: 'Contact', color: '#34C759', icon: <MailIcon /> },
 ];
 

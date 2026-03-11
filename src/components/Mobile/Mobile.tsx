@@ -1,4 +1,10 @@
-import { useState, useEffect, type ReactNode } from 'react';
+import {
+  useState,
+  useEffect,
+  useRef,
+  type ReactNode,
+  type PointerEvent,
+} from 'react';
 import AboutMe from '../apps/AboutMe';
 import Projects from '../apps/Projects';
 import Contact from '../apps/Contact';
@@ -11,6 +17,9 @@ import mobileWp3 from '../../assets/mobileWallpapers/andriodwallpaper3.jpeg';
 import './Mobile.css';
 
 const mobileWallpapers = [mobileWp1, mobileWp2, mobileWp3];
+const LONG_PRESS_MS = 220;
+const DRAG_CANCEL_DISTANCE = 10;
+const APP_ORDER_STORAGE_KEY = 'portfolio-mobile-app-order';
 
 interface MobileApp {
   id: string;
@@ -21,21 +30,42 @@ interface MobileApp {
 }
 
 const PersonIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="white"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <circle cx="12" cy="8" r="4" />
     <path d="M5 21v-2a5 5 0 0 1 10 0v2" />
   </svg>
 );
 
 const CodeIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="white"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <polyline points="16 18 22 12 16 6" />
     <polyline points="8 6 2 12 8 18" />
   </svg>
 );
 
 const MailIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="white"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <rect x="2" y="4" width="20" height="16" rx="2" />
     <path d="M22 7l-10 6L2 7" />
   </svg>
@@ -48,30 +78,125 @@ const GitHubIcon = () => (
 );
 
 const FeedIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="white"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <path d="M22 12h-7l-3 8-3-16-3 8H2" />
   </svg>
 );
 
 const apps: MobileApp[] = [
-  { id: 'about', name: 'About Me', color: '#4285F4', icon: <PersonIcon />, content: <AboutMe /> },
-  { id: 'projects', name: 'Projects', color: '#7C4DFF', icon: <CodeIcon />, content: <Projects /> },
-  { id: 'github', name: 'GitHub', color: '#1e293b', icon: <GitHubIcon />, content: <GitHub /> },
-  { id: 'feed', name: 'Feed', color: '#0EA5E9', icon: <FeedIcon />, content: <Feed /> },
-  { id: 'contact', name: 'Contact', color: '#00C853', icon: <MailIcon />, content: <Contact /> },
+  {
+    id: 'about',
+    name: 'About Me',
+    color: '#4285F4',
+    icon: <PersonIcon />,
+    content: <AboutMe />,
+  },
+  {
+    id: 'projects',
+    name: 'Projects',
+    color: '#7C4DFF',
+    icon: <CodeIcon />,
+    content: <Projects />,
+  },
+  {
+    id: 'feed',
+    name: 'Feed',
+    color: '#0EA5E9',
+    icon: <FeedIcon />,
+    content: <Feed />,
+  },
+  {
+    id: 'github',
+    name: 'GitHub',
+    color: '#1e293b',
+    icon: <GitHubIcon />,
+    content: <GitHub />,
+  },
+  {
+    id: 'contact',
+    name: 'Contact',
+    color: '#00C853',
+    icon: <MailIcon />,
+    content: <Contact />,
+  },
 ];
+
+const appMap = Object.fromEntries(apps.map(app => [app.id, app] as const));
+const defaultAppOrder = apps.map(app => app.id);
+
+function normalizeAppOrder(order: string[]) {
+  const validIds = order.filter(id => defaultAppOrder.includes(id));
+  const missingIds = defaultAppOrder.filter(id => !validIds.includes(id));
+  return [...validIds, ...missingIds];
+}
+
+function moveApp(order: string[], sourceId: string, targetId: string) {
+  if (sourceId === targetId) return order;
+
+  const next = [...order];
+  const sourceIndex = next.indexOf(sourceId);
+  const targetIndex = next.indexOf(targetId);
+
+  if (sourceIndex === -1 || targetIndex === -1) return order;
+
+  next.splice(sourceIndex, 1);
+  next.splice(targetIndex, 0, sourceId);
+  return next;
+}
 
 function Mobile() {
   const [openApp, setOpenApp] = useState<string | null>(null);
   const [time, setTime] = useState(new Date());
+  const [appOrder, setAppOrder] = useState(() => {
+    if (typeof window === 'undefined') return defaultAppOrder;
+
+    const stored = window.localStorage.getItem(APP_ORDER_STORAGE_KEY);
+    if (!stored) return defaultAppOrder;
+
+    try {
+      return normalizeAppOrder(JSON.parse(stored) as string[]);
+    } catch {
+      return defaultAppOrder;
+    }
+  });
+  const [draggingId, setDraggingId] = useState<string | null>(null);
+  const [dropTargetId, setDropTargetId] = useState<string | null>(null);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+
+  const pressTimerRef = useRef<number | null>(null);
+  const pressStateRef = useRef<{
+    appId: string;
+    pointerId: number;
+    startX: number;
+    startY: number;
+  } | null>(null);
+  const suppressOpenRef = useRef(false);
 
   const { currentWallpaper, nextWallpaper, isFading, fadeDuration } =
-    useWallpaperCycle({ wallpapers: mobileWallpapers, interval: 20_000, fadeDuration: 2_500 });
+    useWallpaperCycle({
+      wallpapers: mobileWallpapers,
+      interval: 20_000,
+      fadeDuration: 2_500,
+    });
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 30_000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(
+      APP_ORDER_STORAGE_KEY,
+      JSON.stringify(appOrder),
+    );
+  }, [appOrder]);
 
   const formattedTime = time.toLocaleTimeString('en-US', {
     hour: 'numeric',
@@ -85,7 +210,138 @@ function Mobile() {
     day: 'numeric',
   });
 
-  const currentApp = apps.find((a) => a.id === openApp);
+  const orderedApps = appOrder.map(id => appMap[id]).filter(Boolean);
+  const currentApp = openApp ? appMap[openApp] : null;
+
+  const clearPressTimer = () => {
+    if (pressTimerRef.current !== null) {
+      window.clearTimeout(pressTimerRef.current);
+      pressTimerRef.current = null;
+    }
+  };
+
+  const finishDrag = (
+    sourceId?: string,
+    clientX?: number,
+    clientY?: number,
+  ) => {
+    if (
+      sourceId &&
+      typeof clientX === 'number' &&
+      typeof clientY === 'number'
+    ) {
+      const target = document
+        .elementFromPoint(clientX, clientY)
+        ?.closest<HTMLElement>('[data-app-id]');
+      const targetId = target?.dataset.appId;
+
+      if (targetId && targetId !== sourceId) {
+        setAppOrder(prev => moveApp(prev, sourceId, targetId));
+      }
+    }
+
+    setDraggingId(null);
+    setDropTargetId(null);
+    setDragOffset({ x: 0, y: 0 });
+    pressStateRef.current = null;
+    suppressOpenRef.current = true;
+    window.setTimeout(() => {
+      suppressOpenRef.current = false;
+    }, 0);
+  };
+
+  const handlePointerDown = (
+    appId: string,
+    event: PointerEvent<HTMLButtonElement>,
+  ) => {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+
+    event.currentTarget.setPointerCapture(event.pointerId);
+    pressStateRef.current = {
+      appId,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+    };
+
+    clearPressTimer();
+    pressTimerRef.current = window.setTimeout(() => {
+      setDraggingId(appId);
+      setDropTargetId(appId);
+      setDragOffset({ x: 0, y: 0 });
+      suppressOpenRef.current = true;
+    }, LONG_PRESS_MS);
+  };
+
+  const handlePointerMove = (
+    appId: string,
+    event: PointerEvent<HTMLButtonElement>,
+  ) => {
+    const press = pressStateRef.current;
+    if (!press || press.appId !== appId || press.pointerId !== event.pointerId)
+      return;
+
+    const x = event.clientX - press.startX;
+    const y = event.clientY - press.startY;
+
+    if (draggingId !== appId) {
+      if (Math.hypot(x, y) > DRAG_CANCEL_DISTANCE) {
+        clearPressTimer();
+      }
+      return;
+    }
+
+    event.preventDefault();
+    setDragOffset({ x, y });
+
+    const hovered = document
+      .elementFromPoint(event.clientX, event.clientY)
+      ?.closest<HTMLElement>('[data-app-id]');
+
+    const hoveredId = hovered?.dataset.appId ?? null;
+    setDropTargetId(hoveredId && hoveredId !== appId ? hoveredId : null);
+  };
+
+  const handlePointerUp = (
+    appId: string,
+    event: PointerEvent<HTMLButtonElement>,
+  ) => {
+    const press = pressStateRef.current;
+    if (!press || press.appId !== appId || press.pointerId !== event.pointerId)
+      return;
+
+    clearPressTimer();
+
+    if (draggingId === appId) {
+      finishDrag(appId, event.clientX, event.clientY);
+      return;
+    }
+
+    pressStateRef.current = null;
+  };
+
+  const handlePointerCancel = (
+    appId: string,
+    event: PointerEvent<HTMLButtonElement>,
+  ) => {
+    const press = pressStateRef.current;
+    if (!press || press.appId !== appId || press.pointerId !== event.pointerId)
+      return;
+
+    clearPressTimer();
+
+    if (draggingId === appId) {
+      finishDrag();
+      return;
+    }
+
+    pressStateRef.current = null;
+  };
+
+  const handleAppOpen = (appId: string) => {
+    if (suppressOpenRef.current || draggingId) return;
+    setOpenApp(appId);
+  };
 
   return (
     <div className="android">
@@ -104,7 +360,9 @@ function Mobile() {
       )}
 
       {/* Status Bar */}
-      <div className={`android__status ${openApp ? 'android__status--app' : ''}`}>
+      <div
+        className={`android__status ${openApp ? 'android__status--app' : ''}`}
+      >
         <span className="android__status-time">{formattedTime}</span>
         <div className="android__status-icons">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -128,15 +386,18 @@ function Mobile() {
               onClick={() => setOpenApp(null)}
               aria-label="Go back"
             >
-              <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+              <svg
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                width="24"
+                height="24"
+              >
                 <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
               </svg>
             </button>
             <span className="android__app-bar-title">{currentApp.name}</span>
           </div>
-          <div className="android__app-content">
-            {currentApp.content}
-          </div>
+          <div className="android__app-content">{currentApp.content}</div>
         </div>
       ) : (
         /* ── Home Screen ── */
@@ -147,11 +408,25 @@ function Mobile() {
           </div>
 
           <div className="android__grid">
-            {apps.map((app) => (
+            {orderedApps.map(app => (
               <button
                 key={app.id}
-                className="android__app-icon"
-                onClick={() => setOpenApp(app.id)}
+                className={`android__app-icon ${
+                  draggingId === app.id ? 'android__app-icon--dragging' : ''
+                } ${dropTargetId === app.id ? 'android__app-icon--target' : ''}`}
+                data-app-id={app.id}
+                onClick={() => handleAppOpen(app.id)}
+                onPointerDown={event => handlePointerDown(app.id, event)}
+                onPointerMove={event => handlePointerMove(app.id, event)}
+                onPointerUp={event => handlePointerUp(app.id, event)}
+                onPointerCancel={event => handlePointerCancel(app.id, event)}
+                style={
+                  draggingId === app.id
+                    ? {
+                        transform: `translate(${dragOffset.x}px, ${dragOffset.y}px) scale(1.08)`,
+                      }
+                    : undefined
+                }
               >
                 <div
                   className="android__icon-shape"
@@ -167,13 +442,7 @@ function Mobile() {
       )}
 
       {/* Navigation Bar */}
-      <div className="android__navbar">
-        <button
-          className="android__nav-pill"
-          onClick={() => setOpenApp(null)}
-          aria-label="Home"
-        />
-      </div>
+      <div className="android__navbar"></div>
     </div>
   );
 }
