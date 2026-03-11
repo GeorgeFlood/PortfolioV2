@@ -1,3 +1,4 @@
+import headshot from '../../assets/headshot.png';
 import './Apps.css';
 
 const skillGroups = [
@@ -27,7 +28,7 @@ function AboutMe() {
   return (
     <div className="app-content about">
       <div className="app-hero app-hero--blue">
-        <div className="about__avatar">GF</div>
+        <img src={headshot} alt="George Flood" className="about__avatar" />
         <div className="about__hero-text">
           <h1>George Flood</h1>
           <p>Web Developer &middot; London, UK</p>
