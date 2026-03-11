@@ -16,21 +16,42 @@ import './Desktop.css';
 const desktopWallpapers = [macOSAurora, windowsXP, windows95];
 
 const PersonIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="white"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <circle cx="12" cy="8" r="4" />
     <path d="M5 21v-2a5 5 0 0 1 10 0v2" />
   </svg>
 );
 
 const CodeIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="white"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <polyline points="16 18 22 12 16 6" />
     <polyline points="8 6 2 12 8 18" />
   </svg>
 );
 
 const MailIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="white"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <rect x="2" y="4" width="20" height="16" rx="2" />
     <path d="M22 7l-10 6L2 7" />
   </svg>
@@ -43,7 +64,14 @@ const GitHubIcon = () => (
 );
 
 const FeedIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="white"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <path d="M22 12h-7l-3 8-3-16-3 8H2" />
   </svg>
 );
@@ -56,26 +84,31 @@ const dockApps: DockApp[] = [
   { id: 'contact', name: 'Contact', color: '#34C759', icon: <MailIcon /> },
 ];
 
-const appContent: Record<string, { title: string; element: React.ReactNode }> = {
-  about: { title: 'About Me', element: <AboutMe /> },
-  projects: { title: 'Projects', element: <Projects /> },
-  github: { title: 'GitHub', element: <GitHub /> },
-  feed: { title: 'Blog Feed', element: <Feed /> },
-  contact: { title: 'Contact', element: <Contact /> },
-};
+const appContent: Record<string, { title: string; element: React.ReactNode }> =
+  {
+    about: { title: 'About Me', element: <AboutMe /> },
+    projects: { title: 'Projects', element: <Projects /> },
+    github: { title: 'GitHub', element: <GitHub /> },
+    feed: { title: 'Blog Feed', element: <Feed /> },
+    contact: { title: 'Contact', element: <Contact /> },
+  };
 
 function Desktop() {
   const [openApps, setOpenApps] = useState<string[]>([]);
   const [focusedApp, setFocusedApp] = useState<string | null>(null);
 
   const { currentWallpaper, nextWallpaper, isFading, fadeDuration } =
-    useWallpaperCycle({ wallpapers: desktopWallpapers, interval: 25_000, fadeDuration: 3_000 });
+    useWallpaperCycle({
+      wallpapers: desktopWallpapers,
+      interval: 25_000,
+      fadeDuration: 3_000,
+    });
 
   const openApp = useCallback((id: string) => {
-    setOpenApps((prev) => {
+    setOpenApps(prev => {
       if (prev.includes(id)) {
         setFocusedApp(id);
-        return [...prev.filter((a) => a !== id), id];
+        return [...prev.filter(a => a !== id), id];
       }
       return [...prev, id];
     });
@@ -83,17 +116,17 @@ function Desktop() {
   }, []);
 
   const closeApp = useCallback((id: string) => {
-    setOpenApps((prev) => prev.filter((a) => a !== id));
-    setFocusedApp((prev) => (prev === id ? null : prev));
+    setOpenApps(prev => prev.filter(a => a !== id));
+    setFocusedApp(prev => (prev === id ? null : prev));
   }, []);
 
   const focusApp = useCallback((id: string) => {
     setFocusedApp(id);
-    setOpenApps((prev) => [...prev.filter((a) => a !== id), id]);
+    setOpenApps(prev => [...prev.filter(a => a !== id), id]);
   }, []);
 
   const activeAppName = focusedApp
-    ? appContent[focusedApp]?.title ?? null
+    ? (appContent[focusedApp]?.title ?? null)
     : null;
 
   return (
@@ -118,7 +151,7 @@ function Desktop() {
         {openApps.length === 0 && (
           <div className="desktop__hint">
             <span className="desktop__hint-text">
-              Software Engineer &middot; Open to work
+              Web Developer &middot; Open to work
             </span>
           </div>
         )}
@@ -132,7 +165,10 @@ function Desktop() {
               title={app.title}
               isActive={focusedApp === appId}
               zIndex={index + 1}
-              initialX={Math.max(20, (window.innerWidth - 720) / 2 + index * 28)}
+              initialX={Math.max(
+                20,
+                (window.innerWidth - 720) / 2 + index * 28,
+              )}
               initialY={Math.max(48, 80 + index * 28)}
               onClose={() => closeApp(appId)}
               onFocus={() => focusApp(appId)}
