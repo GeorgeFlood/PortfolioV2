@@ -1,47 +1,35 @@
 export interface FeedPost {
   id: string;
-  author: string;
-  handle: string;
+  title: string;
   content: string;
   timestamp: string;
-  likes: number;
-  comments: number;
-  accent: string;
+  category: 'design' | 'process' | 'shipped';
 }
 
 export const feedPosts: FeedPost[] = [
   {
     id: '1',
-    author: 'George',
-    handle: '@george',
+    title: 'Building a portfolio that behaves like a product',
     content:
-      'Shipped a fresh portfolio concept today. I wanted it to feel less like a website and more like a system you can explore.',
+      'Shipped a fresh portfolio concept that feels less like a brochure site and more like an interface you can move through. The goal is simple: make the work feel interactive before you even open a tab.',
     timestamp: '2h',
-    likes: 48,
-    comments: 6,
-    accent: '#0ea5e9',
+    category: 'shipped',
   },
   {
     id: '2',
-    author: 'George',
-    handle: '@george',
+    title: 'Designing for rhythm, not decoration',
     content:
-      'Currently obsessed with interfaces that feel tactile: layered glass, subtle motion, fast feedback, and clear hierarchy.',
+      'I keep coming back to interfaces that feel tactile: layered glass, subtle motion, and enough spacing that everything has room to breathe.',
     timestamp: '6h',
-    likes: 63,
-    comments: 11,
-    accent: '#8b5cf6',
+    category: 'design',
   },
   {
     id: '3',
-    author: 'George',
-    handle: '@george',
+    title: 'Using AI like a collaborator, not a shortcut',
     content:
-      'I like building product experiences where design and engineering feel like the same conversation, not separate phases.',
+      'Using AI is most useful when it speeds up exploration but still leaves room for judgment, review, and cleanup. I want the final output to feel considered, not generated.',
     timestamp: '1d',
-    likes: 71,
-    comments: 9,
-    accent: '#f97316',
+    category: 'process',
   },
 ];
 

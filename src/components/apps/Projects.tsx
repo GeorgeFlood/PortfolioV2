@@ -1,5 +1,9 @@
 import './Apps.css';
 
+const stack = ['Laravel', 'PHP', 'JavaScript', 'MySQL', 'Railway'];
+const apis = ['TfL Journey Planner', 'OpenStreetMap Nominatim'];
+const process = ['AI-assisted build', 'Manual PR review', 'Feature iteration'];
+
 function Projects() {
   return (
     <div className="app-content projects">
@@ -10,10 +14,13 @@ function Projects() {
         </div>
       </div>
 
-      <div className="app-body">
+      <div className="app-body projects__body">
         <div className="project-feature">
           <div className="project-feature__header">
-            <div className="project-feature__badge">Live</div>
+            <div className="project-feature__badge">
+              <span className="project-feature__badge-dot" aria-hidden="true" />
+              Live
+            </div>
             <a
               href="https://www.meethere.live"
               target="_blank"
@@ -26,24 +33,41 @@ function Projects() {
 
           <h3 className="project-feature__title">MeetHere</h3>
           <p className="project-feature__desc">
-            A full-stack London transit app that calculates the fairest meeting
-            point between multiple people. Enter postcodes, pick a vibe, and
-            MeetHere returns journey times, travel costs, and suggested departure
-            windows — all powered by the TfL API and OpenStreetMap.
+            A London meet-up planner that finds the fairest place for everyone to
+            travel to. Enter postcodes, pick the vibe, and get balanced routes,
+            costs, and suggested venues in one pass.
           </p>
 
           <div className="project-feature__details">
-            <div className="project-feature__detail">
+            <div className="project-feature__detail project-feature__detail--stack">
               <span className="project-feature__detail-label">Stack</span>
-              <span>Laravel, vanilla JS, MySQL, Railway</span>
+              <div className="project-feature__detail-tags">
+                {stack.map((item) => (
+                  <span key={item} className="project-feature__detail-tag">
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
-            <div className="project-feature__detail">
+            <div className="project-feature__detail project-feature__detail--api">
               <span className="project-feature__detail-label">APIs</span>
-              <span>TfL Journey Planner, OpenStreetMap Nominatim</span>
+              <div className="project-feature__detail-tags">
+                {apis.map((item) => (
+                  <span key={item} className="project-feature__detail-tag">
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
-            <div className="project-feature__detail">
+            <div className="project-feature__detail project-feature__detail--process">
               <span className="project-feature__detail-label">Process</span>
-              <span>Built with Claude, manually reviewing and adding to every PR</span>
+              <div className="project-feature__detail-tags">
+                {process.map((item) => (
+                  <span key={item} className="project-feature__detail-tag">
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -60,15 +84,6 @@ function Projects() {
               <strong>Vibe filtering</strong>
               <span>Pick "coffee", "drinks", or "food" to surface relevant meeting spots</span>
             </div>
-          </div>
-
-          <div className="project-card__tags" style={{ marginTop: 16 }}>
-            <span className="project-card__tag">Laravel</span>
-            <span className="project-card__tag">PHP</span>
-            <span className="project-card__tag">JavaScript</span>
-            <span className="project-card__tag">MySQL</span>
-            <span className="project-card__tag">TfL API</span>
-            <span className="project-card__tag">OpenStreetMap</span>
           </div>
         </div>
 

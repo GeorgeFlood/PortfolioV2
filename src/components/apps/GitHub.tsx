@@ -10,6 +10,14 @@ function formatDate(dateString: string) {
 
 function GitHub() {
   const { repos, isLoading, error } = useGitHubRepos(8);
+  const username = import.meta.env.VITE_GITHUB_USERNAME ?? '';
+  const featuredRepos = repos
+    .filter(
+      (repo) =>
+        Boolean(repo.description?.trim()) &&
+        repo.name.toLowerCase() !== username.toLowerCase()
+    )
+    .slice(0, 6);
 
   return (
     <div className="app-content github">
@@ -20,7 +28,7 @@ function GitHub() {
         </div>
         <a
           className="github__profile-link"
-          href={`https://github.com/${import.meta.env.VITE_GITHUB_USERNAME ?? ''}`}
+          href={`https://github.com/${username}`}
           target="_blank"
           rel="noreferrer"
         >
@@ -28,13 +36,19 @@ function GitHub() {
         </a>
       </div>
 
-      <div className="app-body">
+      <div className="app-body github__body">
         {isLoading && <p className="github__state">Loading repositories...</p>}
         {error && <p className="github__state github__state--error">{error}</p>}
 
-        {!isLoading && !error && (
+        {!isLoading && !error && featuredRepos.length === 0 && (
+          <p className="github__state">
+            Add descriptions to a few repos on GitHub and they will show up here.
+          </p>
+        )}
+
+        {!isLoading && !error && featuredRepos.length > 0 && (
           <div className="github__list">
-            {repos.map((repo) => (
+            {featuredRepos.map((repo) => (
               <a
                 key={repo.id}
                 className="github__repo"
@@ -46,7 +60,7 @@ function GitHub() {
                   <h3>{repo.name}</h3>
                   <span>{formatDate(repo.updated_at)}</span>
                 </div>
-                <p>{repo.description || 'No description added yet.'}</p>
+                <p>{repo.description}</p>
                 <div className="github__repo-meta">
                   {repo.language && (
                     <span className="github__repo-lang">
@@ -69,8 +83,13 @@ function GitHub() {
                     </span>
                   )}
                   {repo.stargazers_count > 0 && (
-                    <span>{repo.stargazers_count} stars</span>
+                    <span className="github__repo-stat">
+                      {repo.stargazers_count} stars
+                    </span>
                   )}
+                  <span className="github__repo-stat">
+                    Updated {formatDate(repo.updated_at)}
+                  </span>
                   {repo.homepage && <span className="github__repo-live">Live</span>}
                 </div>
               </a>

@@ -1,6 +1,5 @@
 import { feedPosts } from '../../lib/feed';
 import { useCommitFeed } from '../../hooks/useCommitFeed';
-import avatar from '../../assets/avatar.png';
 import './Apps.css';
 
 function timeAgo(dateString: string): string {
@@ -25,40 +24,62 @@ function formatProjectName(repo: string): string {
     .join(' ');
 }
 
+function formatCategoryLabel(category: 'design' | 'process' | 'shipped') {
+  if (category === 'shipped') return 'Shipped';
+  if (category === 'process') return 'Process';
+  return 'Design';
+}
+
 function Feed() {
   const { commits, isLoading, error } = useCommitFeed(15);
+  const [featuredPost, ...entries] = feedPosts;
 
   return (
     <div className="app-content feed">
-      <div className="app-hero app-hero--cyan">
+      <div className="app-hero app-hero--dark">
         <div className="app-hero__text">
           <h1>Feed</h1>
-          <p>Pinned thoughts and live commit activity from GitHub.</p>
+          <p>Notes, decisions, and live shipping activity from the work behind the portfolio.</p>
         </div>
       </div>
 
-      <div className="app-body">
-        {/* Pinned posts */}
-        <div className="feed__section-label">Pinned</div>
-        <div className="feed__timeline">
-          {feedPosts.map((post) => (
-            <article key={post.id} className="feed__post">
-              <img src={avatar} alt="" className="feed__avatar feed__avatar--image" />
-              <div className="feed__body">
-                <div className="feed__meta">
-                  <strong>{post.author}</strong>
-                  <span>{post.handle}</span>
-                  <span className="feed__pin-badge">pinned</span>
-                </div>
-                <p>{post.content}</p>
+      <div className="app-body feed__body-shell">
+        {featuredPost && (
+          <>
+            <div className="feed__section-label">Featured note</div>
+            <article className="feed__feature">
+              <div className="feed__feature-meta">
+                <span
+                  className={`feed__tag feed__tag--${featuredPost.category}`}
+                >
+                  {formatCategoryLabel(featuredPost.category)}
+                </span>
+                <span>{featuredPost.timestamp}</span>
               </div>
+              <h2>{featuredPost.title}</h2>
+              <p>{featuredPost.content}</p>
+            </article>
+          </>
+        )}
+
+        <div className="feed__section-label">Recent notes</div>
+        <div className="feed__notes">
+          {entries.map((post) => (
+            <article key={post.id} className="feed__entry">
+              <div className="feed__entry-meta">
+                <span className={`feed__tag feed__tag--${post.category}`}>
+                  {formatCategoryLabel(post.category)}
+                </span>
+                <span>{post.timestamp}</span>
+              </div>
+              <h3>{post.title}</h3>
+              <p>{post.content}</p>
             </article>
           ))}
         </div>
 
-        {/* Live commits */}
         <div className="feed__section-label">
-          Recent commits
+          Live shipping
           {isLoading && <span className="feed__loading-dot" />}
         </div>
 
@@ -74,35 +95,35 @@ function Feed() {
           <div className="feed__notice">No recent public commits found.</div>
         )}
 
-        <div className="feed__timeline">
+        <div className="feed__commit-list">
           {commits.map((commit) => (
-            <article key={commit.id} className="feed__post feed__post--commit">
-              <img src={avatar} alt="" className="feed__avatar feed__avatar--image" />
-              <div className="feed__body">
-                <div className="feed__meta">
-                  <strong>George Flood</strong>
-                  <span>@GeorgeFlood</span>
-                  <span>{timeAgo(commit.timestamp)}</span>
+            <a
+              key={commit.id}
+              href={commit.url}
+              target="_blank"
+              rel="noreferrer"
+              className="feed__commit-item"
+            >
+              <div className="feed__commit-top">
+                <div className="feed__commit-project">
+                  <span className="feed__commit-dot" aria-hidden="true" />
+                  <strong className="feed__commit-repo">
+                    {formatProjectName(commit.repo)}
+                  </strong>
                 </div>
-                <div className="feed__commit-card">
-                  <div className="feed__commit-row">
-                    <span className="feed__commit-label">Project</span>
-                    <strong className="feed__commit-repo">
-                      {formatProjectName(commit.repo)}
-                    </strong>
-                  </div>
-                  <a
-                    href={commit.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="feed__commit-row feed__commit-row--link"
-                  >
-                    <span className="feed__commit-label">Commit</span>
-                    <span className="feed__commit-msg">{commit.message}</span>
-                  </a>
+                <span>{timeAgo(commit.timestamp)}</span>
+              </div>
+              <div className="feed__commit-card">
+                <div className="feed__commit-row">
+                  <span className="feed__commit-label">Message</span>
+                  <span className="feed__commit-msg">{commit.message}</span>
+                </div>
+                <div className="feed__commit-row">
+                  <span className="feed__commit-label">Source</span>
+                  <span className="feed__commit-link">View commit on GitHub</span>
                 </div>
               </div>
-            </article>
+            </a>
           ))}
         </div>
       </div>

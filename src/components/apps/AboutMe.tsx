@@ -4,22 +4,27 @@ import './Apps.css';
 const skillGroups = [
   {
     label: 'Backend',
+    tone: 'backend',
     items: ['Laravel', 'PHP', 'MySQL', 'REST APIs', 'Eloquent ORM', 'MVC'],
   },
   {
     label: 'Frontend',
+    tone: 'frontend',
     items: ['JavaScript', 'TypeScript', 'React', 'Redux', 'HTML5', 'CSS3/SASS', 'Tailwind CSS'],
   },
   {
     label: 'Infrastructure',
+    tone: 'infrastructure',
     items: ['AWS (EC2, S3, Route 53)', 'Ubuntu', 'Nginx', 'SSL', 'DNS', 'CI/CD'],
   },
   {
     label: 'Tools',
+    tone: 'tools',
     items: ['Git', 'GitHub', 'Figma', 'Composer', 'npm', 'Linux CLI', 'VS Code'],
   },
   {
     label: 'Other',
+    tone: 'other',
     items: ['React Native', 'Three.js', 'SEO', 'Agile'],
   },
 ];
@@ -39,22 +44,30 @@ function AboutMe() {
         </div>
       </div>
 
-      <div className="app-body">
-        <p className="about__bio">
-          Web developer with over a year of in-house experience building
-          Laravel/PHP features and managing AWS infrastructure across 200+ sites.
-          Two years prior freelancing for small businesses. Self-taught, coming
-          from a hospitality management background. Looking for a role where I can
-          keep building, keep learning, and contribute to a team that cares about
-          the quality of what they ship.
-        </p>
+      <div className="app-body about__body">
+        <div className="about__bio-card">
+          <p className="about__bio">
+            Web developer with over a year of in-house experience building
+            Laravel/PHP features and managing AWS infrastructure across 200+ sites.
+            Two years prior freelancing for small businesses. Self-taught, coming
+            from a hospitality management background. Looking for a role where I can
+            keep building, keep learning, and contribute to a team that cares about
+            the quality of what they ship.
+          </p>
+        </div>
 
         <div className="about__section">
           <h2>Technical Skills</h2>
           <div className="about__skill-groups">
             {skillGroups.map((group) => (
-              <div key={group.label} className="about__skill-group">
-                <span className="about__skill-label">{group.label}</span>
+              <div
+                key={group.label}
+                className={`about__skill-group about__skill-group--${group.tone}`}
+              >
+                <span className="about__skill-label">
+                  <span className="about__skill-dot" aria-hidden="true" />
+                  {group.label}
+                </span>
                 <div className="about__skills">
                   {group.items.map((skill) => (
                     <span key={skill} className="about__skill">{skill}</span>
