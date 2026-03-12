@@ -1,5 +1,6 @@
 import { feedPosts } from '../../lib/feed';
 import { useCommitFeed } from '../../hooks/useCommitFeed';
+import avatar from '../../assets/avatar.png';
 import './Apps.css';
 
 function timeAgo(dateString: string): string {
@@ -14,6 +15,14 @@ function timeAgo(dateString: string): string {
   const days = Math.floor(hours / 24);
   if (days < 30) return `${days}d`;
   return `${Math.floor(days / 30)}mo`;
+}
+
+function formatProjectName(repo: string): string {
+  return repo
+    .split(/[-_]/g)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
 }
 
 function Feed() {
@@ -34,14 +43,7 @@ function Feed() {
         <div className="feed__timeline">
           {feedPosts.map((post) => (
             <article key={post.id} className="feed__post">
-              <div
-                className="feed__avatar"
-                style={{
-                  background: `linear-gradient(135deg, ${post.accent}, #111827)`,
-                }}
-              >
-                G
-              </div>
+              <img src={avatar} alt="" className="feed__avatar feed__avatar--image" />
               <div className="feed__body">
                 <div className="feed__meta">
                   <strong>{post.author}</strong>
@@ -75,24 +77,30 @@ function Feed() {
         <div className="feed__timeline">
           {commits.map((commit) => (
             <article key={commit.id} className="feed__post feed__post--commit">
-              <div className="feed__commit-icon">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                  <path d="M11.93 8.5a4.002 4.002 0 0 1-7.86 0H.75a.75.75 0 0 1 0-1.5h3.32a4.002 4.002 0 0 1 7.86 0h3.32a.75.75 0 0 1 0 1.5Zm-1.43-.25a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z" />
-                </svg>
-              </div>
+              <img src={avatar} alt="" className="feed__avatar feed__avatar--image" />
               <div className="feed__body">
                 <div className="feed__meta">
-                  <strong className="feed__commit-repo">{commit.repo}</strong>
+                  <strong>George Flood</strong>
+                  <span>@GeorgeFlood</span>
                   <span>{timeAgo(commit.timestamp)}</span>
                 </div>
-                <a
-                  href={commit.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="feed__commit-msg"
-                >
-                  {commit.message}
-                </a>
+                <div className="feed__commit-card">
+                  <div className="feed__commit-row">
+                    <span className="feed__commit-label">Project</span>
+                    <strong className="feed__commit-repo">
+                      {formatProjectName(commit.repo)}
+                    </strong>
+                  </div>
+                  <a
+                    href={commit.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="feed__commit-row feed__commit-row--link"
+                  >
+                    <span className="feed__commit-label">Commit</span>
+                    <span className="feed__commit-msg">{commit.message}</span>
+                  </a>
+                </div>
               </div>
             </article>
           ))}
