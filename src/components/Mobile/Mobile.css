@@ -70,24 +70,24 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 12px 24px;
-  gap: 28px;
+  padding: 8px 20px;
+  gap: 16px;
   overflow-y: auto;
   position: relative;
   z-index: 5;
 }
 
-/* Widget */
+/* ── Clock Widget ── */
 
-.android__widget {
+.android__clock-widget {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 24px 0 8px;
+  padding: 20px 0 4px;
 }
 
-.android__widget-time {
-  font-size: 56px;
+.android__clock-time {
+  font-size: 52px;
   font-weight: 200;
   line-height: 1;
   color: rgba(255, 255, 255, 0.95);
@@ -95,44 +95,93 @@
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
 }
 
-.android__widget-date {
-  font-size: 15px;
+.android__clock-date {
+  font-size: 14px;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.65);
   margin-top: 4px;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 }
 
-/* Search Bar */
+/* ── Profile Widget ── */
 
-.android__search-bar {
+.android__profile-widget {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 20px;
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(20px);
-  border-radius: 28px;
-  color: rgba(0, 0, 0, 0.35);
-  font-size: 15px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  padding: 14px 16px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  -webkit-tap-highlight-color: transparent;
+  text-align: left;
+  transition: background 0.2s, transform 0.15s;
 }
 
-/* App Grid */
+.android__profile-widget:active {
+  transform: scale(0.98);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.android__profile-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+}
+
+.android__profile-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.android__profile-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.android__profile-role {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.android__profile-badge {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(52, 199, 89, 0.22);
+  border: 1px solid rgba(52, 199, 89, 0.3);
+  color: #6ee7a0;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* ── App Grid ── */
 
 .android__grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  justify-content: center;
-  gap: 22px 16px;
-  padding: 8px 0;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px 8px;
+  padding: 8px 4px;
 }
 
 .android__app-icon {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
   touch-action: none;
@@ -155,10 +204,6 @@
     0 6px 14px rgba(0, 0, 0, 0.14);
 }
 
-.android__app-icon--dragging .android__app-label {
-  opacity: 0.95;
-}
-
 .android__app-icon--target .android__icon-shape {
   box-shadow:
     0 0 0 3px rgba(255, 255, 255, 0.65),
@@ -166,31 +211,65 @@
 }
 
 .android__icon-shape {
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   transition: transform 0.15s, box-shadow 0.18s ease;
 }
 
 .android__icon-shape svg {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
 }
 
 .android__app-label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(255, 255, 255, 0.92);
   text-align: center;
-  max-width: 68px;
+  max-width: 64px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
+/* ── Dock ── */
+
+.android__dock {
+  flex-shrink: 0;
+  padding: 0 20px 6px;
+  position: relative;
+  z-index: 5;
+}
+
+.android__dock-tray {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px 20px 12px;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.android__dock-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.android__dock-icon:active .android__icon-shape {
+  transform: scale(0.88);
 }
 
 /* ── Activity (Open App) ── */
@@ -285,7 +364,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 0 12px;
+  padding: 6px 0 10px;
   flex-shrink: 0;
   z-index: 10;
 }
@@ -294,11 +373,11 @@
   width: 120px;
   height: 5px;
   border-radius: 3px;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.35);
   -webkit-tap-highlight-color: transparent;
   transition: background 0.15s;
 }
 
 .android__nav-pill:active {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.65);
 }

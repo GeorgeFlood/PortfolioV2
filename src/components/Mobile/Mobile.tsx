@@ -11,6 +11,7 @@ import Contact from '../apps/Contact';
 import GitHub from '../apps/GitHub';
 import Feed from '../apps/Feed';
 import { useWallpaperCycle } from '../../hooks/useWallpaperCycle';
+import headshot from '../../assets/headshot.png';
 import mobileWp1 from '../../assets/mobileWallpapers/andriodWallpaper.jpg';
 import mobileWp2 from '../../assets/mobileWallpapers/andriodwallpaper2.jpg';
 import mobileWp3 from '../../assets/mobileWallpapers/andriodwallpaper3.jpeg';
@@ -30,42 +31,21 @@ interface MobileApp {
 }
 
 const PersonIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="white"
-    strokeWidth="1.8"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
+  <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="8" r="4" />
     <path d="M5 21v-2a5 5 0 0 1 10 0v2" />
   </svg>
 );
 
 const CodeIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="white"
-    strokeWidth="1.8"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
+  <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="16 18 22 12 16 6" />
     <polyline points="8 6 2 12 8 18" />
   </svg>
 );
 
 const MailIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="white"
-    strokeWidth="1.8"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
+  <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <rect x="2" y="4" width="20" height="16" rx="2" />
     <path d="M22 7l-10 6L2 7" />
   </svg>
@@ -78,74 +58,37 @@ const GitHubIcon = () => (
 );
 
 const FeedIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="white"
-    strokeWidth="1.8"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
+  <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M22 12h-7l-3 8-3-16-3 8H2" />
   </svg>
 );
 
-const apps: MobileApp[] = [
-  {
-    id: 'about',
-    name: 'About Me',
-    color: '#4285F4',
-    icon: <PersonIcon />,
-    content: <AboutMe />,
-  },
-  {
-    id: 'projects',
-    name: 'Projects',
-    color: '#7C4DFF',
-    icon: <CodeIcon />,
-    content: <Projects />,
-  },
-  {
-    id: 'feed',
-    name: 'Feed',
-    color: '#0EA5E9',
-    icon: <FeedIcon />,
-    content: <Feed />,
-  },
-  {
-    id: 'github',
-    name: 'GitHub',
-    color: '#1e293b',
-    icon: <GitHubIcon />,
-    content: <GitHub />,
-  },
-  {
-    id: 'contact',
-    name: 'Contact',
-    color: '#00C853',
-    icon: <MailIcon />,
-    content: <Contact />,
-  },
+const allApps: MobileApp[] = [
+  { id: 'about', name: 'About Me', color: '#4285F4', icon: <PersonIcon />, content: <AboutMe /> },
+  { id: 'projects', name: 'Projects', color: '#7C4DFF', icon: <CodeIcon />, content: <Projects /> },
+  { id: 'feed', name: 'Feed', color: '#0EA5E9', icon: <FeedIcon />, content: <Feed /> },
+  { id: 'github', name: 'GitHub', color: '#1e293b', icon: <GitHubIcon />, content: <GitHub /> },
+  { id: 'contact', name: 'Contact', color: '#00C853', icon: <MailIcon />, content: <Contact /> },
 ];
 
-const appMap = Object.fromEntries(apps.map(app => [app.id, app] as const));
-const defaultAppOrder = apps.map(app => app.id);
+const appMap = Object.fromEntries(allApps.map(app => [app.id, app] as const));
+
+const dockAppIds = ['about', 'projects', 'contact'];
+const gridApps = allApps.filter(app => !dockAppIds.includes(app.id));
+const defaultGridOrder = gridApps.map(app => app.id);
 
 function normalizeAppOrder(order: string[]) {
-  const validIds = order.filter(id => defaultAppOrder.includes(id));
-  const missingIds = defaultAppOrder.filter(id => !validIds.includes(id));
+  const validIds = order.filter(id => defaultGridOrder.includes(id));
+  const missingIds = defaultGridOrder.filter(id => !validIds.includes(id));
   return [...validIds, ...missingIds];
 }
 
 function moveApp(order: string[], sourceId: string, targetId: string) {
   if (sourceId === targetId) return order;
-
   const next = [...order];
   const sourceIndex = next.indexOf(sourceId);
   const targetIndex = next.indexOf(targetId);
-
   if (sourceIndex === -1 || targetIndex === -1) return order;
-
   next.splice(sourceIndex, 1);
   next.splice(targetIndex, 0, sourceId);
   return next;
@@ -154,16 +97,14 @@ function moveApp(order: string[], sourceId: string, targetId: string) {
 function Mobile() {
   const [openApp, setOpenApp] = useState<string | null>(null);
   const [time, setTime] = useState(new Date());
-  const [appOrder, setAppOrder] = useState(() => {
-    if (typeof window === 'undefined') return defaultAppOrder;
-
+  const [gridOrder, setGridOrder] = useState(() => {
+    if (typeof window === 'undefined') return defaultGridOrder;
     const stored = window.localStorage.getItem(APP_ORDER_STORAGE_KEY);
-    if (!stored) return defaultAppOrder;
-
+    if (!stored) return defaultGridOrder;
     try {
       return normalizeAppOrder(JSON.parse(stored) as string[]);
     } catch {
-      return defaultAppOrder;
+      return defaultGridOrder;
     }
   });
   const [draggingId, setDraggingId] = useState<string | null>(null);
@@ -180,11 +121,7 @@ function Mobile() {
   const suppressOpenRef = useRef(false);
 
   const { currentWallpaper, nextWallpaper, isFading, fadeDuration } =
-    useWallpaperCycle({
-      wallpapers: mobileWallpapers,
-      interval: 20_000,
-      fadeDuration: 2_500,
-    });
+    useWallpaperCycle({ wallpapers: mobileWallpapers, interval: 20_000, fadeDuration: 2_500 });
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 30_000);
@@ -192,11 +129,8 @@ function Mobile() {
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem(
-      APP_ORDER_STORAGE_KEY,
-      JSON.stringify(appOrder),
-    );
-  }, [appOrder]);
+    window.localStorage.setItem(APP_ORDER_STORAGE_KEY, JSON.stringify(gridOrder));
+  }, [gridOrder]);
 
   const formattedTime = time.toLocaleTimeString('en-US', {
     hour: 'numeric',
@@ -210,7 +144,7 @@ function Mobile() {
     day: 'numeric',
   });
 
-  const orderedApps = appOrder.map(id => appMap[id]).filter(Boolean);
+  const orderedGridApps = gridOrder.map(id => appMap[id]).filter(Boolean);
   const currentApp = openApp ? appMap[openApp] : null;
 
   const clearPressTimer = () => {
@@ -220,50 +154,28 @@ function Mobile() {
     }
   };
 
-  const finishDrag = (
-    sourceId?: string,
-    clientX?: number,
-    clientY?: number,
-  ) => {
-    if (
-      sourceId &&
-      typeof clientX === 'number' &&
-      typeof clientY === 'number'
-    ) {
+  const finishDrag = (sourceId?: string, clientX?: number, clientY?: number) => {
+    if (sourceId && typeof clientX === 'number' && typeof clientY === 'number') {
       const target = document
         .elementFromPoint(clientX, clientY)
         ?.closest<HTMLElement>('[data-app-id]');
       const targetId = target?.dataset.appId;
-
       if (targetId && targetId !== sourceId) {
-        setAppOrder(prev => moveApp(prev, sourceId, targetId));
+        setGridOrder(prev => moveApp(prev, sourceId, targetId));
       }
     }
-
     setDraggingId(null);
     setDropTargetId(null);
     setDragOffset({ x: 0, y: 0 });
     pressStateRef.current = null;
     suppressOpenRef.current = true;
-    window.setTimeout(() => {
-      suppressOpenRef.current = false;
-    }, 0);
+    window.setTimeout(() => { suppressOpenRef.current = false; }, 0);
   };
 
-  const handlePointerDown = (
-    appId: string,
-    event: PointerEvent<HTMLButtonElement>,
-  ) => {
+  const handlePointerDown = (appId: string, event: PointerEvent<HTMLButtonElement>) => {
     if (event.pointerType === 'mouse' && event.button !== 0) return;
-
     event.currentTarget.setPointerCapture(event.pointerId);
-    pressStateRef.current = {
-      appId,
-      pointerId: event.pointerId,
-      startX: event.clientX,
-      startY: event.clientY,
-    };
-
+    pressStateRef.current = { appId, pointerId: event.pointerId, startX: event.clientX, startY: event.clientY };
     clearPressTimer();
     pressTimerRef.current = window.setTimeout(() => {
       setDraggingId(appId);
@@ -273,68 +185,35 @@ function Mobile() {
     }, LONG_PRESS_MS);
   };
 
-  const handlePointerMove = (
-    appId: string,
-    event: PointerEvent<HTMLButtonElement>,
-  ) => {
+  const handlePointerMove = (appId: string, event: PointerEvent<HTMLButtonElement>) => {
     const press = pressStateRef.current;
-    if (!press || press.appId !== appId || press.pointerId !== event.pointerId)
-      return;
-
+    if (!press || press.appId !== appId || press.pointerId !== event.pointerId) return;
     const x = event.clientX - press.startX;
     const y = event.clientY - press.startY;
-
     if (draggingId !== appId) {
-      if (Math.hypot(x, y) > DRAG_CANCEL_DISTANCE) {
-        clearPressTimer();
-      }
+      if (Math.hypot(x, y) > DRAG_CANCEL_DISTANCE) clearPressTimer();
       return;
     }
-
     event.preventDefault();
     setDragOffset({ x, y });
-
-    const hovered = document
-      .elementFromPoint(event.clientX, event.clientY)
-      ?.closest<HTMLElement>('[data-app-id]');
-
+    const hovered = document.elementFromPoint(event.clientX, event.clientY)?.closest<HTMLElement>('[data-app-id]');
     const hoveredId = hovered?.dataset.appId ?? null;
     setDropTargetId(hoveredId && hoveredId !== appId ? hoveredId : null);
   };
 
-  const handlePointerUp = (
-    appId: string,
-    event: PointerEvent<HTMLButtonElement>,
-  ) => {
+  const handlePointerUp = (appId: string, event: PointerEvent<HTMLButtonElement>) => {
     const press = pressStateRef.current;
-    if (!press || press.appId !== appId || press.pointerId !== event.pointerId)
-      return;
-
+    if (!press || press.appId !== appId || press.pointerId !== event.pointerId) return;
     clearPressTimer();
-
-    if (draggingId === appId) {
-      finishDrag(appId, event.clientX, event.clientY);
-      return;
-    }
-
+    if (draggingId === appId) { finishDrag(appId, event.clientX, event.clientY); return; }
     pressStateRef.current = null;
   };
 
-  const handlePointerCancel = (
-    appId: string,
-    event: PointerEvent<HTMLButtonElement>,
-  ) => {
+  const handlePointerCancel = (appId: string, event: PointerEvent<HTMLButtonElement>) => {
     const press = pressStateRef.current;
-    if (!press || press.appId !== appId || press.pointerId !== event.pointerId)
-      return;
-
+    if (!press || press.appId !== appId || press.pointerId !== event.pointerId) return;
     clearPressTimer();
-
-    if (draggingId === appId) {
-      finishDrag();
-      return;
-    }
-
+    if (draggingId === appId) { finishDrag(); return; }
     pressStateRef.current = null;
   };
 
@@ -360,9 +239,7 @@ function Mobile() {
       )}
 
       {/* Status Bar */}
-      <div
-        className={`android__status ${openApp ? 'android__status--app' : ''}`}
-      >
+      <div className={`android__status ${openApp ? 'android__status--app' : ''}`}>
         <span className="android__status-time">{formattedTime}</span>
         <div className="android__status-icons">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -375,23 +252,13 @@ function Mobile() {
       </div>
 
       {openApp && currentApp ? (
-        /* ── App View ── */
         <div
           className="android__activity"
           style={{ '--app-color': currentApp.color } as React.CSSProperties}
         >
           <div className="android__app-bar">
-            <button
-              className="android__back-btn"
-              onClick={() => setOpenApp(null)}
-              aria-label="Go back"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                width="24"
-                height="24"
-              >
+            <button className="android__back-btn" onClick={() => setOpenApp(null)} aria-label="Go back">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
                 <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
               </svg>
             </button>
@@ -400,49 +267,88 @@ function Mobile() {
           <div className="android__app-content">{currentApp.content}</div>
         </div>
       ) : (
-        /* ── Home Screen ── */
-        <div className="android__home">
-          <div className="android__widget">
-            <span className="android__widget-time">{formattedTime}</span>
-            <span className="android__widget-date">{formattedDate}</span>
+        <>
+          <div className="android__home">
+            {/* Clock widget */}
+            <div className="android__clock-widget">
+              <span className="android__clock-time">{formattedTime}</span>
+              <span className="android__clock-date">{formattedDate}</span>
+            </div>
+
+            {/* Profile widget */}
+            <button
+              className="android__profile-widget"
+              onClick={() => setOpenApp('about')}
+            >
+              <img src={headshot} alt="" className="android__profile-img" />
+              <div className="android__profile-info">
+                <span className="android__profile-name">George Flood</span>
+                <span className="android__profile-role">Web Developer &middot; London</span>
+              </div>
+              <span className="android__profile-badge">Open to work</span>
+            </button>
+
+            {/* App grid (non-dock apps, draggable) */}
+            <div className="android__grid">
+              {orderedGridApps.map(app => (
+                <button
+                  key={app.id}
+                  className={`android__app-icon ${
+                    draggingId === app.id ? 'android__app-icon--dragging' : ''
+                  } ${dropTargetId === app.id ? 'android__app-icon--target' : ''}`}
+                  data-app-id={app.id}
+                  onClick={() => handleAppOpen(app.id)}
+                  onPointerDown={e => handlePointerDown(app.id, e)}
+                  onPointerMove={e => handlePointerMove(app.id, e)}
+                  onPointerUp={e => handlePointerUp(app.id, e)}
+                  onPointerCancel={e => handlePointerCancel(app.id, e)}
+                  style={
+                    draggingId === app.id
+                      ? { transform: `translate(${dragOffset.x}px, ${dragOffset.y}px) scale(1.08)` }
+                      : undefined
+                  }
+                >
+                  <div className="android__icon-shape" style={{ background: app.color }}>
+                    {app.icon}
+                  </div>
+                  <span className="android__app-label">{app.name}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="android__grid">
-            {orderedApps.map(app => (
-              <button
-                key={app.id}
-                className={`android__app-icon ${
-                  draggingId === app.id ? 'android__app-icon--dragging' : ''
-                } ${dropTargetId === app.id ? 'android__app-icon--target' : ''}`}
-                data-app-id={app.id}
-                onClick={() => handleAppOpen(app.id)}
-                onPointerDown={event => handlePointerDown(app.id, event)}
-                onPointerMove={event => handlePointerMove(app.id, event)}
-                onPointerUp={event => handlePointerUp(app.id, event)}
-                onPointerCancel={event => handlePointerCancel(app.id, event)}
-                style={
-                  draggingId === app.id
-                    ? {
-                        transform: `translate(${dragOffset.x}px, ${dragOffset.y}px) scale(1.08)`,
-                      }
-                    : undefined
-                }
-              >
-                <div
-                  className="android__icon-shape"
-                  style={{ background: app.color }}
-                >
-                  {app.icon}
-                </div>
-                <span className="android__app-label">{app.name}</span>
-              </button>
-            ))}
+          {/* Dock */}
+          <div className="android__dock">
+            <div className="android__dock-tray">
+              {dockAppIds.map(id => {
+                const app = appMap[id];
+                if (!app) return null;
+                return (
+                  <button
+                    key={app.id}
+                    className="android__dock-icon"
+                    onClick={() => setOpenApp(app.id)}
+                  >
+                    <div className="android__icon-shape" style={{ background: app.color }}>
+                      {app.icon}
+                    </div>
+                    <span className="android__app-label">{app.name}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        </>
       )}
 
       {/* Navigation Bar */}
-      <div className="android__navbar"></div>
+      <div className="android__navbar">
+        <button
+          className="android__nav-pill"
+          onClick={() => setOpenApp(null)}
+          aria-label="Home"
+        />
+      </div>
     </div>
   );
 }
