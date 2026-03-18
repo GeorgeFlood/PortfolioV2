@@ -79,8 +79,8 @@ const FeedIcon = () => (
 const dockApps: DockApp[] = [
   { id: 'about', name: 'About Me', color: '#007AFF', icon: <PersonIcon /> },
   { id: 'projects', name: 'Projects', color: '#5856D6', icon: <CodeIcon /> },
-  { id: 'feed', name: 'Feed', color: '#0EA5E9', icon: <FeedIcon /> },
   { id: 'github', name: 'GitHub', color: '#111827', icon: <GitHubIcon /> },
+  { id: 'feed', name: 'Feed', color: '#0EA5E9', icon: <FeedIcon /> },
   { id: 'contact', name: 'Contact', color: '#34C759', icon: <MailIcon /> },
 ];
 
@@ -167,7 +167,7 @@ function Desktop() {
               zIndex={index + 1}
               initialX={Math.max(
                 20,
-                (window.innerWidth - 720) / 2 + index * 28,
+                (window.innerWidth - 720) / 2 + index * 100,
               )}
               initialY={Math.max(48, 80 + index * 28)}
               onClose={() => closeApp(appId)}

@@ -54,7 +54,7 @@ export async function fetchGitHubRepos({
 
   if (!resolvedUsername) {
     throw new Error(
-      'Missing VITE_GITHUB_USERNAME. Add it in .env.local to enable GitHub integration.'
+      'Missing VITE_GITHUB_USERNAME. Add it in .env.local to enable GitHub integration.',
     );
   }
 
@@ -65,7 +65,7 @@ export async function fetchGitHubRepos({
         Accept: 'application/vnd.github+json',
         ...(resolvedToken ? { Authorization: `Bearer ${resolvedToken}` } : {}),
       },
-    }
+    },
   );
 
   if (!response.ok) {
@@ -75,10 +75,10 @@ export async function fetchGitHubRepos({
   const data = (await response.json()) as GitHubRepo[];
 
   return data
-    .filter((repo) => !repo.name.startsWith('.'))
+    .filter(repo => !repo.name.startsWith('.'))
     .sort(
       (a, b) =>
-        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime(),
     );
 }
 
@@ -97,7 +97,7 @@ const NOISE_PATTERNS = [
 function isNoisyMessage(msg: string): boolean {
   const trimmed = msg.trim();
   if (trimmed.length < 6) return true;
-  return NOISE_PATTERNS.some((p) => p.test(trimmed));
+  return NOISE_PATTERNS.some(p => p.test(trimmed));
 }
 
 interface PushEventPayload {
@@ -112,19 +112,17 @@ interface GitHubEvent {
   created_at: string;
 }
 
-export async function fetchCommitEvents(
-  limit = 20
-): Promise<CommitEvent[]> {
+export async function fetchCommitEvents(limit = 20): Promise<CommitEvent[]> {
   const username = getUsername();
   if (!username) {
     throw new Error(
-      'Missing VITE_GITHUB_USERNAME. Add it in .env.local to enable the commit feed.'
+      'Missing VITE_GITHUB_USERNAME. Add it in .env.local to enable the commit feed.',
     );
   }
 
   const response = await fetch(
     `https://api.github.com/users/${username}/events?per_page=100`,
-    { headers: getHeaders() }
+    { headers: getHeaders() },
   );
 
   if (!response.ok) {
@@ -160,4 +158,41 @@ export async function fetchCommitEvents(
   }
 
   return commits.slice(0, limit);
+}
+
+export interface RepoMeta {
+  displayName?: string;
+  summary?: string;
+  featured?: boolean;
+  hidden?: boolean;
+  status?: 'live' | 'in-progress' | 'archieved';
+}
+
+export const repoMeta: Record<string, RepoMeta> = {
+  PortfolioV2: {
+    displayName: 'OS Portfolio',
+    summary: 'OS-inspired portfolio built with React & Typescript',
+    featured: true,
+    hidden: false,
+    status: 'live',
+  },
+  'where-should-we-meet': {
+    displayName: 'MidMeet',
+    summary: 'London meet-up planner using TfL API',
+    featured: true,
+    hidden: false,
+    status: 'live',
+  },
+};
+
+export function enrichRepoWithMeta(
+  repo: GitHubRepo,
+  meta?: RepoMeta,
+): GitHubRepo & { meta?: RepoMeta } {
+  return {
+    ...repo,
+    meta,
+    description: meta?.summary ?? repo.description ?? null,
+    name: meta?.displayName ?? repo.name,
+  };
 }

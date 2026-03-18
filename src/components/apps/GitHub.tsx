@@ -1,4 +1,5 @@
 import { useGitHubRepos } from '../../hooks/useGitHubRepos';
+import { repoMeta } from '../../lib/github';
 import './Apps.css';
 
 function formatDate(dateString: string) {
@@ -9,14 +10,19 @@ function formatDate(dateString: string) {
 }
 
 function GitHub() {
-  const { repos, isLoading, error } = useGitHubRepos(8);
+  const cutOffDate = new Date();
+  cutOffDate.setFullYear(cutOffDate.getFullYear() - 1);
+  const { repos, isLoading, error } = useGitHubRepos(4);
   const username = import.meta.env.VITE_GITHUB_USERNAME ?? '';
   const featuredRepos = repos
-    .filter(
-      (repo) =>
-        Boolean(repo.description?.trim()) &&
-        repo.name.toLowerCase() !== username.toLowerCase()
-    )
+    .filter(repo => {
+      const meta = repoMeta[repo.name];
+      if (meta?.hidden) return false;
+      if (repo.name.toLowerCase() === username.toLowerCase()) return false;
+      const hasSummary =
+        Boolean(repo.description?.trim()) || Boolean(meta?.summary);
+      return hasSummary;
+    })
     .slice(0, 6);
 
   return (
@@ -42,58 +48,66 @@ function GitHub() {
 
         {!isLoading && !error && featuredRepos.length === 0 && (
           <p className="github__state">
-            Add descriptions to a few repos on GitHub and they will show up here.
+            Add descriptions to a few repos on GitHub and they will show up
+            here.
           </p>
         )}
 
         {!isLoading && !error && featuredRepos.length > 0 && (
           <div className="github__list">
-            {featuredRepos.map((repo) => (
-              <a
-                key={repo.id}
-                className="github__repo"
-                href={repo.html_url}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <div className="github__repo-top">
-                  <h3>{repo.name}</h3>
-                  <span>{formatDate(repo.updated_at)}</span>
-                </div>
-                <p>{repo.description}</p>
-                <div className="github__repo-meta">
-                  {repo.language && (
-                    <span className="github__repo-lang">
-                      <span
-                        className="github__lang-dot"
-                        style={{
-                          background:
-                            repo.language === 'TypeScript'
-                              ? '#3178c6'
-                              : repo.language === 'JavaScript'
-                                ? '#f1e05a'
-                                : repo.language === 'PHP'
-                                  ? '#4F5D95'
-                                  : repo.language === 'CSS'
-                                    ? '#563d7c'
-                                    : '#6e7781',
-                        }}
-                      />
-                      {repo.language}
-                    </span>
-                  )}
-                  {repo.stargazers_count > 0 && (
-                    <span className="github__repo-stat">
-                      {repo.stargazers_count} stars
-                    </span>
-                  )}
-                  <span className="github__repo-stat">
-                    Updated {formatDate(repo.updated_at)}
-                  </span>
-                  {repo.homepage && <span className="github__repo-live">Live</span>}
-                </div>
-              </a>
-            ))}
+            {featuredRepos.map(
+              repo =>
+                !repoMeta[repo.name]?.hidden && (
+                  <a
+                    key={repo.id}
+                    className="github__repo"
+                    href={repo.html_url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <div className="github__repo-top">
+                      <h3>{repoMeta[repo.name]?.displayName ?? repo.name}</h3>
+                      <span>{formatDate(repo.updated_at)}</span>
+                    </div>
+                    <p>{repoMeta[repo.name]?.summary ?? repo.description}</p>
+                    <div className="github__repo-meta">
+                      {repo.language && (
+                        <span className="github__repo-lang">
+                          <span
+                            className="github__lang-dot"
+                            style={{
+                              background:
+                                repo.language === 'TypeScript'
+                                  ? '#3178c6'
+                                  : repo.language === 'Blade'
+                                    ? '#2F5D8A'
+                                    : repo.language === 'JavaScript'
+                                      ? '#f1e05a'
+                                      : repo.language === 'PHP'
+                                        ? '#4F5D95'
+                                        : repo.language === 'CSS'
+                                          ? '#563d7c'
+                                          : '#6e7781',
+                            }}
+                          />
+                          {repo.language}
+                        </span>
+                      )}
+                      {repo.stargazers_count > 0 && (
+                        <span className="github__repo-stat">
+                          {repo.stargazers_count} stars
+                        </span>
+                      )}
+                      <span className="github__repo-stat">
+                        Updated {formatDate(repo.updated_at)}
+                      </span>
+                      {repo.homepage && (
+                        <span className="github__repo-live">Live</span>
+                      )}
+                    </div>
+                  </a>
+                ),
+            )}
           </div>
         )}
       </div>

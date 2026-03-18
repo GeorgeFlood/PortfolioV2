@@ -35,5 +35,7 @@ export function useGitHubRepos(limit?: number) {
     };
   }, [limit]);
 
+  console.log(repos);
+
   return { repos, isLoading, error };
 }
