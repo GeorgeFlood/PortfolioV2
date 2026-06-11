@@ -2,22 +2,2250 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
-    <title>George — Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>George Flood — Full Stack Developer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&display=swap"
       rel="stylesheet"
     />
-    <script type="module" crossorigin src="/assets/index-DUyzhkem.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DUyXxkqL.css" />
+    <style>
+      :root {
+        --space-black: #04060d;
+        --sky-top: #a8cdf0;
+        --ink: #e8ecf4;
+        --ink-dim: #8a93a6;
+        --accent: #7fb8e8;
+        --page-ink: #11151c;
+        --page-dim: #5b6472;
+        --page-accent: #1f6fd0;
+        --page-bg: #ffffff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: var(--space-black);
+        color: var(--ink);
+        font-family: 'Space Grotesk', sans-serif;
+        overflow-x: hidden;
+      }
+
+      /* ============================================================
+     ACT I — SPACE (fixed stage)
+     ============================================================ */
+
+      #stage {
+        position: fixed;
+        inset: 0;
+        z-index: 10;
+        overflow: hidden;
+        background: radial-gradient(
+          ellipse at 50% 45%,
+          #0a1020 0%,
+          var(--space-black) 65%
+        );
+      }
+
+      #stars {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      #planet-wrap {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        will-change: transform;
+      }
+
+      #planet {
+        display: block;
+        border-radius: 50%;
+      }
+
+      #planet-wrap::after {
+        content: '';
+        position: absolute;
+        inset: -7%;
+        border-radius: 50%;
+        box-shadow:
+          0 0 36px 10px rgba(125, 190, 255, 0.28),
+          0 0 110px 34px rgba(80, 145, 235, 0.14),
+          inset 0 0 60px 8px rgba(120, 185, 255, 0.1);
+        pointer-events: none;
+      }
+
+      /* the whiteout as we hit the atmosphere */
+      #atmosphere {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse at 50% 60%,
+          #ffffff 0%,
+          #e2f1ff 28%,
+          #b9d8f5 58%,
+          var(--sky-top) 100%
+        );
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* settles the flash into one flat colour that exactly matches the
+     sky section's top — the sky then slides over it invisibly */
+      #skyflat {
+        position: absolute;
+        inset: 0;
+        background: var(--sky-top);
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      #intro-copy {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 9vh;
+        text-align: center;
+        pointer-events: none;
+      }
+
+      #intro-copy .eyebrow {
+        font-size: 11px;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+        margin-bottom: 14px;
+      }
+
+      #intro-copy h1 {
+        font-family: 'Fraunces', serif;
+        font-weight: 300;
+        font-size: clamp(28px, 4.5vw, 52px);
+        color: var(--ink);
+      }
+
+      #scroll-hint {
+        margin-top: 28px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        color: var(--ink-dim);
+        font-size: 11px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+      }
+
+      #scroll-hint .line {
+        width: 1px;
+        height: 36px;
+        background: linear-gradient(to bottom, transparent, var(--accent));
+        animation: drip 1.8s ease-in-out infinite;
+      }
+
+      @keyframes drip {
+        0% {
+          transform: scaleY(0);
+          transform-origin: top;
+        }
+        45% {
+          transform: scaleY(1);
+          transform-origin: top;
+        }
+        55% {
+          transform: scaleY(1);
+          transform-origin: bottom;
+        }
+        100% {
+          transform: scaleY(0);
+          transform-origin: bottom;
+        }
+      }
+
+      #intro-track {
+        height: 340vh;
+      }
+
+      /* ============================================================
+     ACT II — THE SKY: clouds part, the browser rises through
+     ============================================================ */
+
+      #sky-zone {
+        position: relative;
+        z-index: 20;
+        height: 220vh;
+      }
+
+      #sky-sticky {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        height: 100svh;
+        overflow: hidden;
+        background: var(--sky-top);
+      }
+
+      /* everything visual lives in here — it fades in out of the haze
+     only once the section is pinned, so nothing ever slides into view */
+      #scene {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        opacity: 0;
+        will-change: transform, opacity;
+        background: linear-gradient(
+          to bottom,
+          var(--sky-top) 0%,
+          #b6d6f4 28%,
+          #cde4f9 60%,
+          #eaf4fc 85%,
+          #ffffff 100%
+        );
+      }
+
+      #scene .sun {
+        position: absolute;
+        top: -16vmax;
+        right: -12vmax;
+        width: 52vmax;
+        height: 52vmax;
+        background: radial-gradient(
+          circle,
+          rgba(255, 252, 235, 0.95) 0%,
+          rgba(255, 246, 218, 0.45) 38%,
+          rgba(255, 246, 218, 0) 68%
+        );
+        pointer-events: none;
+      }
+
+      /* cloud curtain groups — JS slides these apart as you scroll */
+      .cgroup {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        will-change: transform, opacity;
+      }
+
+      .cloud {
+        position: absolute;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        animation: sway ease-in-out infinite alternate;
+        will-change: transform;
+        pointer-events: none;
+      }
+
+      /* fallback if canvas filters are unsupported: soften the hard sprite edges */
+      body.softclouds .cloud {
+        filter: blur(7px);
+      }
+
+      @keyframes sway {
+        from {
+          transform: translate(-2.5vw, 0.6vh);
+        }
+        to {
+          transform: translate(2.5vw, -0.6vh);
+        }
+      }
+
+      /* ---- the browser window (original rise animation) ---- */
+
+      #window {
+        --bp: 0;
+        position: relative;
+        z-index: 5;
+        width: calc(86% + 14% * var(--bp));
+        height: calc(76vh + 24vh * var(--bp));
+        transform: translateY(calc((1 - var(--bp)) * 95vh))
+          scale(calc(0.94 + 0.06 * var(--bp)));
+        border-radius: calc(16px * (1 - var(--bp)));
+        background: var(--page-bg);
+        box-shadow:
+          0 -24px 70px rgba(60, 100, 160, 0.35),
+          0 0 0 1px rgba(255, 255, 255, 0.6);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        will-change: transform;
+      }
+
+      #chrome {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 16px;
+        background: linear-gradient(to bottom, #f6f7f9, #ececf0);
+        border-bottom: 1px solid #d9dce2;
+        position: relative;
+      }
+
+      .lights {
+        display: flex;
+        gap: 8px;
+        flex: 0 0 auto;
+      }
+      .lights span {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      .lights .r {
+        background: #ff5f57;
+      }
+      .lights .y {
+        background: #febc2e;
+      }
+      .lights .g {
+        background: #28c840;
+      }
+
+      #address {
+        flex: 1;
+        max-width: 520px;
+        margin: 0 auto;
+        background: #ffffff;
+        border: 1px solid #d9dce2;
+        border-radius: 9px;
+        padding: 7px 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: #3a3f47;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      #address .lock {
+        flex: 0 0 auto;
+        opacity: 0.55;
+      }
+
+      #url-caret {
+        display: inline-block;
+        width: 1px;
+        height: 14px;
+        background: #3a3f47;
+        animation: blink 1s steps(1) infinite;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      #loadbar {
+        position: absolute;
+        left: 0;
+        bottom: -1px;
+        height: 2px;
+        width: 0%;
+        background: var(--page-accent);
+      }
+
+      .chrome-spacer {
+        width: 52px;
+        flex: 0 0 auto;
+      }
+
+      #window-hero {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: var(--page-ink);
+        padding: 24px;
+        background:
+          radial-gradient(
+            ellipse 60% 40% at 50% 0%,
+            rgba(31, 111, 208, 0.06),
+            transparent
+          ),
+          var(--page-bg);
+      }
+
+      #window-hero .eyebrow {
+        font-size: 11px;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: var(--page-accent);
+        margin-bottom: 18px;
+      }
+
+      #window-hero h2 {
+        font-family: 'Fraunces', serif;
+        font-weight: 300;
+        font-size: clamp(40px, 6.5vw, 84px);
+        line-height: 1.06;
+      }
+
+      #window-hero .role-line {
+        margin-top: 16px;
+        font-size: clamp(12px, 1.6vw, 15px);
+        letter-spacing: 0.42em;
+        text-transform: uppercase;
+        color: var(--page-dim);
+      }
+
+      #window-hero p {
+        margin-top: 22px;
+        color: var(--page-dim);
+        font-size: clamp(14px, 1.8vw, 17px);
+        max-width: 46ch;
+        line-height: 1.6;
+        font-weight: 300;
+      }
+
+      #window-hero .cue {
+        margin-top: 6vh;
+        font-size: 11px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--page-dim);
+        opacity: 0.7;
+      }
+
+      /* ============================================================
+     ACT III — THE PAGE
+     ============================================================ */
+
+      #page {
+        position: relative;
+        z-index: 20;
+        background: var(--page-bg);
+        color: var(--page-ink);
+      }
+
+      #page .inner {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 0 28px;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: baseline;
+        gap: 18px;
+        margin-bottom: 56px;
+      }
+
+      .section-head .kicker {
+        font-size: 11px;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: var(--page-accent);
+        white-space: nowrap;
+      }
+
+      .section-head h3 {
+        font-family: 'Fraunces', serif;
+        font-weight: 300;
+        font-size: clamp(28px, 4vw, 44px);
+      }
+
+      .section-head .tail {
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, #d9dce2, transparent);
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        transition-delay: var(--d, 0s);
+      }
+      .reveal.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* springy variant for cards and buttons */
+      .reveal.pop {
+        transform: translateY(34px) scale(0.95);
+        transition:
+          opacity 0.6s ease,
+          transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transition-delay: var(--d, 0s);
+      }
+      .reveal.pop.in {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      /* the section rule draws itself once revealed */
+      .section-head .tail {
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+      }
+      .section-head.in .tail {
+        transform: scaleX(1);
+      }
+
+      #about {
+        padding: 14vh 0 10vh;
+      }
+
+      #about .big {
+        font-family: 'Fraunces', serif;
+        font-weight: 300;
+        font-size: clamp(24px, 3.4vw, 38px);
+        line-height: 1.35;
+        max-width: 26ch;
+      }
+
+      /* accent words underline themselves with a sweep */
+      #about .big em {
+        font-style: normal;
+        color: var(--page-accent);
+        background: linear-gradient(var(--page-accent), var(--page-accent))
+          no-repeat left 96% / 0% 7%;
+        transition: background-size 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.55s;
+        padding-bottom: 2px;
+      }
+      #about .big.in em {
+        background-size: 100% 7%;
+      }
+
+      #about .small {
+        margin-top: 26px;
+        color: var(--page-dim);
+        font-size: 16px;
+        line-height: 1.7;
+        max-width: 58ch;
+        font-weight: 300;
+      }
+
+      #work {
+        padding: 8vh 0;
+      }
+
+      .tl {
+        position: relative;
+        padding-left: 40px;
+      }
+
+      .tl-item {
+        position: relative;
+        padding-bottom: 64px;
+      }
+      .tl-item:last-child {
+        padding-bottom: 0;
+      }
+
+      .tl-item::before {
+        content: '';
+        position: absolute;
+        left: -40px;
+        top: 8px;
+        bottom: -8px;
+        width: 2px;
+        background: linear-gradient(to bottom, var(--page-accent), #d9dce2);
+        transform: scaleY(0);
+        transform-origin: top;
+        transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.25s;
+      }
+      .tl-item.in::before {
+        transform: scaleY(1);
+      }
+      .tl-item:last-child::before {
+        display: none;
+      }
+
+      .tl-item::after {
+        content: '';
+        position: absolute;
+        left: -46px;
+        top: 4px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: var(--page-bg);
+        border: 3px solid var(--page-accent);
+        transform: scale(0);
+        transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .tl-item.in::after {
+        transform: scale(1);
+      }
+      .tl-item.in:hover::after {
+        transform: scale(1.35);
+      }
+
+      .tl-item h4 {
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .tl-item:hover h4 {
+        transform: translateX(5px);
+      }
+
+      .tl-item .when {
+        font-size: 12px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--page-accent);
+        margin-bottom: 8px;
+      }
+
+      .tl-item h4 {
+        font-family: 'Fraunces', serif;
+        font-weight: 400;
+        font-size: clamp(22px, 2.8vw, 30px);
+        margin-bottom: 4px;
+      }
+
+      .tl-item .org {
+        color: var(--page-dim);
+        font-size: 14px;
+        letter-spacing: 0.04em;
+        margin-bottom: 14px;
+      }
+
+      .tl-item p {
+        color: var(--page-dim);
+        font-size: 15.5px;
+        line-height: 1.7;
+        max-width: 62ch;
+        font-weight: 300;
+      }
+
+      .tl-item .stat {
+        color: var(--page-ink);
+        font-weight: 500;
+      }
+
+      #projects {
+        padding: 8vh 0 10vh;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
+        gap: 22px;
+      }
+
+      .pcard {
+        position: relative;
+        border: 1px solid #e4e7ec;
+        border-radius: 16px;
+        padding: 30px 28px;
+        background: #fff;
+        transition:
+          transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 0.45s ease,
+          border-color 0.45s ease;
+        overflow: hidden;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+
+      .pcard::before {
+        content: '';
+        position: absolute;
+        inset: 0 0 auto 0;
+        height: 3px;
+        background: linear-gradient(to right, var(--page-accent), #7fb8e8);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .pcard:hover,
+      .pcard:focus-visible {
+        transform: translateY(-8px);
+        box-shadow: 0 24px 48px rgba(17, 21, 28, 0.1);
+        border-color: #cfd6e0;
+      }
+      .pcard:hover::before,
+      .pcard:focus-visible::before {
+        transform: scaleX(1);
+      }
+      .pcard:active {
+        transform: translateY(-4px) scale(0.985);
+      }
+
+      .pcard .glyph {
+        font-family: 'Fraunces', serif;
+        font-size: 40px;
+        font-weight: 300;
+        color: var(--page-accent);
+        margin-bottom: 22px;
+        animation: gfloat 4s ease-in-out infinite alternate;
+      }
+      .cards > :nth-child(2) .glyph {
+        animation-delay: -1.3s;
+      }
+      .cards > :nth-child(3) .glyph {
+        animation-delay: -2.6s;
+      }
+
+      @keyframes gfloat {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-6px);
+        }
+      }
+
+      .pcard:hover .glyph {
+        animation: gwiggle 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      }
+
+      @keyframes gwiggle {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        45% {
+          transform: translateY(-7px) rotate(-10deg);
+        }
+        100% {
+          transform: translateY(-5px) rotate(-5deg);
+        }
+      }
+
+      .pcard h4 {
+        font-weight: 500;
+        font-size: 19px;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .pcard h4 .arrow {
+        color: var(--page-accent);
+        opacity: 0;
+        transform: translateX(-6px);
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+      }
+      .pcard:hover h4 .arrow {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .pcard .sub {
+        font-size: 12.5px;
+        color: var(--page-accent);
+        letter-spacing: 0.06em;
+        margin-bottom: 16px;
+      }
+
+      .pcard p {
+        color: var(--page-dim);
+        font-size: 14.5px;
+        line-height: 1.65;
+        font-weight: 300;
+        margin-bottom: 20px;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+      }
+      .tags span {
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        color: var(--page-dim);
+        border: 1px solid #e4e7ec;
+        border-radius: 99px;
+        padding: 4px 11px;
+        transition:
+          transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+          border-color 0.3s ease;
+      }
+      .pcard:hover .tags span {
+        transform: translateY(-3px);
+        border-color: #c5d8ef;
+      }
+      .pcard:hover .tags span:nth-child(2) {
+        transition-delay: 0.05s;
+      }
+      .pcard:hover .tags span:nth-child(3) {
+        transition-delay: 0.1s;
+      }
+      .pcard:hover .tags span:nth-child(4) {
+        transition-delay: 0.15s;
+      }
+
+      #stack {
+        padding: 6vh 0;
+        border-top: 1px solid #eceef2;
+        border-bottom: 1px solid #eceef2;
+        overflow: hidden;
+      }
+
+      .marquee {
+        display: flex;
+        overflow: hidden;
+        user-select: none;
+      }
+      .marquee + .marquee {
+        margin-top: 18px;
+      }
+
+      .marquee .track {
+        display: flex;
+        flex: 0 0 auto;
+        animation: slide 30s linear infinite;
+      }
+      .marquee.rev .track {
+        animation-direction: reverse;
+        animation-duration: 36s;
+      }
+
+      @keyframes slide {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      .marquee .item {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        padding: 0 22px;
+        font-family: 'Fraunces', serif;
+        font-weight: 300;
+        font-size: clamp(22px, 3vw, 34px);
+        color: var(--page-ink);
+        white-space: nowrap;
+      }
+      .marquee .item .dot {
+        color: var(--page-accent);
+        font-size: 0.5em;
+      }
+      .marquee.rev .item {
+        color: #c2c9d4;
+      }
+      .marquee:hover .track {
+        animation-play-state: paused;
+      }
+
+      /* back-to-top rocket */
+      #totop {
+        position: fixed;
+        right: 22px;
+        bottom: 22px;
+        z-index: 50;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        background: var(--page-ink);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 26px rgba(17, 21, 28, 0.25);
+        opacity: 0;
+        transform: translateY(18px);
+        pointer-events: none;
+        transition:
+          opacity 0.4s ease,
+          transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+          background 0.3s ease;
+      }
+      #totop.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+      #totop:hover {
+        transform: translateY(-5px);
+        background: var(--page-accent);
+      }
+      #totop svg {
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      #totop:hover svg {
+        transform: translateY(-2px) scale(1.1);
+      }
+
+      #foot {
+        padding: 12vh 0 10vh;
+        text-align: center;
+      }
+
+      #foot h3 {
+        font-family: 'Fraunces', serif;
+        font-weight: 300;
+        font-size: clamp(32px, 5vw, 58px);
+        margin-bottom: 18px;
+      }
+
+      #foot p {
+        color: var(--page-dim);
+        font-size: 16px;
+        font-weight: 300;
+        margin-bottom: 34px;
+      }
+
+      #foot a.btn {
+        display: inline-block;
+        text-decoration: none;
+        color: #fff;
+        background: var(--page-ink);
+        padding: 14px 32px;
+        border-radius: 99px;
+        font-size: 14px;
+        letter-spacing: 0.08em;
+        transition:
+          transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 0.35s ease;
+      }
+      #foot a.btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 16px 32px rgba(17, 21, 28, 0.18);
+      }
+
+      #foot .tiny {
+        margin-top: 8vh;
+        font-size: 11px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: #b6bdc8;
+      }
+
+      a:focus-visible {
+        outline: 2px solid var(--page-accent);
+        outline-offset: 3px;
+      }
+
+      @media (max-width: 640px) {
+        .tl {
+          padding-left: 30px;
+        }
+        .tl-item::before {
+          left: -30px;
+        }
+        .tl-item::after {
+          left: -36px;
+        }
+        .section-head {
+          flex-wrap: wrap;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .chrome-spacer {
+          width: 10px;
+        }
+        #chrome {
+          gap: 10px;
+          padding: 10px 12px;
+        }
+        #address {
+          font-size: 12px;
+          padding: 6px 11px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #scroll-hint .line {
+          animation: none;
+          height: 24px;
+        }
+        .marquee .track {
+          animation: none;
+        }
+        .cloud {
+          animation: none;
+        }
+        .pcard .glyph {
+          animation: none;
+        }
+        .reveal,
+        .tl-item::before,
+        .tl-item::after,
+        .section-head .tail,
+        #about .big em,
+        .tags span,
+        #totop {
+          transition: none;
+        }
+        #url-caret {
+          animation: none;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <!-- ====================== ACT I : SPACE ====================== -->
+    <div id="stage" aria-hidden="true">
+      <canvas id="stars"></canvas>
+      <div id="planet-wrap">
+        <canvas id="planet"></canvas>
+      </div>
+      <div id="atmosphere"></div>
+      <div id="skyflat"></div>
+      <div id="intro-copy">
+        <div class="eyebrow">Somewhere in orbit</div>
+        <h1>Begin the descent</h1>
+        <div id="scroll-hint">
+          <div class="line"></div>
+          <span>Scroll</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="intro-track"></div>
+
+    <!-- ====================== ACT II : THE SKY ====================== -->
+    <div id="sky-zone">
+      <div id="sky-sticky">
+        <div id="scene">
+          <div class="sun"></div>
+
+          <!-- far curtain (barely parts — depth) -->
+          <div class="cgroup" data-side="-1" data-depth="0.25">
+            <div
+              class="cloud"
+              style="
+                width: 30vmax;
+                height: 14vmax;
+                top: 6%;
+                left: 2%;
+                opacity: 0.5;
+                animation-duration: 13s;
+                animation-delay: -4s;
+              "
+            ></div>
+            <div
+              class="cloud"
+              style="
+                width: 26vmax;
+                height: 12vmax;
+                top: 38%;
+                left: -4%;
+                opacity: 0.55;
+                animation-duration: 11s;
+                animation-delay: -7s;
+              "
+            ></div>
+          </div>
+          <div class="cgroup" data-side="1" data-depth="0.25">
+            <div
+              class="cloud"
+              style="
+                width: 32vmax;
+                height: 15vmax;
+                top: 12%;
+                right: -2%;
+                opacity: 0.5;
+                animation-duration: 12s;
+                animation-delay: -2s;
+              "
+            ></div>
+            <div
+              class="cloud"
+              style="
+                width: 24vmax;
+                height: 11vmax;
+                top: 50%;
+                right: 4%;
+                opacity: 0.55;
+                animation-duration: 14s;
+                animation-delay: -9s;
+              "
+            ></div>
+          </div>
+
+          <!-- mid curtain -->
+          <div class="cgroup" data-side="-1" data-depth="0.6">
+            <div
+              class="cloud"
+              style="
+                width: 44vmax;
+                height: 20vmax;
+                top: 18%;
+                left: -6%;
+                opacity: 0.85;
+                animation-duration: 10s;
+                animation-delay: -3s;
+              "
+            ></div>
+            <div
+              class="cloud"
+              style="
+                width: 38vmax;
+                height: 17vmax;
+                top: 58%;
+                left: 0%;
+                opacity: 0.8;
+                animation-duration: 12s;
+                animation-delay: -8s;
+              "
+            ></div>
+          </div>
+          <div class="cgroup" data-side="1" data-depth="0.6">
+            <div
+              class="cloud"
+              style="
+                width: 46vmax;
+                height: 21vmax;
+                top: 26%;
+                right: -8%;
+                opacity: 0.85;
+                animation-duration: 11s;
+                animation-delay: -5s;
+              "
+            ></div>
+            <div
+              class="cloud"
+              style="
+                width: 36vmax;
+                height: 16vmax;
+                top: 66%;
+                right: -2%;
+                opacity: 0.8;
+                animation-duration: 9s;
+                animation-delay: -1s;
+              "
+            ></div>
+          </div>
+
+          <!-- near curtain (big, covers the centre, parts wide) -->
+          <div class="cgroup" data-side="-1" data-depth="1">
+            <div
+              class="cloud"
+              style="
+                width: 58vmax;
+                height: 26vmax;
+                top: 30%;
+                left: -12%;
+                opacity: 0.98;
+                animation-duration: 9s;
+                animation-delay: -2s;
+              "
+            ></div>
+            <div
+              class="cloud"
+              style="
+                width: 50vmax;
+                height: 23vmax;
+                top: 70%;
+                left: -8%;
+                opacity: 0.95;
+                animation-duration: 11s;
+                animation-delay: -6s;
+              "
+            ></div>
+          </div>
+          <div class="cgroup" data-side="1" data-depth="1">
+            <div
+              class="cloud"
+              style="
+                width: 60vmax;
+                height: 27vmax;
+                top: 42%;
+                right: -14%;
+                opacity: 0.98;
+                animation-duration: 10s;
+                animation-delay: -4s;
+              "
+            ></div>
+            <div
+              class="cloud"
+              style="
+                width: 52vmax;
+                height: 24vmax;
+                top: 8%;
+                right: -10%;
+                opacity: 0.95;
+                animation-duration: 12s;
+                animation-delay: -7s;
+              "
+            ></div>
+          </div>
+
+          <!-- the browser rises through the parting clouds -->
+          <div id="window">
+            <div id="chrome">
+              <div class="lights">
+                <span class="r"></span><span class="y"></span
+                ><span class="g"></span>
+              </div>
+              <div id="address">
+                <svg
+                  class="lock"
+                  width="11"
+                  height="13"
+                  viewBox="0 0 11 13"
+                  fill="none"
+                >
+                  <rect
+                    x="1"
+                    y="5"
+                    width="9"
+                    height="7"
+                    rx="1.5"
+                    fill="#3a3f47"
+                  />
+                  <path
+                    d="M3 5V3.5C3 2.1 4.1 1 5.5 1S8 2.1 8 3.5V5"
+                    stroke="#3a3f47"
+                    stroke-width="1.6"
+                  />
+                </svg>
+                <span id="url-text"></span><span id="url-caret"></span>
+              </div>
+              <div class="chrome-spacer"></div>
+              <div id="loadbar"></div>
+            </div>
+            <div id="window-hero">
+              <div class="eyebrow">georgeflood.co.uk</div>
+              <h2>George Flood</h2>
+              <div class="role-line">Full Stack Developer</div>
+              <p>
+                I build things that ship. Laravel, React and AWS — self-taught,
+                production-hardened, allergic to vapourware.
+              </p>
+              <div class="cue">Scroll to explore</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================== ACT III : THE PAGE ====================== -->
+    <main id="page">
+      <div class="inner">
+        <section id="about">
+          <p class="big reveal">
+            I went from running <em>pubs and coffee shops</em> to running
+            <em>production servers</em>. The pressure is the same. The stack
+            traces are new.
+          </p>
+          <p class="small reveal" style="--d: 0.15s">
+            Self-taught full stack developer based in London. I learned by
+            shipping real things for real users, not by collecting certificates.
+            My happy place is the gap between an idea and a working product.
+          </p>
+        </section>
+
+        <section id="work">
+          <div class="section-head reveal">
+            <span class="kicker">01 — History</span>
+            <h3>Where I've been</h3>
+            <div class="tail"></div>
+          </div>
+
+          <div class="tl">
+            <div class="tl-item reveal">
+              <div class="when">1.5 years · In-house</div>
+              <h4>Web Developer</h4>
+              <div class="org">Hydro Cleansing Ltd</div>
+              <p>
+                Sole developer for the business. Designed and built a custom
+                Laravel CMS powering
+                <span class="stat"
+                  ><span class="count" data-target="200">0</span>+ live
+                  production sites</span
+                >
+                on AWS — architecture, deployment, monitoring, the lot. When
+                something broke at 2am, there was no team to escalate to. That
+                kind of ownership teaches you fast.
+              </p>
+            </div>
+
+            <div class="tl-item reveal" style="--d: 0.1s">
+              <div class="when">2 years · Independent</div>
+              <h4>Freelance Web Developer</h4>
+              <div class="org">Various clients</div>
+              <p>
+                Built sites and tools for small businesses. Learned the
+                unglamorous half of development: scoping, invoicing, deadlines,
+                and clients who say "just one small change". Laravel, PHP and
+                JavaScript, end to end.
+              </p>
+            </div>
+
+            <div class="tl-item reveal" style="--d: 0.2s">
+              <div class="when">Before code</div>
+              <h4>Hospitality Management</h4>
+              <div class="org">Costa · Young's Pubs</div>
+              <p>
+                Ran teams, hit targets, kept calm when everything caught fire at
+                once. Turns out managing a Saturday night rush is excellent
+                training for managing a production incident.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="projects">
+          <div class="section-head reveal">
+            <span class="kicker">02 — Projects</span>
+            <h3>Things I've built</h3>
+            <div class="tail"></div>
+          </div>
+
+          <div class="cards">
+            <a
+              class="pcard reveal pop"
+              href="https://meethere.live"
+              target="_blank"
+              rel="noopener"
+            >
+              <div class="glyph">◐</div>
+              <h4>MeetHere <span class="arrow">→</span></h4>
+              <div class="sub">meethere.live</div>
+              <p>
+                Finds the fair meeting point between people across London using
+                live TfL data. No more "let's just meet at yours".
+              </p>
+              <div class="tags">
+                <span>Laravel</span><span>TfL API</span><span>MySQL</span>
+              </div>
+            </a>
+
+            <div class="pcard reveal pop" style="--d: 0.12s">
+              <div class="glyph">⌖</div>
+              <h4>PostcodeFindr</h4>
+              <div class="sub">API · Web · CLI</div>
+              <p>
+                UK address lookup built on the Ordnance Survey Places API.
+                Shipped as a REST API, a web app and a command-line tool from
+                one codebase.
+              </p>
+              <div class="tags">
+                <span>Node.js</span><span>Express</span
+                ><span>OS Places API</span>
+              </div>
+            </div>
+
+            <a
+              class="pcard reveal pop"
+              style="--d: 0.24s"
+              href="https://georgeflood.co.uk"
+              target="_blank"
+              rel="noopener"
+            >
+              <div class="glyph">✦</div>
+              <h4>georgeflood.co.uk <span class="arrow">→</span></h4>
+              <div class="sub">You just flew through it</div>
+              <p>
+                This site. A real-imagery earth, a warp-speed starfield and a
+                scroll-driven descent through the clouds — all hand-rolled
+                canvas, no libraries.
+              </p>
+              <div class="tags">
+                <span>Canvas</span><span>Vanilla JS</span
+                ><span>Zero dependencies</span>
+              </div>
+            </a>
+          </div>
+        </section>
+      </div>
+
+      <section id="stack">
+        <div class="marquee" aria-hidden="true">
+          <div class="track" data-dup>
+            <span class="item">Laravel <span class="dot">●</span></span>
+            <span class="item">PHP <span class="dot">●</span></span>
+            <span class="item">React <span class="dot">●</span></span>
+            <span class="item">TypeScript <span class="dot">●</span></span>
+            <span class="item">MySQL <span class="dot">●</span></span>
+            <span class="item">AWS <span class="dot">●</span></span>
+          </div>
+        </div>
+        <div class="marquee rev" aria-hidden="true">
+          <div class="track" data-dup>
+            <span class="item">Node.js <span class="dot">●</span></span>
+            <span class="item">Express <span class="dot">●</span></span>
+            <span class="item">JavaScript <span class="dot">●</span></span>
+            <span class="item">REST APIs <span class="dot">●</span></span>
+            <span class="item">Git <span class="dot">●</span></span>
+            <span class="item">MongoDB <span class="dot">●</span></span>
+          </div>
+        </div>
+      </section>
+
+      <div class="inner">
+        <section id="foot">
+          <h3 class="reveal">Let's build something.</h3>
+          <p class="reveal" style="--d: 0.1s">
+            Open to mid-level full stack roles and interesting problems.
+          </p>
+          <a
+            class="btn reveal pop"
+            style="--d: 0.2s"
+            href="https://georgeflood.co.uk"
+            target="_blank"
+            rel="noopener"
+            >Get in touch</a
+          >
+          <div class="tiny">
+            George Flood · London · Made with canvas and caffeine
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <button id="totop" aria-label="Back to the top">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M12 2c2.8 1.9 4.5 5 4.5 8.6 0 1.6-.3 3.1-.9 4.4h-7.2a11 11 0 0 1-.9-4.4C7.5 7 9.2 3.9 12 2z"
+          fill="currentColor"
+        />
+        <circle cx="12" cy="9.5" r="1.7" fill="#11151c" />
+        <path
+          d="M7.8 13.5 5 17l3.4-.6M16.2 13.5 19 17l-3.4-.6"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linejoin="round"
+        />
+        <path d="M10.6 17.5h2.8L12 21z" fill="currentColor" />
+      </svg>
+    </button>
+
+    <script>
+      (() => {
+        'use strict';
+
+        const reduceMotion = window.matchMedia(
+          '(prefers-reduced-motion: reduce)',
+        ).matches;
+        const stage = document.getElementById('stage');
+        const starCanvas = document.getElementById('stars');
+        const starCtx = starCanvas.getContext('2d');
+        const planetCanvas = document.getElementById('planet');
+        const planetCtx = planetCanvas.getContext('2d');
+        const planetWrap = document.getElementById('planet-wrap');
+        const atmosphere = document.getElementById('atmosphere');
+        const skyflat = document.getElementById('skyflat');
+        const introCopy = document.getElementById('intro-copy');
+        const introTrack = document.getElementById('intro-track');
+        const skyZone = document.getElementById('sky-zone');
+        const sceneEl = document.getElementById('scene');
+        const windowEl = document.getElementById('window');
+        const urlText = document.getElementById('url-text');
+        const loadbar = document.getElementById('loadbar');
+        const cloudGroups = Array.from(document.querySelectorAll('.cgroup'));
+
+        const URL_STRING = 'georgeflood.co.uk';
+
+        let vw = 0,
+          vh = 0,
+          dpr = 1;
+        let planetSize = 0;
+
+        const clamp = (v, a, b) => Math.min(Math.max(v, a), b);
+        const smooth = t => t * t * (3 - 2 * t);
+        const lerp = (a, b, t) => a + (b - a) * t;
+
+        /* ================= Seeded value noise (offline fallback) ================= */
+
+        function mulberry32(seed) {
+          return function () {
+            seed |= 0;
+            seed = (seed + 0x6d2b79f5) | 0;
+            let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+            t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+          };
+        }
+
+        function makeNoise(seed, gridW, gridH) {
+          const rand = mulberry32(seed);
+          const g = new Float32Array(gridW * gridH);
+          for (let i = 0; i < g.length; i++) g[i] = rand();
+          const sm = t => t * t * (3 - 2 * t);
+          return (x, y) => {
+            x = x - Math.floor(x);
+            y = clamp(y, 0, 0.9999);
+            const gx = x * gridW,
+              gy = y * (gridH - 1);
+            const x0 = Math.floor(gx) % gridW,
+              y0 = Math.min(Math.floor(gy), gridH - 2);
+            const x1 = (x0 + 1) % gridW,
+              y1 = y0 + 1;
+            const fx = sm(gx - Math.floor(gx)),
+              fy = sm(gy - y0);
+            const a = g[y0 * gridW + x0],
+              b = g[y0 * gridW + x1];
+            const c = g[y1 * gridW + x0],
+              d = g[y1 * gridW + x1];
+            return a + (b - a) * fx + (c - a) * fy + (a - b - c + d) * fx * fy;
+          };
+        }
+
+        function makeFbm(seed, baseW, baseH, octaves) {
+          const layers = [];
+          for (let o = 0; o < octaves; o++) {
+            layers.push(
+              makeNoise(
+                seed + o * 1013,
+                baseW * (1 << o),
+                baseH * (1 << o) + 1,
+              ),
+            );
+          }
+          return (x, y) => {
+            let v = 0,
+              amp = 0.5,
+              fx = 1;
+            for (let o = 0; o < octaves; o++) {
+              v += layers[o](x * fx, y * fx) * amp;
+              amp *= 0.5;
+              fx *= 2;
+            }
+            return v;
+          };
+        }
+
+        /* ================= Planet textures ================= */
+
+        let TEX_W = 1280,
+          TEX_H = 640;
+        let surfaceTex, cloudTex, cloudShadowTex;
+        let photoMode = false;
+
+        // NASA Blue Marble imagery (public domain), served from the three.js repo.
+        const SURFACE_URL =
+          'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg';
+        const CLOUDS_URL =
+          'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_clouds_1024.png';
+
+        function loadPhotoTextures() {
+          const surfImg = new Image();
+          const cloudImg = new Image();
+          surfImg.crossOrigin = 'anonymous';
+          cloudImg.crossOrigin = 'anonymous';
+          let remaining = 2;
+
+          function done() {
+            if (--remaining > 0) return;
+            const W = 2048,
+              H = 1024;
+
+            const sc = document.createElement('canvas');
+            sc.width = W * 2;
+            sc.height = H;
+            const sctx = sc.getContext('2d');
+            sctx.drawImage(surfImg, 0, 0, W, H);
+            sctx.drawImage(surfImg, W, 0, W, H);
+
+            const cc = document.createElement('canvas');
+            cc.width = W * 2;
+            cc.height = H;
+            const cctx = cc.getContext('2d');
+            cctx.drawImage(cloudImg, 0, 0, W, H);
+            cctx.drawImage(cloudImg, W, 0, W, H);
+
+            surfaceTex = sc;
+            cloudTex = cc;
+            TEX_W = W;
+            TEX_H = H;
+            photoMode = true;
+            drawPlanet();
+          }
+
+          surfImg.onload = done;
+          cloudImg.onload = done;
+          surfImg.src = SURFACE_URL;
+          cloudImg.src = CLOUDS_URL;
+        }
+
+        function mix3(c1, c2, t) {
+          return [
+            lerp(c1[0], c2[0], t),
+            lerp(c1[1], c2[1], t),
+            lerp(c1[2], c2[2], t),
+          ];
+        }
+
+        function buildTextures() {
+          const warpX = makeFbm(311, 10, 5, 3);
+          const warpY = makeFbm(727, 10, 5, 3);
+          const terrain = makeFbm(1543, 8, 4, 6);
+          const moisture = makeFbm(2851, 12, 6, 4);
+          const detail = makeFbm(4099, 40, 20, 3);
+          const cloudN = makeFbm(5231, 6, 3, 5);
+          const cloudW = makeFbm(6373, 8, 4, 3);
+
+          const sc = document.createElement('canvas');
+          sc.width = TEX_W * 2;
+          sc.height = TEX_H;
+          const sctx = sc.getContext('2d');
+          const img = sctx.createImageData(TEX_W, TEX_H);
+          const px = img.data;
+
+          const ABYSS = [8, 30, 66];
+          const OCEAN = [16, 56, 110];
+          const SHELF = [30, 96, 158];
+          const SHALLOW = [52, 140, 178];
+          const SAND = [196, 178, 128];
+          const GRASS = [62, 112, 58];
+          const FOREST = [34, 82, 48];
+          const SAVANNA = [158, 138, 78];
+          const ROCK = [122, 112, 100];
+          const PEAK = [212, 214, 220];
+          const ICE = [235, 242, 248];
+
+          for (let y = 0; y < TEX_H; y++) {
+            const v = y / TEX_H;
+            const lat = Math.abs(v - 0.5) * 2;
+            for (let x = 0; x < TEX_W; x++) {
+              const u = x / TEX_W;
+
+              const wx = (warpX(u, v) - 0.49) * 0.35;
+              const wy = (warpY(u, v) - 0.49) * 0.35;
+              const n =
+                terrain(u + wx, clamp(v + wy, 0, 1)) +
+                (detail(u, v) - 0.49) * 0.06;
+
+              const m = moisture(u, v);
+              const i = (y * TEX_W + x) * 4;
+              let col;
+
+              const iceEdge = 0.86 + (cloudW(u, v) - 0.5) * 0.1;
+              const SEA = 0.495;
+
+              if (lat > iceEdge) {
+                const t = clamp((lat - iceEdge) / 0.1, 0, 1);
+                col = mix3(n < SEA ? SHELF : ROCK, ICE, 0.55 + t * 0.45);
+              } else if (n < SEA - 0.1) {
+                col = mix3(ABYSS, OCEAN, clamp(n / (SEA - 0.1), 0, 1));
+              } else if (n < SEA - 0.025) {
+                col = mix3(OCEAN, SHELF, (n - (SEA - 0.1)) / 0.075);
+              } else if (n < SEA) {
+                col = mix3(SHELF, SHALLOW, (n - (SEA - 0.025)) / 0.025);
+              } else if (n < SEA + 0.012) {
+                col = mix3(SAND, GRASS, (n - SEA) / 0.012);
+              } else if (n < SEA + 0.1) {
+                const t = (n - SEA - 0.012) / 0.088;
+                const wet = mix3(GRASS, FOREST, clamp((m - 0.4) * 3, 0, 1));
+                col = mix3(
+                  mix3(SAVANNA, wet, clamp((m - 0.32) * 4, 0, 1)),
+                  ROCK,
+                  t * 0.35,
+                );
+              } else if (n < SEA + 0.17) {
+                col = mix3(ROCK, PEAK, (n - SEA - 0.1) / 0.07);
+              } else {
+                col = PEAK;
+              }
+
+              if (n >= SEA) {
+                const e = 1.2 / TEX_W;
+                const nx = terrain(u + wx + e, clamp(v + wy, 0, 1));
+                const relief = clamp((n - nx) * 16, -0.22, 0.22);
+                col = [
+                  col[0] * (1 + relief),
+                  col[1] * (1 + relief),
+                  col[2] * (1 + relief),
+                ];
+              }
+
+              const cool = lat * lat * 0.28;
+              px[i] = clamp(col[0] * (1 - cool * 0.35), 0, 255);
+              px[i + 1] = clamp(col[1] * (1 - cool * 0.18), 0, 255);
+              px[i + 2] = clamp(col[2] + cool * 14, 0, 255);
+              px[i + 3] = 255;
+            }
+          }
+          sctx.putImageData(img, 0, 0);
+          sctx.putImageData(img, TEX_W, 0);
+          surfaceTex = sc;
+
+          const cc = document.createElement('canvas');
+          cc.width = TEX_W * 2;
+          cc.height = TEX_H;
+          const cctx = cc.getContext('2d');
+          const cimg = cctx.createImageData(TEX_W, TEX_H);
+          const cpx = cimg.data;
+
+          const sh = document.createElement('canvas');
+          sh.width = TEX_W * 2;
+          sh.height = TEX_H;
+          const shctx = sh.getContext('2d');
+          const simg = shctx.createImageData(TEX_W, TEX_H);
+          const spx = simg.data;
+
+          for (let y = 0; y < TEX_H; y++) {
+            const v = y / TEX_H;
+            const lat = Math.abs(v - 0.5) * 2;
+            for (let x = 0; x < TEX_W; x++) {
+              const u = x / TEX_W;
+              const swirl = (cloudW(u, v) - 0.5) * 0.5;
+              const n = cloudN(u * 0.55 + swirl, clamp(v + swirl * 0.3, 0, 1));
+              const band = 0.9 + Math.sin(v * Math.PI * 5) * 0.12;
+              let a = clamp((n * band - 0.5) * 4.6, 0, 1);
+              a = a * a * (3 - 2 * a);
+              a *= 1 - lat * 0.25;
+
+              const i = (y * TEX_W + x) * 4;
+              cpx[i] = 252;
+              cpx[i + 1] = 253;
+              cpx[i + 2] = 255;
+              cpx[i + 3] = a * 240;
+              spx[i] = 6;
+              spx[i + 1] = 14;
+              spx[i + 2] = 30;
+              spx[i + 3] = a * 110;
+            }
+          }
+          cctx.putImageData(cimg, 0, 0);
+          cctx.putImageData(cimg, TEX_W, 0);
+          cloudTex = cc;
+          shctx.putImageData(simg, 0, 0);
+          shctx.putImageData(simg, TEX_W, 0);
+          cloudShadowTex = sh;
+        }
+
+        /* ================= Planet renderer ================= */
+
+        const STRIPS = 96;
+        let surfRot = 0,
+          cloudRot = 0;
+
+        function drawMappedLayer(ctx, tex, rot, S, dy, dh) {
+          const r = S / 2;
+          for (let i = 0; i < STRIPS; i++) {
+            const xa = (i / STRIPS) * 2 - 1;
+            const xb = ((i + 1) / STRIPS) * 2 - 1;
+            const ua = Math.asin(clamp(xa, -1, 1)) / Math.PI + 0.5;
+            const ub = Math.asin(clamp(xb, -1, 1)) / Math.PI + 0.5;
+            let sx = ((rot + ua * 0.5) % 1) * TEX_W;
+            if (sx < 0) sx += TEX_W;
+            const sw = (ub - ua) * 0.5 * TEX_W;
+            const dx = (xa + 1) * r;
+            const dw = (xb - xa) * r + 0.8;
+            ctx.drawImage(
+              tex,
+              sx,
+              0,
+              Math.max(sw, 0.01),
+              TEX_H,
+              dx,
+              dy,
+              dw,
+              dh,
+            );
+          }
+        }
+
+        function drawPlanet() {
+          const S = planetCanvas.width;
+          const ctx = planetCtx;
+          const r = S / 2;
+          ctx.clearRect(0, 0, S, S);
+
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(r, r, r - 1, 0, Math.PI * 2);
+          ctx.clip();
+
+          ctx.fillStyle = '#0d2c58';
+          ctx.fillRect(0, 0, S, S);
+
+          drawMappedLayer(ctx, surfaceTex, surfRot, S, 0, S);
+
+          if (photoMode) {
+            ctx.globalCompositeOperation = 'screen';
+            ctx.globalAlpha = 0.92;
+            drawMappedLayer(ctx, cloudTex, cloudRot, S, 0, S);
+            ctx.globalAlpha = 1;
+            ctx.globalCompositeOperation = 'source-over';
+          } else {
+            drawMappedLayer(
+              ctx,
+              cloudShadowTex,
+              cloudRot - 0.006,
+              S,
+              S * 0.012,
+              S,
+            );
+            drawMappedLayer(ctx, cloudTex, cloudRot, S, 0, S);
+          }
+
+          const glint = ctx.createRadialGradient(
+            S * 0.34,
+            S * 0.32,
+            0,
+            S * 0.34,
+            S * 0.32,
+            S * 0.22,
+          );
+          glint.addColorStop(0, 'rgba(255,255,255,0.22)');
+          glint.addColorStop(0.5, 'rgba(255,255,255,0.05)');
+          glint.addColorStop(1, 'rgba(255,255,255,0)');
+          ctx.fillStyle = glint;
+          ctx.fillRect(0, 0, S, S);
+
+          const shade = ctx.createRadialGradient(
+            S * 0.35,
+            S * 0.33,
+            S * 0.05,
+            S * 0.43,
+            S * 0.43,
+            S * 0.8,
+          );
+          shade.addColorStop(0, 'rgba(255,252,240,0.14)');
+          shade.addColorStop(0.42, 'rgba(255,255,255,0)');
+          shade.addColorStop(0.7, 'rgba(3,8,18,0.34)');
+          shade.addColorStop(0.92, 'rgba(3,8,18,0.82)');
+          shade.addColorStop(1, 'rgba(2,5,12,0.96)');
+          ctx.fillStyle = shade;
+          ctx.fillRect(0, 0, S, S);
+
+          const rim = ctx.createRadialGradient(r, r, r * 0.8, r, r, r);
+          rim.addColorStop(0, 'rgba(140,200,255,0)');
+          rim.addColorStop(0.82, 'rgba(140,200,255,0.08)');
+          rim.addColorStop(0.95, 'rgba(165,212,255,0.34)');
+          rim.addColorStop(1, 'rgba(190,225,255,0.75)');
+          ctx.fillStyle = rim;
+          ctx.fillRect(0, 0, S, S);
+
+          ctx.restore();
+        }
+
+        /* ================= Starfield ================= */
+
+        const STAR_COUNT = 420;
+        const stars = [];
+
+        function resetStar(s, randomZ) {
+          s.x = (Math.random() - 0.5) * 2.4;
+          s.y = (Math.random() - 0.5) * 2.4;
+          s.z = randomZ ? Math.random() : 1;
+          s.tint = Math.random();
+          s.size = 0.6 + Math.random() * 1.3;
+        }
+
+        function initStars() {
+          stars.length = 0;
+          for (let i = 0; i < STAR_COUNT; i++) {
+            const s = {};
+            resetStar(s, true);
+            stars.push(s);
+          }
+        }
+
+        function starColor(tint, a) {
+          if (tint < 0.12) return `rgba(190,214,255,${a})`;
+          if (tint < 0.22) return `rgba(255,228,196,${a})`;
+          return `rgba(235,240,250,${a})`;
+        }
+
+        function drawStars(speed, warpAmt, dt) {
+          starCtx.clearRect(0, 0, vw, vh);
+          const cx = vw / 2,
+            cy = vh / 2;
+          const f = Math.min(vw, vh) * 0.9;
+
+          for (const s of stars) {
+            const zPrev = s.z + speed * dt * (1 + warpAmt * 9);
+            s.z -= speed * dt;
+            if (s.z <= 0.02) {
+              resetStar(s, false);
+              continue;
+            }
+
+            const px = cx + (s.x / s.z) * f;
+            const py = cy + (s.y / s.z) * f;
+            if (px < -50 || px > vw + 50 || py < -50 || py > vh + 50) {
+              resetStar(s, false);
+              continue;
+            }
+
+            const depth = 1 - s.z;
+            const a = Math.min(0.15 + depth * 0.85, 1);
+
+            if (warpAmt > 0.04) {
+              const qx = cx + (s.x / zPrev) * f;
+              const qy = cy + (s.y / zPrev) * f;
+              starCtx.strokeStyle = starColor(
+                s.tint,
+                a * (0.5 + warpAmt * 0.5),
+              );
+              starCtx.lineWidth = s.size * (0.7 + depth * 0.8);
+              starCtx.beginPath();
+              starCtx.moveTo(qx, qy);
+              starCtx.lineTo(px, py);
+              starCtx.stroke();
+            } else {
+              starCtx.fillStyle = starColor(s.tint, a);
+              starCtx.beginPath();
+              starCtx.arc(px, py, s.size * (0.5 + depth * 0.9), 0, Math.PI * 2);
+              starCtx.fill();
+            }
+          }
+        }
+
+        /* ================= Fluffy cloud sprites ================= */
+
+        function makeCloudSprite(seed) {
+          const rand = mulberry32(seed);
+          const w = 640,
+            h = 320;
+          const c = document.createElement('canvas');
+          c.width = w;
+          c.height = h;
+          const ctx = c.getContext('2d');
+
+          // cluster of puffs along an arched centreline — big in the middle,
+          // tapering at the ends, with a flattened cumulus base
+          const puffs = [];
+          const n = 13 + Math.floor(rand() * 5);
+          for (let i = 0; i < n; i++) {
+            const t = i / (n - 1);
+            const arch = Math.sin(t * Math.PI);
+            const r = (26 + arch * 58) * (0.75 + rand() * 0.5);
+            const x = w * 0.14 + t * (w * 0.72) + (rand() - 0.5) * 24;
+            const y = Math.min(
+              h * 0.6 -
+                arch * h * 0.15 * rand() -
+                r * 0.22 +
+                (rand() - 0.5) * 12,
+              h * 0.62,
+            );
+            puffs.push({ x, y, r });
+          }
+
+          function drawCluster(color, dx, dy, blur, shrink) {
+            ctx.save();
+            ctx.filter = blur ? `blur(${blur}px)` : 'none';
+            ctx.fillStyle = color;
+            for (const p of puffs) {
+              ctx.beginPath();
+              ctx.arc(p.x + dx, p.y + dy, p.r * shrink, 0, Math.PI * 2);
+              ctx.fill();
+            }
+            ctx.beginPath();
+            ctx.ellipse(
+              w / 2 + dx,
+              h * 0.62 + dy,
+              w * 0.36,
+              h * 0.1 * shrink + 16,
+              0,
+              0,
+              Math.PI * 2,
+            );
+            ctx.fill();
+            ctx.restore();
+          }
+
+          drawCluster('rgba(148, 178, 214, 0.55)', 5, 16, 14, 1); // under-shadow
+          drawCluster('rgba(255, 255, 255, 0.97)', 0, 0, 9, 1); // body
+          drawCluster('rgba(255, 255, 255, 1)', -5, -12, 5, 0.7); // sunlit tops
+
+          return c;
+        }
+
+        function applyCloudSprites() {
+          // canvas filter support check — without it, sprite edges are hard,
+          // so we soften via CSS instead
+          const t = document.createElement('canvas').getContext('2d');
+          t.filter = 'blur(1px)';
+          if (t.filter !== 'blur(1px)')
+            document.body.classList.add('softclouds');
+
+          const sprites = [];
+          [17, 42, 73, 96].forEach(seed => {
+            const c = makeCloudSprite(seed);
+            sprites.push(c.toDataURL('image/png'));
+            // mirrored twin for variety
+            const m = document.createElement('canvas');
+            m.width = c.width;
+            m.height = c.height;
+            const mctx = m.getContext('2d');
+            mctx.translate(c.width, 0);
+            mctx.scale(-1, 1);
+            mctx.drawImage(c, 0, 0);
+            sprites.push(m.toDataURL('image/png'));
+          });
+
+          document.querySelectorAll('.cloud').forEach((el, i) => {
+            el.style.backgroundImage = `url(${sprites[i % sprites.length]})`;
+          });
+        }
+
+        /* ================= Scroll choreography ================= */
+
+        let progress = 0; // space intro: 0 → 1 as the sky fully covers the viewport
+        let sp = 0; // sky zone local progress
+
+        function readScroll() {
+          const sy = window.scrollY;
+
+          // progress hits 1 only once the sky section has scrolled fully over the
+          // viewport — the fixed stage stays beneath the whole way: no gap, no black
+          const introMax = introTrack.offsetHeight;
+          progress = introMax > 0 ? clamp(sy / introMax, 0, 1) : 1;
+
+          // rect-based: immune to offsetParent quirks
+          const zr = skyZone.getBoundingClientRect();
+          const zMax = zr.height - vh;
+          sp = zMax > 0 ? clamp(-zr.top / zMax, 0, 1) : 1;
+        }
+
+        function applyScroll() {
+          const p = progress;
+
+          // intro copy fades quickly
+          const copyA = clamp(1 - p / 0.07, 0, 1);
+          introCopy.style.opacity = copyA;
+          introCopy.style.transform = `translateX(-50%) translateY(${p * 120}px)`;
+
+          // planet: gentle approach, then the dive — done by p ≈ 0.66,
+          // BEFORE the sky section starts sliding in at p ≈ 0.71
+          const approach = smooth(clamp(p / 0.45, 0, 1));
+          const dive = smooth(clamp((p - 0.34) / 0.32, 0, 1));
+          const scale = (1 + approach * 1.4) * Math.pow(9, dive);
+          planetWrap.style.transform = `translate(-50%, -50%) scale(${scale.toFixed(4)})`;
+
+          // whiteout completes before the sky arrives…
+          const flashIn = smooth(clamp((p - 0.46) / 0.16, 0, 1));
+          atmosphere.style.opacity = flashIn;
+
+          // …then settles to the sky's exact flat colour, so the sky section
+          // slides over it with an invisible seam
+          const flatIn = smooth(clamp((p - 0.6) / 0.08, 0, 1));
+          skyflat.style.opacity = flatIn;
+
+          // ---- sky zone: haze clears, clouds rise from below, then part ----
+
+          // sp stays 0 while the section slides into view (it's invisible then —
+          // only the flat haze shows). Once pinned: the sky and sun fade in from
+          // the haze while the clouds rise up from the bottom of the screen.
+          const skyA = smooth(clamp(sp / 0.08, 0, 1));
+          sceneEl.style.opacity = skyA.toFixed(3);
+          sceneEl.style.transform = `scale(${(1.03 - 0.03 * skyA).toFixed(4)})`;
+
+          // stage hangs around beneath until the scene has fully materialised
+          stage.style.visibility =
+            p >= 0.995 && skyA >= 1 ? 'hidden' : 'visible';
+
+          // clouds surge up from below with an ease-out — near clouds from deepest
+          const riseP = clamp(sp / 0.14, 0, 1);
+          const rise = 1 - Math.pow(1 - riseP, 3);
+
+          // window rise begins as the clouds finish arriving
+          const bp = smooth(clamp((sp - 0.14) / 0.66, 0, 1));
+          windowEl.style.setProperty('--bp', bp.toFixed(4));
+
+          // curtains: each group slides out by depth, near clouds widest
+          const part = smooth(clamp((sp - 0.2) / 0.56, 0, 1));
+          for (const g of cloudGroups) {
+            const side = +g.dataset.side;
+            const depth = +g.dataset.depth;
+            const tx = side * part * (18 + depth * 70); // vw
+            const ty = (1 - rise) * (26 + depth * 55) - sp * depth * 22; // vh
+            g.style.transform = `translate(${tx.toFixed(2)}vw, ${ty.toFixed(2)}vh)`;
+            g.style.opacity = (1 - part * depth * 0.55).toFixed(3);
+          }
+
+          // URL types itself in as the window rises
+          const chars = Math.round(clamp(bp * 1.6, 0, 1) * URL_STRING.length);
+          const shown = URL_STRING.slice(0, chars);
+          if (urlText.textContent !== shown) urlText.textContent = shown;
+
+          // "page load" bar
+          const load = clamp((bp - 0.55) / 0.45, 0, 1);
+          loadbar.style.width = (load * 100).toFixed(1) + '%';
+          loadbar.style.opacity = load >= 1 ? 0 : 1;
+        }
+
+        /* ================= Main loop ================= */
+
+        let lastT = performance.now();
+
+        function frame(t) {
+          const dt = Math.min((t - lastT) / 1000, 0.05);
+          lastT = t;
+
+          const p = progress;
+          const warpAmt =
+            smooth(clamp(p / 0.45, 0, 1)) *
+            (1 - smooth(clamp((p - 0.5) / 0.12, 0, 1)));
+          const speed = 0.05 + smooth(clamp(p / 0.45, 0, 1)) * 2.6;
+
+          if (!reduceMotion && stage.style.visibility !== 'hidden') {
+            drawStars(speed, warpAmt, dt);
+            surfRot = (surfRot + dt * 0.0045) % 1;
+            cloudRot = (cloudRot + dt * 0.007) % 1;
+            drawPlanet();
+          }
+
+          requestAnimationFrame(frame);
+        }
+
+        /* ================= Reveals ================= */
+
+        const marqueeOriginals = new Map();
+
+        function buildMarquees() {
+          document.querySelectorAll('[data-dup]').forEach(track => {
+            if (!marqueeOriginals.has(track))
+              marqueeOriginals.set(track, track.innerHTML);
+            const orig = marqueeOriginals.get(track);
+
+            // measure one set, then tile enough copies to cover the widest screens;
+            // an even count keeps the -50% loop perfectly seamless
+            track.innerHTML = orig;
+            const setW = Math.max(track.scrollWidth, 1);
+            let n = Math.ceil((window.innerWidth * 2) / setW);
+            if (n % 2) n++;
+            n = Math.max(2, n);
+            track.innerHTML = orig.repeat(n);
+          });
+        }
+
+        function animateCount(el) {
+          const target = +el.dataset.target;
+          if (reduceMotion) {
+            el.textContent = target;
+            return;
+          }
+          const t0 = performance.now();
+          const dur = 1300;
+          function tick(t) {
+            const k = clamp((t - t0) / dur, 0, 1);
+            const eased = 1 - Math.pow(1 - k, 3);
+            el.textContent = Math.round(eased * target);
+            if (k < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+        }
+
+        function setupTotop() {
+          const totop = document.getElementById('totop');
+          const page = document.getElementById('page');
+          totop.addEventListener('click', () => {
+            window.scrollTo({
+              top: 0,
+              behavior: reduceMotion ? 'auto' : 'smooth',
+            });
+          });
+          return () => {
+            totop.classList.toggle(
+              'show',
+              page.getBoundingClientRect().top < vh * 0.5,
+            );
+          };
+        }
+
+        function setupObservers() {
+          const counters = document.querySelectorAll('.count');
+
+          if (reduceMotion) {
+            document
+              .querySelectorAll('.reveal, .tl-item')
+              .forEach(el => el.classList.add('in'));
+            counters.forEach(el => {
+              el.textContent = el.dataset.target;
+            });
+            return;
+          }
+
+          const obs = new IntersectionObserver(
+            entries => {
+              entries.forEach(e => {
+                if (e.isIntersecting) {
+                  e.target.classList.add('in');
+                  e.target.querySelectorAll('.count').forEach(animateCount);
+                  obs.unobserve(e.target);
+                }
+              });
+            },
+            { threshold: 0.18, rootMargin: '0px 0px -8% 0px' },
+          );
+
+          document
+            .querySelectorAll('.reveal, .tl-item')
+            .forEach(el => obs.observe(el));
+        }
+
+        /* ================= Sizing & boot ================= */
+
+        function resize() {
+          vw = window.innerWidth;
+          vh = window.innerHeight;
+          dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+          starCanvas.width = vw * dpr;
+          starCanvas.height = vh * dpr;
+          starCanvas.style.width = vw + 'px';
+          starCanvas.style.height = vh + 'px';
+          starCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+          planetSize = Math.min(vw, vh) * (vh > vw ? 0.62 : 0.46); // bigger on portrait
+          const res = Math.min(Math.round(planetSize * dpr), 1100);
+          planetCanvas.width = res;
+          planetCanvas.height = res;
+          planetCanvas.style.width = planetSize + 'px';
+          planetCanvas.style.height = planetSize + 'px';
+
+          readScroll();
+          applyScroll();
+
+          if (reduceMotion) {
+            drawStars(0, 0, 0);
+            drawPlanet();
+            urlText.textContent = URL_STRING;
+            loadbar.style.opacity = 0;
+          }
+        }
+
+        buildTextures();
+        loadPhotoTextures();
+        applyCloudSprites();
+        initStars();
+        buildMarquees();
+        resize();
+        setupObservers();
+        const updateTotop = setupTotop();
+        updateTotop();
+
+        let lastVw = window.innerWidth;
+        window.addEventListener('resize', () => {
+          resize();
+          if (window.innerWidth !== lastVw) {
+            lastVw = window.innerWidth;
+            buildMarquees();
+          }
+        });
+        window.addEventListener(
+          'scroll',
+          () => {
+            readScroll();
+            applyScroll();
+            updateTotop();
+          },
+          { passive: true },
+        );
+
+        if (!reduceMotion) requestAnimationFrame(frame);
+      })();
+    </script>
   </body>
 </html>
