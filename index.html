@@ -152,7 +152,7 @@
   #sky-zone {
     position: relative;
     z-index: 20;
-    height: 290vh;
+    height: 520vh;
   }
 
   #sky-sticky {
@@ -220,15 +220,88 @@
     to   { transform: translate(2.5vw, -0.6vh); }
   }
 
+  /* ---- AI prompt prologue ---- */
+
+  #ai-window {
+    --ai-p: 0;
+    --ai-exit: 0;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    z-index: 4;
+    width: min(1180px, 92%);
+    height: min(84svh, 820px);
+    transform: translateX(-50%) translateY(calc((1 - var(--ai-p)) * 96vh + var(--ai-exit) * -12vh)) scale(calc(.9 + var(--ai-p) * .1 - var(--ai-exit) * .045));
+    transform-origin: 50% 100%;
+    overflow: hidden;
+    border: 1px solid rgba(20, 24, 32, .18);
+    border-radius: calc(25px - var(--ai-p) * 7px);
+    color: #202123;
+    background: #fff;
+    box-shadow: 0 -28px 100px rgba(36, 76, 128, .32), 0 0 0 1px rgba(255,255,255,.62);
+    opacity: 0;
+    will-change: transform, opacity, filter;
+  }
+
+  .ai-browserbar {
+    height: 51px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 9px 14px;
+    border-bottom: 1px solid #d9dce1;
+    background: linear-gradient(#f8f9fb, #e8eaf0);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  }
+  .ai-lights { display: flex; gap: 8px; }
+  .ai-lights span { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
+  .ai-lights span:nth-child(2) { background: #febc2e; }
+  .ai-lights span:nth-child(3) { background: #28c840; }
+  .ai-browser-tab { height: 33px; min-width: 210px; display: flex; align-items: center; gap: 9px; padding: 0 12px; border-radius: 9px; color: #4e5158; background: rgba(255,255,255,.78); font-size: 11px; box-shadow: 0 1px 0 rgba(255,255,255,.8) inset; }
+  .ai-knot { width: 20px; height: 20px; display: grid; place-items: center; border-radius: 6px; color: #fff; background: #101113; font-size: 12px; font-weight: 700; }
+  .ai-browser-tab small { margin-left: auto; color: #9398a1; font-size: 12px; }
+  .ai-browser-address { flex: 1; max-width: 470px; height: 31px; display: flex; align-items: center; justify-content: center; margin-left: auto; padding: 0 14px; border: 1px solid rgba(149,153,163,.28); border-radius: 8px; color: #646a73; background: rgba(255,255,255,.72); font-size: 11px; }
+
+  .ai-app { height: calc(100% - 51px); display: grid; grid-template-columns: 232px 1fr; background: #fff; }
+  .ai-sidebar { display: flex; flex-direction: column; padding: 13px 11px; border-right: 1px solid #ececef; color: #555862; background: #f7f7f8; font: 12px/1.4 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  .ai-new-chat { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border: 1px solid #dedee3; border-radius: 9px; color: #303139; background: #fff; font-weight: 600; }
+  .ai-history-label { margin: 24px 10px 8px; color: #999ca4; font-size: 9px; letter-spacing: .13em; text-transform: uppercase; }
+  .ai-history-item { padding: 9px 10px; overflow: hidden; border-radius: 8px; white-space: nowrap; text-overflow: ellipsis; }
+  .ai-history-item.active { color: #1f2025; background: #e9e9eb; }
+  .ai-sidebar-profile { display: flex; align-items: center; gap: 9px; margin-top: auto; padding: 11px 9px 4px; border-top: 1px solid #e2e2e5; color: #303139; }
+  .ai-avatar { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: linear-gradient(135deg, #5d7df1, #8e5dd7); font-size: 9px; font-weight: 700; }
+
+  .ai-conversation { position: relative; min-width: 0; overflow: hidden; background: #fff; }
+  .ai-modelbar { height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; border-bottom: 1px solid #f0f0f2; color: #2b2d31; font: 600 13px/1 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  .ai-modelbar span:last-child { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: #26272b; font-size: 9px; }
+  .ai-thread { width: min(760px, calc(100% - 52px)); margin: 0 auto; padding: clamp(30px, 5vh, 56px) 0 120px; }
+  .ai-empty-state { margin: clamp(16px, 5vh, 58px) 0 34px; color: #202123; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; font-size: clamp(27px, 3.6vw, 44px); font-weight: 600; letter-spacing: -.045em; text-align: center; }
+  .ai-user-message,
+  .ai-assistant-message { opacity: 0; transform: translateY(22px); }
+  .ai-user-message { width: fit-content; max-width: 78%; margin-left: auto; padding: 14px 17px; border-radius: 22px 22px 5px 22px; color: #27282c; background: #f0f0f0; font-size: clamp(14px, 1.5vw, 17px); line-height: 1.5; }
+  .ai-typing-caret { display: inline-block; width: 2px; height: 1.05em; margin-left: 3px; vertical-align: -.15em; background: #202123; animation: blink 1s steps(1) infinite; }
+  .ai-assistant-message { display: grid; grid-template-columns: 32px 1fr; gap: 13px; margin-top: 27px; color: #292a2e; font-size: clamp(15px, 1.65vw, 18px); line-height: 1.6; }
+  .ai-assistant-logo { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 9px; color: #fff; background: #101113; font-size: 15px; }
+  .ai-assistant-message strong { display: block; margin-bottom: 4px; font-size: 12px; }
+  #ai-response-text { display: inline-block; width: 0; overflow: hidden; vertical-align: bottom; white-space: nowrap; }
+  .ai-handoff { display: inline-flex; align-items: center; gap: 9px; margin: 18px 0 0 45px; padding: 8px 12px; border: 1px solid #d9dce2; border-radius: 999px; color: #646974; background: #fafafa; font-size: 10px; opacity: 0; transform: translateY(10px); }
+  .ai-handoff i { width: 7px; height: 7px; border-radius: 50%; background: #10a37f; box-shadow: 0 0 0 5px rgba(16,163,127,.1); }
+  .ai-composer { position: absolute; left: 50%; bottom: 22px; width: min(760px, calc(100% - 52px)); min-height: 58px; display: flex; align-items: center; gap: 12px; transform: translateX(-50%); padding: 10px 11px 10px 19px; border: 1px solid #dedfe3; border-radius: 19px; color: #9b9da4; background: #fff; box-shadow: 0 6px 30px rgba(20,22,30,.08); font-size: 13px; }
+  .ai-composer-copy { width: 0; max-width: calc(100% - 90px); flex: 0 0 auto; overflow: hidden; color: #242529; white-space: nowrap; }
+  .ai-send { width: 36px; height: 36px; display: grid; place-items: center; flex: 0 0 auto; margin-left: auto; border-radius: 11px; color: #fff; background: #202123; font-size: 17px; transform: scale(.88); }
+  .ai-disclaimer { position: absolute; left: 0; right: 0; bottom: 5px; color: #a1a3aa; font-size: 8px; text-align: center; }
+
   /* ---- Safari hero ---- */
 
   #window {
     --bp: 0;
-    position: relative;
-    z-index: 5;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    z-index: 6;
     width: calc(90% + 10% * var(--bp));
     height: calc(82svh + 18svh * var(--bp));
-    transform: translateY(calc((1 - var(--bp)) * 94vh)) scale(calc(0.9 + 0.1 * var(--bp)));
+    transform: translateX(-50%) translateY(calc((1 - var(--bp)) * 94vh)) scale(calc(0.9 + 0.1 * var(--bp)));
     border-radius: calc(24px * (1 - var(--bp)));
     background: var(--page-bg);
     box-shadow:
@@ -595,6 +668,20 @@
   }
   .reveal.in { opacity: 1; transform: translateY(0); }
 
+  /* Browser chapters are animated exclusively by GSAP when motion is available.
+     This avoids CSS easing lag and keeps the tab launch locked to the scrollbar. */
+  body.has-gsap .chapter-window {
+    opacity: 1;
+    transition: none !important;
+    will-change: transform, clip-path, opacity;
+  }
+  .browser-launch-anchor { position: relative; width: 100%; perspective: 1500px; }
+  .about-launch-anchor { width: min(1160px, 100%); margin: 0 auto; }
+  .about-launch-anchor .about-browser { width: 100%; margin: 0; }
+  .journey-stage > .browser-launch-anchor { height: 100%; display: grid; place-items: center; }
+  .stack-launch-anchor { width: min(1260px, 100%); margin: 0 auto; }
+  .stack-launch-anchor .fox-browser { width: 100%; margin: 0; }
+
   /* springy variant for cards and buttons */
   .reveal.pop {
     transform: translateY(34px) scale(0.95);
@@ -945,9 +1032,12 @@
   }
 
   .journey-browser-page {
+    --journey-grid-x: 0px;
+    --journey-parallax-x: 0px;
     position: relative;
     height: calc(100% - 85px);
     overflow: hidden;
+    isolation: isolate;
     background:
       radial-gradient(circle at 10% 85%, rgba(251, 188, 4, 0.17), transparent 24%),
       radial-gradient(circle at 92% 12%, rgba(234, 67, 53, 0.10), transparent 23%),
@@ -955,6 +1045,31 @@
       linear-gradient(90deg, rgba(203, 194, 178, 0.22) 1px, transparent 1px),
       var(--warm);
     background-size: auto, auto, 28px 28px, 28px 28px, auto;
+    background-position: calc(10% + var(--journey-grid-x)) 85%, calc(92% + var(--journey-grid-x)) 12%, var(--journey-grid-x) 0, var(--journey-grid-x) 0, 0 0;
+  }
+
+  .journey-browser-page::before {
+    content: "";
+    position: absolute;
+    inset: -12% -28%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .72;
+    transform: translate3d(var(--journey-parallax-x), 0, 0);
+    will-change: transform;
+    background:
+      linear-gradient(90deg, transparent 0 11%, rgba(234,67,53,.07) 16%, transparent 22%, transparent 43%, rgba(251,188,4,.09) 50%, transparent 57%, transparent 76%, rgba(52,168,83,.07) 83%, transparent 90%),
+      repeating-linear-gradient(0deg, transparent 0 84px, rgba(100,91,74,.055) 85px, transparent 86px);
+    filter: blur(.2px);
+  }
+
+  .journey-browser-page::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(248,244,235,.12), transparent 14% 86%, rgba(248,244,235,.12));
   }
 
   .journey-head {
@@ -983,6 +1098,7 @@
 
   .journey-world {
     position: absolute;
+    z-index: 1;
     left: 50%;
     top: 54%;
     width: max(2300px, 230vw);
@@ -1366,6 +1482,7 @@
     align-items: flex-end;
     gap: 8px;
     padding: 8px 12px 0;
+    overflow: hidden;
     background: #2d1a43;
   }
   .fox-controls { display: flex; gap: 7px; padding: 0 8px 13px 1px; }
@@ -1374,17 +1491,31 @@
   .fox-controls span:nth-child(2) { background: #ffbd3f; }
   .fox-controls span:last-child { background: #34c759; }
   .fox-tab {
-    width: min(360px, 48vw);
+    width: auto;
+    min-width: 168px;
+    max-width: 285px;
+    flex: 0 1 265px;
     height: 35px;
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 0 13px;
+    border: 0;
     border-radius: 9px 9px 0 0;
-    color: #efe8f9;
-    background: #49325f;
-    font-size: 11px;
+    color: #cdbfdc;
+    background: #38234c;
+    font: inherit;
+    font-size: 10.5px;
+    text-align: left;
+    cursor: pointer;
+    transition: color .2s ease, background .2s ease, transform .2s ease;
   }
+  .fox-tab:hover { color: #fff; background: #432b59; }
+  .fox-tab.is-active { color: #fff; background: #49325f; }
+  .fox-tab.is-active .fox-mark::after { background: #49325f; }
+  .fox-tab[data-game="nsfw"] { flex-basis: 190px; color: #ffb2bd; }
+  .fox-tab[data-game="nsfw"] .fox-mark { display: grid; place-items: center; color: #fff; background: #e52f49; box-shadow: 0 0 14px rgba(229,47,73,.42); font-size: 9px; font-weight: 700; }
+  .fox-tab[data-game="nsfw"] .fox-mark::after { display: none; }
   .fox-mark { position: relative; width: 17px; height: 17px; flex: 0 0 auto; border-radius: 50%; background: conic-gradient(from 210deg, #ff8b28, #ff4f70 44%, #8b54ff 76%, #ff8b28); box-shadow: 0 0 12px rgba(255,109,55,.35); }
   .fox-mark::after { content: ""; position: absolute; inset: 5px; border-radius: 50%; background: #49325f; }
   .fox-tab-close { margin-left: auto; color: #c7bad7; }
@@ -1436,10 +1567,12 @@
   .private-card { flex: 0 0 auto; display: flex; align-items: center; gap: 11px; padding: 10px 13px; border: 1px solid rgba(191,145,255,.28); border-radius: 13px; color: #cdb5e9; background: rgba(82,48,111,.35); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
   .private-mask { width: 28px; height: 18px; display: grid; place-items: center; border-radius: 50% 50% 42% 42%; color: #1d1029; background: #c596ff; font-size: 12px; letter-spacing: 0; }
 
-  .casino-floor { display: grid; grid-template-columns: minmax(340px, .82fr) minmax(500px, 1.18fr); gap: 19px; align-items: stretch; }
-  .casino-game { min-width: 0; border: 1px solid rgba(255,255,255,.09); border-radius: 22px; box-shadow: 0 22px 50px rgba(0,0,0,.23); }
+  .casino-floor { min-height: 620px; }
+  .casino-game { min-width: 0; min-height: 620px; border: 1px solid rgba(255,255,255,.09); border-radius: 22px; box-shadow: 0 22px 50px rgba(0,0,0,.23); animation: casino-tab-in .44s cubic-bezier(.16,1,.3,1) both; }
+  .casino-game[hidden] { display: none !important; }
+  @keyframes casino-tab-in { from { opacity: 0; transform: translateY(16px) scale(.985); } }
   .slots-booth { display: grid; align-content: start; gap: 22px; padding: clamp(20px, 2.5vw, 30px); background: linear-gradient(145deg, rgba(70,42,82,.92), rgba(29,18,38,.95)); }
-  .slot-layout { width: auto; margin: 0; display: grid; gap: 22px; }
+  .slot-layout { width: auto; min-height: 558px; margin: 0; display: grid; grid-template-columns: minmax(240px, .58fr) minmax(500px, 1.42fr); align-items: center; gap: clamp(28px, 5vw, 68px); }
   .slot-copy .chapter-kicker { color: #ffd65a; }
   .slot-copy h3 { font-family: 'Fraunces', serif; font-size: clamp(32px, 3.8vw, 47px); font-weight: 300; line-height: .96; letter-spacing: -.04em; }
   .slot-copy h3 span { color: #ffd65a; }
@@ -1504,18 +1637,18 @@
   .blackjack-head p { max-width: 33ch; margin-top: 8px; color: #9fc7b7; font-size: 10.5px; line-height: 1.5; }
   .blackjack-rules { flex: 0 0 auto; padding: 8px 10px; border: 1px solid rgba(255,222,132,.25); border-radius: 10px; color: #e9ce84; font-size: 8px; line-height: 1.5; letter-spacing: .08em; text-align: right; text-transform: uppercase; }
 
-  .blackjack-table { position: relative; min-height: 505px; padding: 18px 20px 19px; overflow: hidden; background: radial-gradient(ellipse at 50% 54%, rgba(35,139,100,.55), transparent 44%), linear-gradient(135deg, rgba(255,255,255,.025) 25%, transparent 25%) 0 0/24px 24px; }
-  .blackjack-table::before { content: ""; position: absolute; inset: 25px 18px 80px; border: 1px solid rgba(239,209,117,.28); border-radius: 50%; pointer-events: none; }
+  .blackjack-table { position: relative; min-height: 650px; padding: 22px 30px 24px; overflow: hidden; background: radial-gradient(ellipse at 50% 54%, rgba(35,139,100,.62), transparent 50%), linear-gradient(135deg, rgba(255,255,255,.025) 25%, transparent 25%) 0 0/24px 24px; }
+  .blackjack-table::before { content: ""; position: absolute; inset: 30px 4% 88px; border: 2px solid rgba(239,209,117,.28); border-radius: 50%; pointer-events: none; }
   .bankroll-bar { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; padding: 8px 11px; border: 1px solid rgba(255,255,255,.09); border-radius: 11px; color: #a9d4c2; background: rgba(1,24,18,.58); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
   .bankroll-bar output { color: #ffdb70; font-size: 14px; font-weight: 700; letter-spacing: 0; text-transform: none; }
   .bankroll-bar .table-bet { color: #d4e9e0; }
 
   .hand-zone { position: relative; z-index: 2; text-align: center; }
-  .hand-zone + .hand-zone { margin-top: 72px; }
+  .hand-zone + .hand-zone { margin-top: 86px; }
   .hand-label { display: flex; justify-content: center; gap: 8px; margin-bottom: 7px; color: #a6cebd; font-size: 8px; letter-spacing: .15em; text-transform: uppercase; }
   .hand-label output { min-width: 24px; color: #ffde7d; font-weight: 700; }
-  .card-hand { min-height: 100px; display: flex; align-items: center; justify-content: center; padding: 0; list-style: none; }
-  .tech-card { --card-colour: #7656df; position: relative; width: clamp(62px, 6.3vw, 76px); aspect-ratio: .70; flex: 0 0 auto; display: flex; flex-direction: column; justify-content: space-between; padding: 7px; overflow: hidden; border: 2px solid #fff; border-radius: 10px; color: #16211d; background: linear-gradient(145deg, #fff, #e9f0ec); box-shadow: 0 9px 18px rgba(0,0,0,.25); animation: deal-card .35s cubic-bezier(.2,1.5,.4,1) both; }
+  .card-hand { min-height: 126px; display: flex; align-items: center; justify-content: center; padding: 0; list-style: none; }
+  .tech-card { --card-colour: #7656df; position: relative; width: clamp(78px, 7.4vw, 98px); aspect-ratio: .70; flex: 0 0 auto; display: flex; flex-direction: column; justify-content: space-between; padding: 9px; overflow: hidden; border: 2px solid #fff; border-radius: 12px; color: #16211d; background: linear-gradient(145deg, #fff, #e9f0ec); box-shadow: 0 12px 24px rgba(0,0,0,.28); animation: deal-card .35s cubic-bezier(.2,1.5,.4,1) both; }
   .tech-card + .tech-card { margin-left: -10px; }
   @keyframes deal-card { from { opacity: 0; transform: translateY(-24px) rotate(-7deg) scale(.75); } }
   .tech-card::after { content: ""; position: absolute; right: -17px; bottom: -17px; width: 49px; height: 49px; border-radius: 50%; background: var(--card-colour); opacity: .15; }
@@ -1550,6 +1683,18 @@
   .confetti i { position: absolute; left: var(--x); top: -8%; width: 10px; height: 22px; border-radius: 2px; background: var(--c); animation: confetti-fall var(--t) cubic-bezier(.25,.75,.45,1) var(--d) infinite; }
   @keyframes confetti-fall { to { transform: translate3d(var(--drift), 115vh, 0) rotate(720deg); } }
 
+  .nsfw-alert { position: fixed; inset: 0; z-index: 120; display: grid; place-items: center; padding: 24px; color: #fff; background: rgba(16,0,4,.9); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .22s ease, visibility .22s ease; backdrop-filter: blur(12px); }
+  .nsfw-alert.show { opacity: 1; visibility: visible; pointer-events: auto; }
+  .nsfw-siren { position: absolute; inset: -45vmax; background: repeating-conic-gradient(from 0deg, rgba(255,32,66,.22) 0 10deg, transparent 10deg 22deg); animation: nsfw-spin 7s linear infinite; }
+  @keyframes nsfw-spin { to { transform: rotate(360deg); } }
+  .nsfw-card { position: relative; z-index: 1; width: min(590px, 100%); padding: clamp(28px, 5vw, 54px); overflow: hidden; border: 2px solid #ff3855; border-radius: 26px; background: linear-gradient(145deg, #250711, #0d0407); box-shadow: 0 0 0 8px rgba(255,56,85,.12), 0 30px 100px rgba(0,0,0,.68), 0 0 70px rgba(255,31,66,.28); text-align: center; transform: scale(.72) rotate(-2deg); transition: transform .48s cubic-bezier(.2,1.55,.35,1); }
+  .nsfw-alert.show .nsfw-card { transform: scale(1) rotate(0); }
+  .nsfw-warning { display: inline-flex; align-items: center; gap: 8px; padding: 7px 11px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; color: #ff97a6; background: rgba(255,255,255,.06); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; }
+  .nsfw-card strong { display: block; margin-top: 20px; color: #fff; font-size: clamp(54px, 12vw, 106px); line-height: .8; letter-spacing: -.08em; text-shadow: 0 5px 0 #9f132a, 0 0 30px rgba(255,56,85,.5); }
+  .nsfw-card h3 { margin-top: 24px; font-family: 'Fraunces', serif; font-size: clamp(24px, 4vw, 38px); font-weight: 300; }
+  .nsfw-card p { max-width: 44ch; margin: 12px auto 0; color: #d8b6bd; font-size: 13px; line-height: 1.6; }
+  .nsfw-dismiss { margin-top: 25px; padding: 12px 20px; border: 0; border-radius: 999px; color: #2a0610; background: #ff7286; box-shadow: 0 5px 0 #9f132a; font: inherit; font-size: 11px; font-weight: 700; cursor: pointer; }
+
   /* back-to-top rocket */
   #totop {
     position: fixed;
@@ -1581,12 +1726,9 @@
   #foot {
     position: relative;
     isolation: isolate;
-    min-height: 110vh;
-    min-height: 110svh;
-    display: grid;
-    place-items: center;
-    overflow: hidden;
-    padding: 8vh 28px 30vh;
+    min-height: 190vh;
+    min-height: 190svh;
+    overflow: visible;
     text-align: center;
     color: #fff;
     background:
@@ -1606,7 +1748,8 @@
     mask-image: linear-gradient(#000, transparent 88%);
   }
 
-  .foot-content { position: relative; z-index: 3; width: min(1080px, 100%); }
+  .foot-stage { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr); place-items: center; overflow: hidden; padding: 2vh 28px 16vh; }
+  .foot-content { position: relative; z-index: 4; width: min(1300px, 100%); }
   .return-kicker { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 22px; color: #88c9ff; font-size: 10px; letter-spacing: .26em; text-transform: uppercase; }
   .return-kicker::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #59cf83; box-shadow: 0 0 0 6px rgba(89,207,131,.12), 0 0 18px #59cf83; }
 
@@ -1619,56 +1762,65 @@
     margin-bottom: 28px;
   }
 
-  .gmail-browser { overflow: hidden; border: 1px solid rgba(255,255,255,.48); border-radius: 22px; color: #202124; background: #f6f8fc; box-shadow: 0 38px 90px rgba(0,0,0,.44), 0 0 0 1px rgba(17,50,86,.12); text-align: left; }
-  .mail-tabbar { height: 42px; display: flex; align-items: flex-end; gap: 8px; padding: 8px 12px 0; background: #dfe3e8; }
-  .mail-lights { display: flex; gap: 7px; padding: 0 8px 13px 1px; }
-  .mail-lights span { width: 9px; height: 9px; border-radius: 50%; background: #a5adb8; }
-  .mail-lights span:first-child { background: #ff605c; }
-  .mail-lights span:nth-child(2) { background: #ffbd44; }
-  .mail-lights span:last-child { background: #00ca4e; }
-  .mail-tab { width: min(330px, 44vw); height: 34px; display: flex; align-items: center; gap: 10px; padding: 0 13px; border-radius: 9px 9px 0 0; color: #3c4043; background: #f8fafd; font-size: 11px; }
-  .gmail-m { width: 21px; height: 15px; flex: 0 0 auto; }
-  .mail-tab-close { margin-left: auto; color: #87909b; }
-  .mail-new-tab { padding: 0 7px 10px; color: #69727e; font-size: 18px; }
-  .mail-toolbar { height: 49px; display: flex; align-items: center; gap: 12px; padding: 7px 13px; border-bottom: 1px solid #dfe3e8; background: #f7f9fc; }
-  .mail-nav { color: #7b8491; font-size: 14px; letter-spacing: .32em; }
-  .mail-address { flex: 1; min-width: 0; height: 34px; display: flex; align-items: center; gap: 9px; padding: 0 13px; overflow: hidden; border-radius: 999px; color: #4e5967; background: #e7ebf0; font-size: 10.5px; white-space: nowrap; text-overflow: ellipsis; }
-  .mail-address::before { content: "●"; color: #5f6368; font-size: 7px; }
-  .mail-profile { width: 27px; height: 27px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: #7e57c2; font-size: 9px; font-weight: 700; }
+  .contact-ai-browser {
+    position: relative;
+    width: 100%;
+    height: min(69svh, 650px);
+    min-height: 570px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.56);
+    border-radius: 22px;
+    color: #202123;
+    background: #fff;
+    box-shadow: 0 38px 100px rgba(0,0,0,.48), 0 0 0 1px rgba(17,50,86,.13);
+    text-align: left;
+  }
+  .contact-ai-browser .ai-browserbar { position: relative; z-index: 4; }
+  .contact-ai-browser .ai-browser-tab { min-width: 255px; }
+  .contact-ai-browser .ai-browser-address::before { content: "◉"; margin-right: 8px; color: #777c85; font-size: 8px; }
 
-  .gmail-app { background: #f6f8fc; }
-  .gmail-topbar { height: 65px; display: flex; align-items: center; gap: 15px; padding: 10px 18px; border-bottom: 1px solid #e2e5e9; }
-  .gmail-menu { color: #5f6368; font-size: 20px; }
-  .gmail-brand { display: flex; align-items: center; gap: 9px; color: #5f6368; font-size: 18px; }
-  .gmail-search { flex: 1; max-width: 510px; height: 42px; display: flex; align-items: center; margin-left: 24px; padding: 0 16px; border-radius: 999px; color: #68717d; background: #eaf1fb; font-size: 11px; }
-  .gmail-tools { margin-left: auto; color: #7b838d; font-size: 16px; letter-spacing: .45em; }
+  .contact-ai-app { height: calc(100% - 51px); display: grid; grid-template-columns: 220px 1fr; background: #fff; }
+  .contact-ai-main { position: relative; min-width: 0; overflow: hidden; background: #fff; }
+  .contact-ai-main::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 78% 16%, rgba(16,163,127,.055), transparent 25%); }
+  .contact-ai-thread { position: relative; z-index: 1; width: min(790px, calc(100% - 54px)); margin: 0 auto; padding: 28px 0 190px; }
+  .contact-memory { margin-bottom: 25px; opacity: .52; }
+  .contact-memory-user { width: fit-content; margin-left: auto; padding: 9px 13px; border-radius: 17px 17px 5px 17px; color: #45464b; background: #f0f0f0; font-size: 11px; }
+  .contact-memory-answer { display: flex; align-items: center; gap: 9px; margin-top: 12px; color: #777a82; font-size: 10px; }
+  .contact-memory-answer .ai-assistant-logo { width: 23px; height: 23px; border-radius: 7px; font-size: 11px; }
 
-  .gmail-workspace { position: relative; min-height: 480px; display: grid; grid-template-columns: 185px 1fr; }
-  .gmail-sidebar { padding: 15px 12px; color: #5f6368; font-size: 11px; }
-  .gmail-compose-button { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; padding: 13px 17px; border-radius: 15px; color: #1f1f1f; background: #c2e7ff; box-shadow: 0 2px 7px rgba(43,70,90,.13); font-weight: 500; }
-  .gmail-nav-item { display: flex; justify-content: space-between; padding: 8px 14px; border-radius: 999px; }
-  .gmail-nav-item.active { color: #001d35; background: #d3e3fd; font-weight: 600; }
+  .contact-assistant-message { display: grid; grid-template-columns: 34px 1fr; gap: 14px; color: #292a2e; font: 16px/1.6 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  .contact-assistant-message strong { display: block; margin: 3px 0 7px; font-size: 12px; }
+  .contact-stream { max-width: 660px; margin: 0; }
+  .contact-stream-line { display: block; }
+  .contact-stream-line:last-child { margin-top: 5px; color: #4c5058; }
+  .contact-stream-caret { display: inline-block; width: 2px; height: 1.05em; margin-left: 3px; vertical-align: -.14em; background: #202123; animation: blink 1s steps(1) infinite; }
 
-  .gmail-inbox { position: relative; padding: 20px 20px 30px; overflow: hidden; background: #fff; border-radius: 18px 0 0 0; }
-  .gmail-inbox-head { display: flex; justify-content: space-between; margin-bottom: 17px; color: #3c4043; font-size: 13px; font-weight: 600; }
-  .gmail-row { height: 41px; display: grid; grid-template-columns: 18px 120px 1fr 55px; align-items: center; gap: 10px; border-top: 1px solid #edf0f3; color: #6b7280; font-size: 9px; }
-  .gmail-row span:first-child { color: #b6bdc6; }
-
-  .gmail-compose { position: absolute; right: 22px; bottom: 17px; z-index: 3; width: min(620px, calc(100% - 34px)); overflow: hidden; border: 1px solid #dadce0; border-radius: 10px 10px 4px 4px; background: #fff; box-shadow: 0 12px 36px rgba(32,33,36,.28); }
-  .gmail-compose-head { display: flex; align-items: center; justify-content: space-between; height: 40px; padding: 0 14px; color: #fff; background: #40464f; }
-  .gmail-compose-head h4 { font-size: 11px; font-weight: 500; }
-  .gmail-compose-head span { color: #cbd0d7; letter-spacing: .4em; font-size: 10px; }
-  .gmail-field { min-height: 41px; display: grid; grid-template-columns: 58px 1fr; align-items: center; padding: 0 15px; border-bottom: 1px solid #e6e8eb; color: #6b7280; font-size: 10px; }
-  .gmail-field input { width: 100%; min-width: 0; border: 0; outline: 0; color: #202124; background: transparent; font: inherit; font-size: 11px; }
-  .gmail-message { display: block; padding: 12px 15px 6px; }
-  .gmail-message textarea { width: 100%; min-height: 145px; resize: vertical; border: 0; outline: 0; color: #202124; background: transparent; font: 12px/1.55 'Space Grotesk', sans-serif; }
-  .gmail-actions { display: flex; align-items: center; gap: 13px; padding: 7px 15px 10px; }
-  .gmail-send { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; color: #fff; background: #0b57d0; text-decoration: none; font-size: 11px; font-weight: 600; transition: transform .25s ease, box-shadow .25s ease; }
-  .gmail-send:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(11,87,208,.24); }
-  .email-fallback { color: #0b57d0; font-size: 10px; text-decoration: none; }
-  .gmail-send-note { padding: 0 15px 12px; color: #7a828c; font-size: 8.5px; line-height: 1.45; }
-  .gmail-field:focus-within { box-shadow: 0 -2px 0 #0b57d0 inset; }
-  .gmail-message:focus-within { box-shadow: 0 0 0 2px rgba(11,87,208,.16) inset; }
+  .contact-composer {
+    position: absolute;
+    left: 50%;
+    bottom: 18px;
+    z-index: 3;
+    width: min(790px, calc(100% - 54px));
+    transform: translateX(-50%);
+    padding: 13px 14px 11px;
+    border: 1px solid #d9dade;
+    border-radius: 21px;
+    background: #fff;
+    box-shadow: 0 12px 38px rgba(20,22,30,.12), 0 1px 0 rgba(255,255,255,.8) inset;
+  }
+  .contact-route { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 4px 9px; color: #70737b; font-size: 9px; letter-spacing: .07em; text-transform: uppercase; }
+  .contact-route strong { display: inline-flex; align-items: center; gap: 8px; color: #212328; font-weight: 650; }
+  .contact-route strong::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #10a37f; box-shadow: 0 0 0 5px rgba(16,163,127,.1); }
+  .contact-route span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-transform: none; letter-spacing: 0; }
+  .contact-input-row { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 12px; }
+  .contact-input-row textarea { width: 100%; min-height: 58px; max-height: 120px; padding: 12px 10px 4px; resize: vertical; border: 0; outline: 0; color: #202123; background: transparent; font: 14px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  .contact-input-row textarea::placeholder { color: #94979e; }
+  .contact-send { min-width: 132px; height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 0 13px 0 16px; border-radius: 13px; color: #fff; background: #202123; text-decoration: none; font-size: 10px; font-weight: 650; transition: transform .24s ease, background .24s ease, box-shadow .24s ease; }
+  .contact-send b { width: 23px; height: 23px; display: grid; place-items: center; border-radius: 8px; color: #202123; background: #fff; font-size: 14px; }
+  .contact-send:hover { transform: translateY(-2px); background: #10a37f; box-shadow: 0 9px 20px rgba(16,163,127,.22); }
+  .contact-meta { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 8px 5px 0; color: #92959c; font-size: 8px; line-height: 1.4; }
+  .email-fallback { flex: 0 0 auto; color: #555961; text-decoration: underline; text-underline-offset: 2px; }
+  .contact-composer:focus-within { border-color: rgba(16,163,127,.55); box-shadow: 0 12px 38px rgba(20,22,30,.12), 0 0 0 3px rgba(16,163,127,.10); }
   .visually-hidden { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0,0,0,0) !important; white-space: nowrap !important; border: 0 !important; }
 
   #foot .tiny {
@@ -1703,6 +1855,34 @@
   }
   .earth-return::before { content: ""; position: absolute; inset: 0; opacity: .34; background: repeating-radial-gradient(ellipse at 50% 100%, transparent 0 7%, rgba(255,255,255,.3) 7.2% 7.5%, transparent 7.7% 14%); }
 
+  .landing-rocket {
+    position: absolute;
+    left: 14%;
+    bottom: clamp(150px, 17vh, 205px);
+    z-index: 6;
+    width: clamp(88px, 9vw, 130px);
+    opacity: 0;
+    filter: none;
+    transform-origin: 50% 88%;
+    will-change: transform, opacity;
+  }
+  .landing-rocket svg { position: relative; z-index: 2; display: block; width: 100%; height: auto; overflow: visible; }
+  .rocket-window-glow { animation: rocket-window-pulse 1.25s ease-in-out infinite; }
+  @keyframes rocket-window-pulse { 50% { opacity: .72; } }
+  .rocket-flame { position: absolute; left: 50%; top: 88%; width: 28%; height: 70%; transform: translateX(-50%); transform-origin: 50% 0; border-radius: 40% 40% 70% 70%; background: linear-gradient(#fff7b1 0 9%, #ffb139 30%, #ff4d37 58%, rgba(255,77,55,0) 100%); filter: blur(1px) drop-shadow(0 0 15px #ff8b39); animation: rocket-flame 0.16s ease-in-out infinite alternate; }
+  @keyframes rocket-flame { to { height: 82%; transform: translateX(-50%) scaleX(.77); } }
+  #foot.is-landed .rocket-flame { height: 13%; opacity: .28; animation: none; transition: height .35s ease, opacity .35s ease; }
+  .landing-shadow { position: absolute; left: 14%; bottom: clamp(141px, 16vh, 194px); z-index: 3; width: clamp(90px, 11vw, 155px); height: 18px; transform: translateX(-50%) scale(.2); border-radius: 50%; background: rgba(1,13,29,.58); filter: blur(9px); opacity: 0; will-change: transform, opacity; }
+  .landing-dust { position: absolute; left: 14%; bottom: clamp(140px, 16vh, 193px); z-index: 7; width: 260px; height: 95px; transform: translateX(-50%); pointer-events: none; }
+  .landing-dust i { position: absolute; left: 50%; bottom: 0; width: 45px; height: 24px; border-radius: 50%; background: rgba(214,236,255,.68); filter: blur(6px); opacity: 0; }
+  #foot.is-landed .landing-dust i { animation: landing-dust .95s cubic-bezier(.18,.72,.28,1) both; }
+  #foot.is-landed .landing-dust i:nth-child(2) { animation-delay: .08s; --dust-x: -92px; }
+  #foot.is-landed .landing-dust i:nth-child(3) { animation-delay: .13s; --dust-x: 86px; }
+  @keyframes landing-dust { 0% { opacity: 0; transform: translate(-50%,0) scale(.3); } 28% { opacity: .8; } 100% { opacity: 0; transform: translate(calc(-50% + var(--dust-x, 0px)),-36px) scale(2.1); } }
+  .landing-status { position: absolute; right: clamp(16px, 4vw, 64px); bottom: clamp(58px, 7vh, 80px); z-index: 4; display: inline-flex; align-items: center; gap: 9px; padding: 8px 12px; border: 1px solid rgba(155,220,255,.28); border-radius: 999px; color: #bde8ff; background: rgba(3,22,43,.48); backdrop-filter: blur(12px); font-size: 9px; letter-spacing: .13em; text-transform: uppercase; opacity: 0; transform: translateY(12px); }
+  .landing-status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #58d487; box-shadow: 0 0 12px #58d487; }
+  #foot.is-landed .landing-status { opacity: 1; transform: translateY(0); transition: opacity .45s ease .18s, transform .55s cubic-bezier(.2,1.4,.35,1) .18s; }
+
   /* Transforming chapter cursor: only enabled by JS on precise pointers. */
   #experience-cursor { position: fixed; left: 0; top: 0; z-index: 110; width: 42px; height: 42px; pointer-events: none; opacity: 0; transform: translate3d(-80px,-80px,0); will-change: transform; transition: opacity .2s ease; }
   #experience-cursor.is-visible { opacity: 1; }
@@ -1735,8 +1915,11 @@
     .about-page { gap: 28px; }
     .answer-flow { grid-template-columns: 1fr; }
     .answer-step { min-height: 0; }
-    .casino-floor { grid-template-columns: 1fr; }
+    .slot-layout { grid-template-columns: 1fr; min-height: 0; }
     .fox-private-label { display: none; }
+    .fox-tab { min-width: 138px; max-width: 225px; flex-basis: 205px; }
+    .fox-tab[data-game="nsfw"] { flex-basis: 142px; }
+    .casino-intro h2 span { display: block; }
   }
 
   @media (max-width: 799px) {
@@ -1746,7 +1929,14 @@
     body.has-experience-cursor button { cursor: auto !important; }
 
     #intro-track { height: 240vh; }
-    #sky-zone { height: 270vh; }
+    #sky-zone { height: 460vh; }
+
+    #ai-window { width: 94%; height: 81svh; }
+    .ai-app { grid-template-columns: 1fr; }
+    .ai-sidebar { display: none; }
+    .ai-browser-address { max-width: none; }
+    .ai-thread { width: min(680px, calc(100% - 34px)); }
+    .ai-composer { width: min(680px, calc(100% - 34px)); }
 
     #window-hero { padding: 40px 25px 64px; }
     #window-hero h2 { font-size: clamp(44px, 11vw, 72px); max-width: 9ch; }
@@ -1783,8 +1973,10 @@
     .project-preview { min-height: 430px; }
     .casino-intro { grid-template-columns: 1fr; }
     .private-card { max-width: 560px; }
-    .gmail-workspace { grid-template-columns: 150px 1fr; }
-    .gmail-compose { right: 14px; width: calc(100% - 24px); }
+    .contact-ai-app { grid-template-columns: 1fr; }
+    .contact-ai-browser .ai-sidebar { display: none; }
+    .contact-ai-thread,
+    .contact-composer { width: min(790px, calc(100% - 34px)); }
   }
 
   @media (max-width: 560px) {
@@ -1822,22 +2014,25 @@
     #stack { --reel-h: 64px; padding: 9vh 10px; }
     .fox-browser { border-radius: 16px; }
     .fox-controls, .fox-nav, .fox-menu, .fox-private-label { display: none; }
-    .fox-tabbar { padding-inline: 8px; }
-    .fox-tab { width: 82%; min-width: 0; }
+    .fox-tabbar { padding-inline: 8px; overflow-x: auto; scrollbar-width: none; }
+    .fox-tabbar::-webkit-scrollbar { display: none; }
+    .fox-tab { width: auto; min-width: 146px; flex: 0 0 58%; }
+    .fox-tab[data-game="nsfw"] { flex-basis: 48%; }
+    .fox-new-tab { display: none; }
     .fox-toolbar { gap: 7px; padding-inline: 9px; }
     .fox-address { padding-inline: 10px; font-size: 9px; }
     .casino-page { padding: 20px 11px 13px; }
     .casino-intro { display: block; margin-bottom: 22px; }
     .casino-intro h2 { font-size: clamp(37px, 11vw, 54px); }
     .private-card { margin-top: 18px; }
-    .casino-floor { gap: 14px; }
+    .casino-floor { min-height: 0; }
     .casino-game { border-radius: 17px; }
-    .slot-layout { min-width: 0; gap: 24px; }
+    .slot-layout { min-width: 0; min-height: 0; grid-template-columns: 1fr; gap: 24px; }
     .slot-machine { padding: 13px; border-radius: 22px; }
     .slot-window { gap: 5px; padding: 8px; }
     .slot-controls { align-items: flex-start; flex-direction: column; }
     #spin-stack { width: 100%; }
-    .blackjack-booth { padding: 17px 12px 13px; }
+    .blackjack-booth { padding: 0; }
     .blackjack-head { display: block; }
     .blackjack-head h3 { font-size: 30px; }
     .blackjack-rules { margin-top: 12px; text-align: left; }
@@ -1854,29 +2049,34 @@
     .blackjack-controls > button { padding-inline: 11px; }
     .bet-control { margin-right: 0; }
 
-    #foot { min-height: 118svh; padding: 68px 10px 285px; }
+    #foot { min-height: 165svh; }
+    .foot-stage { position: relative; height: auto; min-height: 118svh; padding: 64px 10px 250px; }
     #foot h3 { margin-bottom: 22px; font-size: clamp(34px, 10vw, 47px); }
-    .gmail-browser { border-radius: 15px; }
-    .mail-tabbar { padding-left: 8px; }
-    .mail-lights, .mail-nav, .mail-profile { display: none; }
-    .mail-tab { width: 82%; }
-    .mail-toolbar { padding-inline: 9px; }
-    .mail-address { font-size: 9px; }
-    .gmail-topbar { height: 55px; padding-inline: 13px; }
-    .gmail-menu, .gmail-search, .gmail-tools { display: none; }
-    .gmail-workspace { display: block; min-height: 520px; }
-    .gmail-sidebar, .gmail-inbox-head, .gmail-row { display: none; }
-    .gmail-inbox { min-height: 520px; padding: 0; border-radius: 0; background: #eef2f7; }
-    .gmail-compose { inset: 0; width: 100%; height: 100%; border: 0; border-radius: 0; box-shadow: none; }
-    .gmail-message textarea { min-height: 235px; }
-    .gmail-actions { flex-wrap: wrap; }
+    .contact-ai-browser { height: 660px; min-height: 0; border-radius: 15px; }
+    .contact-ai-browser .ai-browserbar { padding-inline: 9px; }
+    .contact-ai-browser .ai-lights,
+    .contact-ai-browser .ai-browser-address { display: none; }
+    .contact-ai-browser .ai-browser-tab { min-width: 0; width: 100%; }
+    .contact-ai-thread { width: calc(100% - 28px); padding: 22px 0 215px; }
+    .contact-memory { margin-bottom: 20px; }
+    .contact-assistant-message { grid-template-columns: 30px 1fr; gap: 10px; font-size: 14px; }
+    .contact-composer { bottom: 12px; width: calc(100% - 20px); padding: 10px; border-radius: 17px; }
+    .contact-route { align-items: flex-start; flex-direction: column; gap: 5px; }
+    .contact-input-row { grid-template-columns: 1fr; gap: 7px; }
+    .contact-input-row textarea { min-height: 74px; }
+    .contact-send { width: 100%; }
+    .contact-meta { align-items: flex-start; flex-direction: column; gap: 5px; }
     #foot .tiny { font-size: 9px; letter-spacing: .14em; }
     .earth-return { bottom: -190px; width: 930px; }
+    .landing-rocket { left: 82%; bottom: 225px; width: 72px; }
+    .landing-shadow, .landing-dust { left: 82%; bottom: 215px; }
+    .landing-status { right: 12px; bottom: 45px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     #intro-track { height: 110vh; }
     #sky-zone { height: 100vh; height: 100svh; }
+    #ai-window { display: none; }
     #scroll-hint .line { animation: none; height: 24px; }
     .cloud { animation: none; }
     .apple-glow, .apple-product, .map-node.mid, .slot-light, .jackpot-rays, .jackpot-message, .confetti i, .slot-machine.is-winning, .tech-card { animation: none; }
@@ -1884,6 +2084,10 @@
     .reveal, .section-head .tail, #totop, .station-marker::after, .cursor-icon, .cursor-face { transition: none; }
     #url-caret, .about-caret { animation: none; }
     #experience-cursor { display: none; }
+    #foot { min-height: 118vh; min-height: 118svh; }
+    .foot-stage { position: relative; height: auto; min-height: 118vh; min-height: 118svh; }
+    .landing-rocket { opacity: 1; transform: translateX(-50%); }
+    .landing-shadow { opacity: .55; transform: translateX(-50%) scale(1); }
   }
 </style>
 </head>
@@ -1945,7 +2149,45 @@
       <div class="cloud" style="width:52vmax;height:24vmax;top:8%;right:-10%;opacity:.95;animation-duration:12s;animation-delay:-7s;"></div>
     </div>
 
-    <!-- the browser rises through the parting clouds -->
+    <!-- the prompt appears after the clouds part -->
+    <div id="ai-window" role="region" aria-label="A ChatGPT-style conversation that generates George's portfolio">
+      <div class="ai-browserbar" aria-hidden="true">
+        <div class="ai-lights"><span></span><span></span><span></span></div>
+        <div class="ai-browser-tab"><span class="ai-knot">✦</span><span>ChatGPT</span><small>×</small></div>
+        <div class="ai-browser-address">chatgpt.com</div>
+      </div>
+      <div class="ai-app">
+        <aside class="ai-sidebar" aria-hidden="true">
+          <div class="ai-new-chat"><span>＋</span><span>New chat</span></div>
+          <div class="ai-history-label">Today</div>
+          <div class="ai-history-item active">Make me a cool website</div>
+          <div class="ai-history-item">Explain Laravel queues</div>
+          <div class="ai-history-item">Name a production bug</div>
+          <div class="ai-sidebar-profile"><span class="ai-avatar">GF</span><strong>George</strong></div>
+        </aside>
+        <div class="ai-conversation">
+          <div class="ai-modelbar" aria-hidden="true"><span>ChatGPT <small>⌄</small></span><span>GF</span></div>
+          <div class="ai-thread" role="status" aria-live="polite" aria-atomic="false">
+            <div class="ai-empty-state">What can I help with?</div>
+            <div class="ai-user-message"><span id="ai-prompt-text"></span></div>
+            <div class="ai-assistant-message">
+              <span class="ai-assistant-logo" aria-hidden="true">✦</span>
+              <div><strong>ChatGPT</strong><p><span id="ai-response-text"></span><span class="ai-typing-caret ai-response-caret"></span></p></div>
+            </div>
+            <div class="ai-handoff"><i></i><span>Generating georgeflood.co.uk…</span></div>
+          </div>
+          <div class="ai-composer" aria-hidden="true">
+            <span>＋</span>
+            <span class="ai-composer-copy" id="ai-composer-text"></span>
+            <span class="ai-typing-caret ai-composer-caret"></span>
+            <span class="ai-send">↑</span>
+          </div>
+          <div class="ai-disclaimer">ChatGPT can make mistakes. This portfolio is suspiciously real.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- the generated Safari portfolio rises over the conversation -->
     <div id="window">
       <div id="safari-bar" aria-hidden="true">
         <div class="lights"><span class="r"></span><span class="y"></span><span class="g"></span></div>
@@ -2004,7 +2246,8 @@
         <div class="aside-note">Safari → Chrome</div>
       </header>
 
-      <div class="about-browser" id="about-browser" role="group" aria-label="About George in a Chrome-inspired browser window">
+      <div class="browser-launch-anchor about-launch-anchor" data-browser-launch>
+      <div class="about-browser chapter-window" id="about-browser" role="group" aria-label="About George in a Chrome-inspired browser window">
         <div class="chrome-tabstrip" aria-hidden="true">
           <div class="chrome-window-lights"><span></span><span></span><span></span></div>
           <div class="chrome-tab"><span class="favicon">G</span><span>About George</span><span style="margin-left:auto">×</span></div>
@@ -2036,12 +2279,14 @@
           </div>
         </div>
       </div>
+      </div>
     </div>
   </section>
 
   <section id="work" aria-labelledby="journey-title">
     <div class="journey-stage">
-      <div class="journey-browser" role="group" aria-label="George's career journey in a Chrome-inspired browser window">
+      <div class="browser-launch-anchor" data-browser-launch>
+      <div class="journey-browser chapter-window" role="group" aria-label="George's career journey in a Chrome-inspired browser window">
         <div class="chrome-tabstrip" aria-hidden="true">
           <div class="chrome-window-lights"><span></span><span></span><span></span></div>
           <div class="chrome-tab inactive"><span class="favicon">G</span><span>About George</span><span style="margin-left:auto">×</span></div>
@@ -2101,15 +2346,16 @@
             <article class="journey-station hydro" data-stop="2">
               <div class="station-marker" aria-hidden="true">03</div>
               <div class="story-card">
-                <div class="when"><span>Owning the stack</span><span>1.5 years</span></div>
+                <div class="when"><span>Shipping with a senior</span><span>1.5 years</span></div>
                 <h3>Then it got properly real.</h3>
                 <div class="org">Web Developer · Hydro Cleansing Ltd</div>
-                <p>Sole developer for a custom Laravel CMS on AWS: architecture, deployment, monitoring and the 2am moments. <strong>There was nowhere to escalate — so I learned to own it.</strong></p>
+                <p>I build and support a custom Laravel CMS on AWS alongside a senior developer, sharing responsibility for features, deployments, monitoring and the occasional 2am moment. <strong>It taught me when to own a problem — and when another pair of eyes makes the work better.</strong></p>
                 <div class="sites-visual"><div class="site-stack" aria-hidden="true"><span></span><span></span><span></span><span></span></div><strong><span class="count" data-target="200">0</span>+ live sites</strong></div>
               </div>
             </article>
           </div>
         </div>
+      </div>
       </div>
     </div>
   </section>
@@ -2123,7 +2369,8 @@
         <div class="tail"></div>
       </div>
 
-      <div class="project-browser reveal" style="--d:.08s">
+      <div class="browser-launch-anchor" data-browser-launch>
+      <div class="project-browser chapter-window" style="--d:.08s">
         <div class="project-tabstrip" role="tablist" aria-label="Project browser tabs">
           <div class="web-lights" aria-hidden="true"><span></span><span></span><span></span></div>
           <button class="project-tab" id="project-tab-meethere" type="button" role="tab" aria-selected="true" aria-controls="project-meethere" data-project="meethere" data-url="https://meethere.live" style="--tab-colour:#4285f4">
@@ -2200,20 +2447,24 @@
           </article>
         </div>
       </div>
+      </div>
     </section>
   </div>
 
   <section id="stack" aria-labelledby="stack-title">
-    <div class="fox-browser reveal" role="region" aria-label="Tech Stack Gambling in a Firefox-inspired private browser window">
-      <div class="fox-tabbar" aria-hidden="true">
-        <div class="fox-controls"><span></span><span></span><span></span></div>
-        <div class="fox-tab"><span class="fox-mark"></span><span>Tech Stack Gambling — Private Browsing</span><span class="fox-tab-close">×</span></div>
-        <div class="fox-new-tab">+</div>
-        <div class="fox-private-label">⌁ Mozzarella Firefox</div>
+    <div class="browser-launch-anchor stack-launch-anchor" data-browser-launch>
+    <div class="fox-browser chapter-window" role="region" aria-label="Tech Stack Gambling in a Firefox-inspired private browser window">
+      <div class="fox-tabbar" role="tablist" aria-label="Private casino games">
+        <div class="fox-controls" aria-hidden="true"><span></span><span></span><span></span></div>
+        <button class="fox-tab is-active" id="game-tab-slots" type="button" role="tab" aria-selected="true" aria-controls="game-panel-slots" data-game="slots"><span class="fox-mark"></span><span>Stack Slots</span><span class="fox-tab-close" aria-hidden="true">×</span></button>
+        <button class="fox-tab" id="game-tab-blackjack" type="button" role="tab" aria-selected="false" aria-controls="game-panel-blackjack" data-game="blackjack"><span class="fox-mark"></span><span>Stackjack — Private Table</span><span class="fox-tab-close" aria-hidden="true">×</span></button>
+        <button class="fox-tab" id="game-tab-nsfw" type="button" role="tab" aria-selected="false" data-game="nsfw"><span class="fox-mark">18</span><span>Pornhub</span><span class="fox-tab-close" aria-hidden="true">×</span></button>
+        <div class="fox-new-tab" aria-hidden="true">+</div>
+        <div class="fox-private-label" aria-hidden="true">⌁ Mozzarella Firefox</div>
       </div>
       <div class="fox-toolbar" aria-hidden="true">
         <div class="fox-nav">← → ↻</div>
-        <div class="fox-address"><span class="fox-shield">◈</span><span>techstackgambling.com/private-table</span></div>
+        <div class="fox-address"><span class="fox-shield">◈</span><span id="fox-address-text">techstackgambling.com/stack-slots</span></div>
         <div class="fox-menu">≡</div>
       </div>
 
@@ -2228,7 +2479,7 @@
         </header>
 
         <div class="casino-floor">
-          <section class="casino-game slots-booth" aria-labelledby="slots-title">
+          <section class="casino-game slots-booth" id="game-panel-slots" role="tabpanel" aria-labelledby="game-tab-slots slots-title">
             <div class="slot-layout">
               <div class="slot-copy">
                 <div class="chapter-kicker">Game 01 — Stack Slots</div>
@@ -2254,7 +2505,7 @@
             </div>
           </section>
 
-          <section class="casino-game blackjack-booth" aria-labelledby="blackjack-title">
+          <section class="casino-game blackjack-booth" id="game-panel-blackjack" role="tabpanel" aria-labelledby="game-tab-blackjack blackjack-title" hidden>
             <header class="blackjack-head">
               <div>
                 <div class="chapter-kicker">Game 02 — Stackjack</div>
@@ -2299,80 +2550,112 @@
         </div>
       </div>
     </div>
+    </div>
 
     <div class="jackpot-overlay" id="jackpot-overlay" aria-hidden="true">
       <div class="jackpot-rays"></div>
       <div class="confetti" id="confetti"></div>
       <div class="jackpot-message"><strong>JACKPOT!</strong><span>Full stack aligned · production deployed</span></div>
     </div>
+
+    <div class="nsfw-alert" id="nsfw-alert" role="dialog" aria-modal="true" aria-labelledby="nsfw-title" aria-hidden="true">
+      <div class="nsfw-siren" aria-hidden="true"></div>
+      <div class="nsfw-card">
+        <span class="nsfw-warning">⚠ Incognito tab intercepted</span>
+        <strong>NSFW!</strong>
+        <h3 id="nsfw-title">Bold click during a portfolio review.</h3>
+        <p>The tab has been quarantined. HR is still in the room, your browsing history has developed a conscience, and Stackjack would like you back at the table.</p>
+        <button class="nsfw-dismiss" id="nsfw-dismiss" type="button">Close tab. Say nothing.</button>
+      </div>
+    </div>
   </section>
 
   <section id="foot" aria-labelledby="foot-title">
+    <div class="foot-stage">
       <div class="foot-content">
-        <div class="return-kicker reveal">Touchdown · London, Earth</div>
-        <h3 class="reveal" id="foot-title">One last tab before you go.</h3>
+        <div class="return-kicker reveal">Original prompt · resumed</div>
+        <h3 class="reveal" id="foot-title">ChatGPT has one more thought.</h3>
 
-        <div class="gmail-browser reveal" style="--d:0.1s">
-          <div class="mail-tabbar" aria-hidden="true">
-            <div class="mail-lights"><span></span><span></span><span></span></div>
-            <div class="mail-tab">
-              <svg class="gmail-m" viewBox="0 0 32 24" aria-hidden="true"><path fill="#4285f4" d="M2 5.1V21h5V9.1L16 16l9-6.9V21h5V5.1L16 15.3z"/><path fill="#34a853" d="M25 9.1 30 5v16h-5z"/><path fill="#fbbc04" d="M2 5l5 4.1V21H2z"/><path fill="#ea4335" d="M2.9 2.4A3 3 0 0 1 6.5 2L16 9.3 25.5 2a3 3 0 0 1 3.6.4L30 3.1V5l-5 4.1-9 6.9-9-6.9L2 5V3.1z"/></svg>
-              <span>Gmail — Compose</span><span class="mail-tab-close">×</span>
-            </div>
-            <div class="mail-new-tab">+</div>
-          </div>
-          <div class="mail-toolbar" aria-hidden="true">
-            <div class="mail-nav">‹ › ↻</div>
-            <div class="mail-address">mail.google.com/mail/u/0/#inbox?compose=new</div>
-            <div class="mail-profile">GF</div>
-          </div>
-
-          <div class="gmail-app">
-            <div class="gmail-topbar" aria-hidden="true">
-              <span class="gmail-menu">☰</span>
-              <div class="gmail-brand">
-                <svg class="gmail-m" viewBox="0 0 32 24"><path fill="#4285f4" d="M2 5.1V21h5V9.1L16 16l9-6.9V21h5V5.1L16 15.3z"/><path fill="#34a853" d="M25 9.1 30 5v16h-5z"/><path fill="#fbbc04" d="M2 5l5 4.1V21H2z"/><path fill="#ea4335" d="M2.9 2.4A3 3 0 0 1 6.5 2L16 9.3 25.5 2a3 3 0 0 1 3.6.4L30 3.1V5l-5 4.1-9 6.9-9-6.9L2 5V3.1z"/></svg>
-                <span>Gmail</span>
-              </div>
-              <div class="gmail-search">⌕&nbsp;&nbsp; Search mail</div>
-              <div class="gmail-tools">? ⚙ ⋮</div>
+        <div class="browser-launch-anchor contact-launch-anchor" data-browser-launch>
+          <div class="contact-ai-browser chapter-window" id="contact-ai-browser" role="region" aria-label="Continue the ChatGPT conversation and message George">
+            <div class="ai-browserbar" aria-hidden="true">
+              <div class="ai-lights"><span></span><span></span><span></span></div>
+              <div class="ai-browser-tab"><span class="ai-knot">✦</span><span>ChatGPT — Make me a cool website</span><small>×</small></div>
+              <div class="ai-browser-address">chatgpt.com/c/george-flood</div>
             </div>
 
-            <div class="gmail-workspace">
-              <aside class="gmail-sidebar" aria-hidden="true">
-                <div class="gmail-compose-button"><span>＋</span> Compose</div>
-                <div class="gmail-nav-item active"><span>Inbox</span><b>3</b></div>
-                <div class="gmail-nav-item"><span>Starred</span></div>
-                <div class="gmail-nav-item"><span>Sent</span></div>
-                <div class="gmail-nav-item"><span>Drafts</span><b>1</b></div>
+            <div class="contact-ai-app">
+              <aside class="ai-sidebar" aria-hidden="true">
+                <div class="ai-new-chat"><span>＋</span><span>New chat</span></div>
+                <div class="ai-history-label">Today</div>
+                <div class="ai-history-item active">Make me a cool website</div>
+                <div class="ai-history-item">Explain Laravel queues</div>
+                <div class="ai-history-item">Name a production bug</div>
+                <div class="ai-sidebar-profile"><span class="ai-avatar">GF</span><strong>George</strong></div>
               </aside>
-              <div class="gmail-inbox" aria-hidden="true">
-                <div class="gmail-inbox-head"><span>Primary</span><span>1–3 of 3</span></div>
-                <div class="gmail-row"><span>☆</span><b>Opportunity</b><span>Something interesting landed in your inbox…</span><time>09:41</time></div>
-                <div class="gmail-row"><span>☆</span><b>Portfolio</b><span>That journey from orbit was quite a ride.</span><time>Tue</time></div>
-                <div class="gmail-row"><span>☆</span><b>Stackjack</b><span>Your winnings: entirely fictional.</span><time>Mon</time></div>
-              </div>
 
-              <form class="gmail-compose" id="gmail-compose" onsubmit="return false">
-                <div class="gmail-compose-head"><h4>New Message</h4><span aria-hidden="true">— □ ×</span></div>
-                <label class="gmail-field"><span>To</span><input type="email" value="mrgeorgeflood@gmail.com" readonly aria-label="Recipient"></label>
-                <label class="gmail-field"><span>Subject</span><input type="text" value="awesome website. we want to interview you" readonly aria-label="Email subject"></label>
-                <label class="gmail-message">
-                  <span class="visually-hidden">Your message</span>
-                  <textarea id="contact-message" placeholder="Hi George,&#10;&#10;We just landed back on Earth and…"></textarea>
-                </label>
-                <div class="gmail-actions">
-                  <a class="gmail-send" id="gmail-send" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=mrgeorgeflood%40gmail.com&amp;su=awesome%20website.%20we%20want%20to%20interview%20you" target="_blank" rel="noopener">Open in Gmail <span aria-hidden="true">↗</span></a>
-                  <a class="email-fallback" id="email-fallback" href="mailto:mrgeorgeflood@gmail.com?subject=awesome%20website.%20we%20want%20to%20interview%20you">Use another mail app</a>
+              <div class="contact-ai-main">
+                <div class="ai-modelbar" aria-hidden="true"><span>ChatGPT <small>⌄</small></span><span>GF</span></div>
+                <div class="contact-ai-thread" role="status" aria-live="polite" aria-atomic="false">
+                  <div class="contact-memory" aria-hidden="true">
+                    <div class="contact-memory-user">make me a cool website</div>
+                    <div class="contact-memory-answer"><span class="ai-assistant-logo">✦</span><span>Good idea! how's this?</span></div>
+                  </div>
+
+                  <div class="contact-assistant-message" id="contact-assistant-message">
+                    <span class="ai-assistant-logo" aria-hidden="true">✦</span>
+                    <div>
+                      <strong>ChatGPT</strong>
+                      <p class="contact-stream">
+                        <span class="contact-stream-line">And if you want me for anything — say, a job interview — write your message below.</span>
+                        <span class="contact-stream-line">I'll pass it straight through to George.</span>
+                        <span class="contact-stream-line">Yes, this prompt box is secretly a contact form.<span class="contact-stream-caret" aria-hidden="true"></span></span>
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <p class="gmail-send-note">This opens a ready-to-review draft. Nothing is sent until you press Send in your email app.</p>
-              </form>
+
+                <form class="contact-composer" id="contact-form" onsubmit="return false">
+                  <div class="contact-route"><strong>Messaging George directly</strong><span>mrgeorgeflood@gmail.com</span></div>
+                  <div class="contact-input-row">
+                    <label class="visually-hidden" for="contact-message">Write your message to George</label>
+                    <textarea id="contact-message" rows="2" placeholder="Write a message to George…"></textarea>
+                    <a class="contact-send" id="gmail-send" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=mrgeorgeflood%40gmail.com&amp;su=awesome%20website.%20we%20want%20to%20interview%20you" target="_blank" rel="noopener"><span>Send to George</span><b aria-hidden="true">↑</b></a>
+                  </div>
+                  <div class="contact-meta">
+                    <span>Opens a ready-to-review email draft. Nothing sends until you press Send.</span>
+                    <a class="email-fallback" id="email-fallback" href="mailto:mrgeorgeflood@gmail.com?subject=awesome%20website.%20we%20want%20to%20interview%20you">Use another mail app</a>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="landing-rocket" id="landing-rocket" aria-hidden="true">
+        <div class="rocket-flame"></div>
+        <svg viewBox="0 0 120 220">
+          <defs>
+            <linearGradient id="rocketHull" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#dbe7f2"/><stop offset="1" stop-color="#8fa8bf"/></linearGradient>
+            <radialGradient id="rocketGlass" cx="35%" cy="28%"><stop offset="0" stop-color="#dff7ff"/><stop offset=".4" stop-color="#6dd0ff"/><stop offset="1" stop-color="#124a88"/></radialGradient>
+          </defs>
+          <path d="M60 6C36 29 27 67 30 128l30 30 30-30C93 67 84 29 60 6Z" fill="url(#rocketHull)" stroke="#eef7ff" stroke-width="3"/>
+          <path d="M30 112 11 149l27-8 7-18Z" fill="#ef4d58" stroke="#ffadb3" stroke-width="2"/>
+          <path d="m90 112 19 37-27-8-7-18Z" fill="#ef4d58" stroke="#ffadb3" stroke-width="2"/>
+          <path d="M46 147h28l-5 27H51Z" fill="#c8d8e6" stroke="#eef7ff" stroke-width="2"/>
+          <path d="M39 139h42" stroke="#ef4d58" stroke-width="10"/>
+          <circle class="rocket-window-glow" cx="60" cy="69" r="18" fill="url(#rocketGlass)" stroke="#ffffff" stroke-width="4"/>
+          <path d="M49 171 39 196M71 171l10 25M32 198h18M70 198h18" fill="none" stroke="#a9bdce" stroke-width="5" stroke-linecap="round"/>
+          <path d="M52 20c7-7 13-7 18 0" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="landing-shadow" id="landing-shadow" aria-hidden="true"></div>
+      <div class="landing-dust" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="landing-status" aria-hidden="true">Portfolio deployed · engines safe</div>
       <div class="earth-return" aria-hidden="true"></div>
       <div class="tiny">George Flood · London · Canvas &amp; caffeine</div>
+    </div>
   </section>
 </main>
 
@@ -2437,6 +2720,7 @@
   const introTrack = document.getElementById("intro-track");
   const skyZone = document.getElementById("sky-zone");
   const sceneEl = document.getElementById("scene");
+  const aiWindowEl = document.getElementById("ai-window");
   const windowEl = document.getElementById("window");
   const urlText = document.getElementById("url-text");
   const loadbar = document.getElementById("loadbar");
@@ -2932,13 +3216,10 @@
     // stage hangs around beneath until the scene has fully materialised
     stage.style.visibility = (p >= 0.995 && skyA >= 1) ? "hidden" : "visible";
 
-    // The Safari window waits until the clouds have fully arrived and begun
-    // opening, so the three beats read separately instead of all at once.
-    const bp = smooth(clamp((sp - 0.28) / 0.64, 0, 1));
-    windowEl.style.setProperty("--bp", bp.toFixed(4));
-
-    const part = smooth(clamp((sp - 0.30) / 0.36, 0, 1));
-    const upwardPass = smooth(clamp((sp - 0.18) / 0.14, 0, 1));
+    // The clouds complete their reveal early, leaving room for the prompt,
+    // the answer and finally the generated Safari portfolio.
+    const part = smooth(clamp((sp - 0.12) / 0.18, 0, 1));
+    const upwardPass = smooth(clamp((sp - 0.08) / 0.12, 0, 1));
 
     for (const g of cloudGroups) {
       const side = +g.dataset.side;
@@ -2959,15 +3240,18 @@
       g.style.opacity = (1 - part * (0.16 + depth * 0.62)).toFixed(3);
     }
 
-    // URL types itself in as the window rises
-    const chars = Math.round(clamp(bp * 1.45, 0, 1) * URL_STRING.length);
-    const shown = URL_STRING.slice(0, chars);
-    if (urlText.textContent !== shown) urlText.textContent = shown;
-
-    // "page load" bar
-    const load = clamp((bp - 0.52) / 0.38, 0, 1);
-    loadbar.style.width = (load * 100).toFixed(1) + "%";
-    loadbar.style.opacity = load >= 1 ? 0 : 1;
+    // Static/reduced-motion fallback. GSAP owns these values in the full
+    // scroll story so every beat reverses naturally when scrolling upward.
+    if (!canUseMotion) {
+      const bp = smooth(clamp((sp - 0.28) / 0.64, 0, 1));
+      windowEl.style.setProperty("--bp", bp.toFixed(4));
+      const chars = Math.round(clamp(bp * 1.45, 0, 1) * URL_STRING.length);
+      const shown = URL_STRING.slice(0, chars);
+      if (urlText.textContent !== shown) urlText.textContent = shown;
+      const load = clamp((bp - 0.52) / 0.38, 0, 1);
+      loadbar.style.width = (load * 100).toFixed(1) + "%";
+      loadbar.style.opacity = load >= 1 ? 0 : 1;
+    }
   }
 
   /* ================= Main loop ================= */
@@ -3040,7 +3324,7 @@
     });
   }
 
-  function setupGmailCompose() {
+  function setupContactDraft() {
     const message = document.getElementById("contact-message");
     const gmailLink = document.getElementById("gmail-send");
     const fallbackLink = document.getElementById("email-fallback");
@@ -3066,6 +3350,72 @@
 
     message.addEventListener("input", updateDraftLinks);
     updateDraftLinks();
+  }
+
+  function setupCasinoTabs() {
+    const tabs = Array.from(document.querySelectorAll(".fox-tab[data-game]"));
+    const panels = Array.from(document.querySelectorAll(".casino-game[role='tabpanel']"));
+    const address = document.getElementById("fox-address-text");
+    const alert = document.getElementById("nsfw-alert");
+    const dismiss = document.getElementById("nsfw-dismiss");
+    if (!tabs.length || !panels.length || !address || !alert || !dismiss) return;
+
+    const addresses = {
+      slots: "techstackgambling.com/stack-slots",
+      blackjack: "techstackgambling.com/private-table/stackjack"
+    };
+    let activeGame = "slots";
+    let alertTrigger = null;
+
+    const closeAlert = () => {
+      alert.classList.remove("show");
+      alert.setAttribute("aria-hidden", "true");
+      if (alertTrigger) alertTrigger.focus();
+    };
+
+    const openAlert = button => {
+      alertTrigger = button;
+      alert.classList.add("show");
+      alert.setAttribute("aria-hidden", "false");
+      window.setTimeout(() => dismiss.focus(), reduceMotion ? 0 : 180);
+    };
+
+    const activate = (game, button) => {
+      if (game === "nsfw") {
+        openAlert(button);
+        return;
+      }
+      activeGame = game;
+      tabs.forEach(tab => {
+        const selected = tab.dataset.game === game;
+        tab.classList.toggle("is-active", selected);
+        tab.setAttribute("aria-selected", String(selected));
+      });
+      panels.forEach(panel => {
+        panel.hidden = panel.id !== `game-panel-${game}`;
+      });
+      address.textContent = addresses[game];
+    };
+
+    tabs.forEach((button, index) => {
+      button.addEventListener("click", () => activate(button.dataset.game, button));
+      button.addEventListener("keydown", event => {
+        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+        event.preventDefault();
+        const next = (index + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+        tabs[next].focus();
+      });
+    });
+
+    dismiss.addEventListener("click", closeAlert);
+    alert.addEventListener("click", event => {
+      if (event.target === alert) closeAlert();
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && alert.classList.contains("show")) closeAlert();
+    });
+
+    activate(activeGame, tabs.find(tab => tab.dataset.game === activeGame));
   }
 
   function setupStackMachine() {
@@ -3430,7 +3780,7 @@
       const chapter = centre && centre.closest("#foot, #stack, #projects, #work, #about, #sky-zone");
       let mode = "rocket";
       if (chapter) {
-        if (chapter.id === "sky-zone") mode = sp > 0.25 ? "apple" : "rocket";
+        if (chapter.id === "sky-zone") mode = sp > 0.72 ? "apple" : "rocket";
         if (chapter.id === "about" || chapter.id === "work") mode = "google";
         if (chapter.id === "projects") mode = "web";
         if (chapter.id === "stack") mode = "casino";
@@ -3479,9 +3829,171 @@
     const ScrollTrigger = window.ScrollTrigger;
     gsap.registerPlugin(ScrollTrigger);
 
+    const AI_PROMPT_STRING = "make me a cool website";
+    const AI_RESPONSE_STRING = "Good idea! how's this?";
+    const aiComposerText = document.getElementById("ai-composer-text");
+    const aiPromptText = document.getElementById("ai-prompt-text");
+    const aiResponseText = document.getElementById("ai-response-text");
+    const aiUserMessage = aiWindowEl && aiWindowEl.querySelector(".ai-user-message");
+    const aiAssistantMessage = aiWindowEl && aiWindowEl.querySelector(".ai-assistant-message");
+    const aiEmptyState = aiWindowEl && aiWindowEl.querySelector(".ai-empty-state");
+    const aiHandoff = aiWindowEl && aiWindowEl.querySelector(".ai-handoff");
+    const aiComposerCaret = aiWindowEl && aiWindowEl.querySelector(".ai-composer-caret");
+    const aiResponseCaret = aiWindowEl && aiWindowEl.querySelector(".ai-response-caret");
+
+    if (aiWindowEl && aiComposerText && aiPromptText && aiResponseText && aiUserMessage && aiAssistantMessage && aiEmptyState && aiHandoff) {
+      const urlTyping = { chars: 0 };
+      aiPromptText.textContent = AI_PROMPT_STRING;
+      aiComposerText.textContent = AI_PROMPT_STRING;
+      aiResponseText.textContent = AI_RESPONSE_STRING;
+      urlText.textContent = "";
+
+      gsap.set(aiWindowEl, { "--ai-p": 0, "--ai-exit": 0, opacity: 0, filter: "blur(0px)" });
+      gsap.set(windowEl, { "--bp": 0, opacity: 0 });
+      gsap.set(aiEmptyState, { y: 0, opacity: 1 });
+      gsap.set(aiUserMessage, { y: 22, opacity: 0 });
+      gsap.set(aiAssistantMessage, { y: 22, opacity: 0 });
+      gsap.set(aiHandoff, { y: 10, opacity: 0 });
+      gsap.set(aiComposerCaret, { opacity: 1 });
+      gsap.set(aiResponseCaret, { opacity: 0 });
+      gsap.set(aiComposerText, { width: 0 });
+      gsap.set(aiResponseText, { width: 0 });
+      gsap.set(loadbar, { width: "0%", opacity: 1 });
+
+      const skyPromptTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#sky-zone",
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.72,
+          invalidateOnRefresh: true
+        }
+      });
+
+      skyPromptTimeline
+        .to(aiWindowEl, { "--ai-p": 1, opacity: 1, duration: 1, ease: "power3.out" }, 1.65)
+        .to(aiComposerText, {
+          width: () => aiComposerText.scrollWidth,
+          duration: 1.1,
+          ease: `steps(${AI_PROMPT_STRING.length})`
+        }, 2.65)
+        .to(".ai-send", { scale: 1.12, duration: 0.18, ease: "back.out(2)" }, 3.66)
+        .to(".ai-send", { scale: 0.88, duration: 0.2, ease: "power2.in" }, 3.83)
+        .to(aiComposerCaret, { opacity: 0, duration: 0.12 }, 3.72)
+        .to(aiComposerText, { width: 0, duration: 0.18, ease: "power2.in" }, 3.76)
+        .to(aiEmptyState, { y: -28, opacity: 0, duration: 0.42, ease: "power2.in" }, 3.78)
+        .to(aiUserMessage, { y: 0, opacity: 1, duration: 0.48, ease: "back.out(1.35)" }, 3.86)
+        .to(aiAssistantMessage, { y: 0, opacity: 1, duration: 0.48, ease: "power2.out" }, 4.25)
+        .to(aiResponseCaret, { opacity: 1, duration: 0.1 }, 4.3)
+        .to(aiResponseText, {
+          width: () => aiResponseText.scrollWidth,
+          duration: 1.05,
+          ease: `steps(${AI_RESPONSE_STRING.length})`
+        }, 4.42)
+        .to(aiResponseCaret, { opacity: 0, duration: 0.14 }, 5.46)
+        .to(aiHandoff, { y: 0, opacity: 1, duration: 0.42, ease: "back.out(1.45)" }, 5.5)
+        .to(aiWindowEl, { "--ai-exit": 1, opacity: 0.08, filter: "blur(10px)", duration: 1.12, ease: "power2.inOut" }, 6.0)
+        .to(windowEl, { "--bp": 1, opacity: 1, duration: 1.35, ease: "power3.out" }, 5.92)
+        .to(urlTyping, {
+          chars: URL_STRING.length,
+          duration: 0.9,
+          ease: "none",
+          onUpdate: () => {
+            urlText.textContent = URL_STRING.slice(0, Math.round(urlTyping.chars));
+          }
+        }, 6.12)
+        .to(loadbar, { width: "100%", duration: 0.82, ease: "power1.inOut" }, 6.08)
+        .to(loadbar, { opacity: 0, duration: 0.2 }, 6.92)
+        .to({}, { duration: 0.2 }, 7.18);
+    }
+
     const mm = gsap.matchMedia();
 
     mm.add("(min-width: 800px)", () => {
+      const surfaceSelectors = new Map([
+        ["about-browser", ".chrome-toolbar, .about-page"],
+        ["journey-browser", ".chrome-toolbar, .journey-browser-page"],
+        ["project-browser", ".project-toolbar, .project-browser-body"],
+        ["fox-browser", ".fox-toolbar, .casino-page"],
+        ["contact-ai-browser", ".contact-ai-app"]
+      ]);
+
+      document.querySelectorAll("[data-browser-launch]").forEach(anchor => {
+        const browserWindow = anchor.querySelector(".chapter-window");
+        if (!browserWindow) return;
+
+        const key = browserWindow.id || Array.from(surfaceSelectors.keys()).find(name => browserWindow.classList.contains(name));
+        const surfaces = key && surfaceSelectors.has(key)
+          ? Array.from(browserWindow.querySelectorAll(surfaceSelectors.get(key)))
+          : [];
+        const naturalRadius = getComputedStyle(browserWindow).borderTopLeftRadius;
+
+        const miniGeometry = () => {
+          const width = browserWindow.offsetWidth;
+          const height = browserWindow.offsetHeight;
+          const left = Math.min(76, width * 0.08);
+          const miniWidth = Math.min(270, Math.max(190, width * 0.23));
+          const miniHeight = Math.min(52, Math.max(42, height * 0.085));
+          return {
+            x: width / 2 - (left + miniWidth / 2),
+            left,
+            right: Math.max(0, width - left - miniWidth),
+            bottom: Math.max(0, height - miniHeight)
+          };
+        };
+
+        const launchTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: anchor,
+            start: "top 94%",
+            end: "top 18%",
+            scrub: 0.72,
+            invalidateOnRefresh: true,
+            onUpdate: self => { browserWindow.inert = self.progress < 0.78; }
+          }
+        });
+
+        launchTimeline
+          .fromTo(browserWindow,
+            {
+              x: () => miniGeometry().x,
+              y: -18,
+              scale: 0.97,
+              rotationX: 7,
+              opacity: 0.9,
+              borderRadius: 34,
+              clipPath: () => {
+                const g = miniGeometry();
+                return `inset(0px ${g.right}px ${g.bottom}px ${g.left}px round 17px)`;
+              },
+              transformOrigin: "50% 0%"
+            },
+            {
+              x: 0,
+              y: 0,
+              scale: 1,
+              rotationX: 0,
+              opacity: 1,
+              borderRadius: 22,
+              clipPath: () => `inset(0px 0px ${miniGeometry().bottom}px 0px round 17px)`,
+              duration: 0.38,
+              ease: "power2.inOut"
+            }, 0)
+          .to(browserWindow, {
+            borderRadius: naturalRadius,
+            clipPath: "inset(0px 0px 0px 0px round 0px)",
+            duration: 0.62,
+            ease: "power3.inOut"
+          }, 0.38);
+
+        if (surfaces.length) {
+          launchTimeline.fromTo(surfaces,
+            { autoAlpha: 0, y: 10 },
+            { autoAlpha: 1, y: 0, duration: 0.34, stagger: 0.035, ease: "power1.out" },
+            0.66);
+        }
+      });
+
       const typing = { chars: 0 };
       aboutUrlText.textContent = "";
       gsap.set(".about-search", { x: -52, opacity: 0 });
@@ -3499,9 +4011,6 @@
       });
 
       aboutTimeline
-        .fromTo("#about-browser",
-          { y: () => Math.min(170, window.innerHeight * 0.22), scale: 0.84, rotationX: 5, opacity: 0.22 },
-          { y: 0, scale: 1, rotationX: 0, opacity: 1, duration: 1.25, ease: "power3.out" }, 0)
         .to(typing, {
           chars: ABOUT_URL_STRING.length,
           duration: 0.72,
@@ -3509,12 +4018,13 @@
           onUpdate: () => {
             aboutUrlText.textContent = ABOUT_URL_STRING.slice(0, Math.round(typing.chars));
           }
-        }, 0.62)
-        .to(".about-search", { x: 0, opacity: 1, duration: 0.58, ease: "power2.out" }, 1.05)
-        .to(".about-result", { x: 0, opacity: 1, duration: 0.68, ease: "power2.out" }, 1.18)
-        .to(".answer-step", { y: 0, opacity: 1, scale: 1, stagger: 0.10, duration: 0.5, ease: "back.out(1.5)" }, 1.62);
+        }, 0.12)
+        .to(".about-search", { x: 0, opacity: 1, duration: 0.58, ease: "power2.out" }, 0.58)
+        .to(".about-result", { x: 0, opacity: 1, duration: 0.68, ease: "power2.out" }, 0.72)
+        .to(".answer-step", { y: 0, opacity: 1, scale: 1, stagger: 0.10, duration: 0.5, ease: "back.out(1.5)" }, 1.14);
 
       const world = document.getElementById("journey-world");
+      const journeyPage = document.querySelector(".journey-browser-page");
       const stations = Array.from(document.querySelectorAll(".journey-station"));
       const storyCards = stations.map(station => station.querySelector(".story-card"));
       const routeSegments = Array.from(document.querySelectorAll(".route-drawn"));
@@ -3560,9 +4070,12 @@
           pin: ".journey-stage",
           scrub: 0.8,
           anticipatePin: 1,
+          refreshPriority: 10,
           invalidateOnRefresh: true,
           onUpdate: self => {
             progressFill.style.width = (self.progress * 100).toFixed(1) + "%";
+            journeyPage.style.setProperty("--journey-grid-x", `${(-self.progress * 120).toFixed(1)}px`);
+            journeyPage.style.setProperty("--journey-parallax-x", `${(-self.progress * 72).toFixed(1)}px`);
             setRouteDraw(self.progress);
             setActiveStop(self.progress < routeRanges[0][1] ? 0 : self.progress < routeRanges[1][1] ? 1 : 2);
           }
@@ -3597,10 +4110,81 @@
       return () => {
         aboutUrlText.textContent = ABOUT_URL_STRING;
         progressFill.style.width = "100%";
+        journeyPage.style.setProperty("--journey-grid-x", "0px");
+        journeyPage.style.setProperty("--journey-parallax-x", "0px");
         stations.forEach(station => station.classList.add("active"));
         counters.forEach(el => { el.textContent = el.dataset.target; });
       };
     });
+
+    const contactLines = Array.from(document.querySelectorAll("#contact-ai-browser .contact-stream-line"));
+    const contactComposer = document.querySelector("#contact-ai-browser .contact-composer");
+    const contactMemory = document.querySelector("#contact-ai-browser .contact-memory");
+    const contactCaret = document.querySelector("#contact-ai-browser .contact-stream-caret");
+    if (contactLines.length && contactComposer && contactMemory && contactCaret) {
+      gsap.set(contactLines, { y: 12, opacity: 0, clipPath: "inset(0 0 100% 0)" });
+      gsap.set(contactComposer, { y: 24, opacity: 0 });
+      gsap.set(contactCaret, { opacity: 0 });
+
+      const contactTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#foot",
+          start: "top 10%",
+          end: "bottom bottom",
+          scrub: 0.76,
+          invalidateOnRefresh: true
+        }
+      });
+
+      contactTimeline
+        .to(contactMemory, { opacity: 0.34, duration: 0.18, ease: "none" }, 0)
+        .to(contactLines, {
+          y: 0,
+          opacity: 1,
+          clipPath: "inset(0 0 0% 0)",
+          duration: 0.34,
+          stagger: 0.19,
+          ease: "power2.out"
+        }, 0.08)
+        .to(contactCaret, { opacity: 1, duration: 0.08 }, 0.72)
+        .to(contactComposer, { y: 0, opacity: 1, duration: 0.34, ease: "back.out(1.25)" }, 0.68)
+        .to({}, { duration: 0.14 }, 1.02);
+    }
+
+    const landingRocket = document.getElementById("landing-rocket");
+    const landingShadow = document.getElementById("landing-shadow");
+    const earthReturn = document.querySelector(".earth-return");
+    const foot = document.getElementById("foot");
+    if (landingRocket && landingShadow && earthReturn && foot) {
+      const landingTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: foot,
+          start: "top 88%",
+          end: "bottom bottom",
+          scrub: 0.82,
+          invalidateOnRefresh: true,
+          onUpdate: self => foot.classList.toggle("is-landed", self.progress > 0.93)
+        }
+      });
+
+      landingTimeline
+        .fromTo(earthReturn,
+          { y: 120, scale: 1.025, transformOrigin: "50% 100%" },
+          { y: 0, scale: 1, duration: 1, ease: "power1.out" }, 0)
+        .fromTo(landingRocket,
+          {
+            xPercent: -50,
+            x: () => -Math.min(340, window.innerWidth * 0.24),
+            y: () => -window.innerHeight * 0.78,
+            rotation: -14,
+            scale: 0.64,
+            opacity: 0
+          },
+          { xPercent: -50, x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, duration: 0.58, ease: "power1.inOut" }, 0.42)
+        .fromTo(landingShadow,
+          { xPercent: -50, scale: 0.2, opacity: 0 },
+          { xPercent: -50, scale: 1, opacity: 0.66, duration: 0.2, ease: "power2.in" }, 0.8);
+    }
 
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(() => ScrollTrigger.refresh());
@@ -3679,7 +4263,8 @@
   initStars();
   resize();
   setupProjectBrowser();
-  setupGmailCompose();
+  setupContactDraft();
+  setupCasinoTabs();
   const normalizeSlotReels = setupStackMachine();
   setupBlackjack();
   setupScrollStories();
