@@ -266,10 +266,35 @@
   .ai-sidebar { display: flex; flex-direction: column; padding: 13px 11px; border-right: 1px solid #ececef; color: #555862; background: #f7f7f8; font: 12px/1.4 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
   .ai-new-chat { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border: 1px solid #dedee3; border-radius: 9px; color: #303139; background: #fff; font-weight: 600; }
   .ai-history-label { margin: 24px 10px 8px; color: #999ca4; font-size: 9px; letter-spacing: .13em; text-transform: uppercase; }
-  .ai-history-item { padding: 9px 10px; overflow: hidden; border-radius: 8px; white-space: nowrap; text-overflow: ellipsis; }
+  .ai-history-item { width: 100%; padding: 9px 10px; overflow: hidden; border: 0; border-radius: 8px; color: inherit; background: transparent; font: inherit; text-align: left; white-space: nowrap; text-overflow: ellipsis; cursor: pointer; }
+  .ai-history-item:hover { color: #1f2025; background: #eeeeef; }
   .ai-history-item.active { color: #1f2025; background: #e9e9eb; }
   .ai-sidebar-profile { display: flex; align-items: center; gap: 9px; margin-top: auto; padding: 11px 9px 4px; border-top: 1px solid #e2e2e5; color: #303139; }
   .ai-avatar { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: linear-gradient(135deg, #5d7df1, #8e5dd7); font-size: 9px; font-weight: 700; }
+
+  .ai-history-popover {
+    position: absolute;
+    inset: 52px 0 0;
+    z-index: 8;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    color: #202123;
+    background: rgba(255,255,255,.96);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(14px);
+    transition: opacity .22s ease, visibility .22s ease, transform .28s cubic-bezier(.2,1,.3,1);
+  }
+  .ai-history-popover.show { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
+  .ai-history-popover-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 22px; border-bottom: 1px solid #ececef; color: #555862; background: #fafafa; font: 12px/1.3 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  .ai-history-popover-head strong { color: #202123; font-size: 13px; }
+  .ai-history-close { width: 30px; height: 30px; display: grid; place-items: center; border: 0; border-radius: 9px; color: #62666f; background: #ececef; font: 18px/1 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; cursor: pointer; }
+  .ai-history-close:hover { color: #202123; background: #dedee3; }
+  .ai-history-chat { width: min(690px, calc(100% - 46px)); margin: 0 auto; padding: 30px 0 44px; overflow: auto; font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+  .ai-history-bubble { max-width: 78%; margin-left: auto; padding: 12px 15px; border-radius: 20px 20px 5px 20px; color: #27282c; background: #f0f0f0; }
+  .ai-history-answer { display: grid; grid-template-columns: 30px 1fr; gap: 12px; margin-top: 22px; color: #292a2e; }
+  .ai-history-answer strong { display: block; margin: 1px 0 5px; font-size: 12px; }
 
   .ai-conversation { position: relative; min-width: 0; overflow: hidden; background: #fff; }
   .ai-modelbar { height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; border-bottom: 1px solid #f0f0f2; color: #2b2d31; font: 600 13px/1 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
@@ -669,11 +694,11 @@
   .reveal.in { opacity: 1; transform: translateY(0); }
 
   /* Browser chapters are animated exclusively by GSAP when motion is available.
-     This avoids CSS easing lag and keeps the tab launch locked to the scrollbar. */
+     They rise like taskbar windows instead of unfolding from a clipped tab. */
   body.has-gsap .chapter-window {
     opacity: 1;
     transition: none !important;
-    will-change: transform, clip-path, opacity;
+    will-change: transform, opacity, filter;
   }
   .browser-launch-anchor { position: relative; width: 100%; perspective: 1500px; }
   .about-launch-anchor { width: min(1160px, 100%); margin: 0 auto; }
@@ -1637,39 +1662,44 @@
   .blackjack-head p { max-width: 33ch; margin-top: 8px; color: #9fc7b7; font-size: 10.5px; line-height: 1.5; }
   .blackjack-rules { flex: 0 0 auto; padding: 8px 10px; border: 1px solid rgba(255,222,132,.25); border-radius: 10px; color: #e9ce84; font-size: 8px; line-height: 1.5; letter-spacing: .08em; text-align: right; text-transform: uppercase; }
 
-  .blackjack-table { position: relative; min-height: 650px; padding: 22px 30px 24px; overflow: hidden; background: radial-gradient(ellipse at 50% 54%, rgba(35,139,100,.62), transparent 50%), linear-gradient(135deg, rgba(255,255,255,.025) 25%, transparent 25%) 0 0/24px 24px; }
+  .blackjack-table { position: relative; min-height: 690px; padding: 24px 34px 28px; overflow: hidden; background: radial-gradient(ellipse at 50% 54%, rgba(35,139,100,.62), transparent 50%), linear-gradient(135deg, rgba(255,255,255,.025) 25%, transparent 25%) 0 0/24px 24px; }
   .blackjack-table::before { content: ""; position: absolute; inset: 30px 4% 88px; border: 2px solid rgba(239,209,117,.28); border-radius: 50%; pointer-events: none; }
-  .bankroll-bar { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; padding: 8px 11px; border: 1px solid rgba(255,255,255,.09); border-radius: 11px; color: #a9d4c2; background: rgba(1,24,18,.58); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+  .bankroll-bar { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; padding: 9px 12px; border: 1px solid rgba(255,255,255,.09); border-radius: 11px; color: #a9d4c2; background: rgba(1,24,18,.58); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
   .bankroll-bar output { color: #ffdb70; font-size: 14px; font-weight: 700; letter-spacing: 0; text-transform: none; }
   .bankroll-bar .table-bet { color: #d4e9e0; }
 
   .hand-zone { position: relative; z-index: 2; text-align: center; }
-  .hand-zone + .hand-zone { margin-top: 86px; }
-  .hand-label { display: flex; justify-content: center; gap: 8px; margin-bottom: 7px; color: #a6cebd; font-size: 8px; letter-spacing: .15em; text-transform: uppercase; }
-  .hand-label output { min-width: 24px; color: #ffde7d; font-weight: 700; }
-  .card-hand { min-height: 126px; display: flex; align-items: center; justify-content: center; padding: 0; list-style: none; }
-  .tech-card { --card-colour: #7656df; position: relative; width: clamp(78px, 7.4vw, 98px); aspect-ratio: .70; flex: 0 0 auto; display: flex; flex-direction: column; justify-content: space-between; padding: 9px; overflow: hidden; border: 2px solid #fff; border-radius: 12px; color: #16211d; background: linear-gradient(145deg, #fff, #e9f0ec); box-shadow: 0 12px 24px rgba(0,0,0,.28); animation: deal-card .35s cubic-bezier(.2,1.5,.4,1) both; }
-  .tech-card + .tech-card { margin-left: -10px; }
+  .hand-zone + .hand-zone { margin-top: 92px; }
+  .hand-label { width: max-content; max-width: 100%; display: flex; align-items: center; justify-content: center; gap: 11px; margin: 0 auto 10px; padding: 7px 11px 7px 14px; border: 1px solid rgba(255,255,255,.13); border-radius: 999px; color: #a6cebd; background: rgba(2,28,21,.68); box-shadow: 0 12px 26px rgba(0,0,0,.16); font-size: 9px; letter-spacing: .15em; text-transform: uppercase; }
+  .hand-label output { min-width: 46px; padding: 5px 10px; border-radius: 999px; color: #102117; background: linear-gradient(#ffeaa5, #e9bd49); font-size: 18px; font-weight: 800; line-height: 1; letter-spacing: 0; text-align: center; text-transform: none; box-shadow: 0 0 0 1px rgba(255,255,255,.3) inset, 0 6px 15px rgba(0,0,0,.18); }
+  .card-hand { min-height: 158px; display: flex; align-items: center; justify-content: center; padding: 0; list-style: none; }
+  .tech-card { --card-colour: #7656df; position: relative; width: clamp(96px, 8.8vw, 122px); aspect-ratio: .70; flex: 0 0 auto; display: flex; flex-direction: column; justify-content: space-between; padding: 11px; overflow: hidden; border: 2px solid #fff; border-radius: 14px; color: #16211d; background: linear-gradient(145deg, #fff, #e9f0ec); box-shadow: 0 15px 30px rgba(0,0,0,.32); animation: deal-card .35s cubic-bezier(.2,1.5,.4,1) both; }
+  .tech-card + .tech-card { margin-left: -8px; }
   @keyframes deal-card { from { opacity: 0; transform: translateY(-24px) rotate(-7deg) scale(.75); } }
-  .tech-card::after { content: ""; position: absolute; right: -17px; bottom: -17px; width: 49px; height: 49px; border-radius: 50%; background: var(--card-colour); opacity: .15; }
-  .tech-card .card-rank { align-self: flex-start; color: var(--card-colour); font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; line-height: 1; }
-  .tech-card strong { position: relative; z-index: 1; color: #1f2925; font-size: clamp(7.5px, .85vw, 10px); line-height: 1.05; overflow-wrap: anywhere; }
-  .tech-card .card-domain { position: relative; z-index: 1; align-self: flex-end; color: #6f7e77; font-size: 6px; letter-spacing: .08em; text-transform: uppercase; }
+  .tech-card::after { content: ""; position: absolute; right: -19px; bottom: -19px; width: 58px; height: 58px; border-radius: 50%; background: var(--card-colour); opacity: .15; }
+  .tech-card .card-rank { align-self: flex-start; color: var(--card-colour); font-family: 'Fraunces', serif; font-size: 27px; font-weight: 600; line-height: 1; }
+  .tech-card strong { position: relative; z-index: 1; color: #1f2925; font-size: clamp(9px, .92vw, 12px); line-height: 1.05; overflow-wrap: anywhere; }
+  .tech-card .card-domain { position: relative; z-index: 1; align-self: flex-end; color: #6f7e77; font-size: 7px; letter-spacing: .08em; text-transform: uppercase; }
   .tech-card.card-back { justify-content: center; align-items: center; border-color: #d7c0ff; color: #e7d8ff; background: repeating-linear-gradient(45deg, #3b2055 0 8px, #512c73 8px 16px); }
-  .tech-card.card-back::before { content: "⌁"; width: 34px; height: 24px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.45); border-radius: 50%; font-size: 21px; }
+  .tech-card.card-back::before { content: "⌁"; width: 43px; height: 31px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.45); border-radius: 50%; font-size: 27px; }
   .tech-card.card-back::after { display: none; }
   .tech-card.placeholder { border-style: dashed; border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.025); box-shadow: none; animation: none; }
   .tech-card.placeholder::after { display: none; }
 
   .table-mark { position: absolute; left: 50%; top: 51%; z-index: 1; transform: translate(-50%,-50%); color: rgba(223,244,235,.13); font-family: 'Fraunces', serif; font-size: clamp(23px, 3vw, 38px); letter-spacing: .08em; white-space: nowrap; }
-  .blackjack-controls { position: relative; z-index: 3; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
-  .bet-control { display: flex; align-items: center; gap: 5px; padding: 4px; border: 1px solid rgba(255,255,255,.11); border-radius: 999px; background: rgba(0,22,16,.55); }
-  .bet-control button { width: 29px; height: 29px; border: 0; border-radius: 50%; color: #d7f2e6; background: rgba(255,255,255,.1); font: inherit; font-size: 11px; cursor: pointer; }
-  .bet-control output { min-width: 48px; color: #ffdc75; font-size: 10px; font-weight: 700; text-align: center; }
-  .blackjack-controls > button { appearance: none; min-width: 72px; padding: 9px 13px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; color: #dff7ec; background: rgba(255,255,255,.09); font: inherit; font-size: 10px; font-weight: 600; cursor: pointer; }
+  .blackjack-controls { position: relative; z-index: 3; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 11px; margin-top: 16px; }
+  .bet-control { display: flex; align-items: center; gap: 7px; padding: 5px; border: 1px solid rgba(255,255,255,.11); border-radius: 999px; background: rgba(0,22,16,.55); }
+  .bet-control button { width: 36px; height: 36px; border: 0; border-radius: 50%; color: #d7f2e6; background: rgba(255,255,255,.1); font: inherit; font-size: 15px; cursor: pointer; }
+  .bet-control output { min-width: 58px; color: #ffdc75; font-size: 12px; font-weight: 700; text-align: center; }
+  .blackjack-controls > button { appearance: none; min-width: 92px; padding: 12px 17px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; color: #dff7ec; background: rgba(255,255,255,.09); font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
   .blackjack-controls > button.primary { color: #09251c; border-color: #ffdf82; background: linear-gradient(#ffe79a, #edbd48); }
   .blackjack-controls button:disabled { cursor: not-allowed; opacity: .36; filter: grayscale(.5); }
-  #bj-status { position: relative; z-index: 3; min-height: 31px; margin-top: 10px; color: #c6e7da; font-size: 10px; line-height: 1.45; text-align: center; }
+  #bj-status { position: relative; z-index: 3; width: min(560px, 100%); min-height: 44px; display: grid; place-items: center; margin: 13px auto 0; padding: 10px 14px; border: 1px solid rgba(255,255,255,.11); border-radius: 16px; color: #c6e7da; background: rgba(2,28,21,.62); box-shadow: 0 12px 28px rgba(0,0,0,.18); font-size: 12px; font-weight: 650; line-height: 1.35; text-align: center; }
+  #bj-status[data-outcome="win"],
+  #bj-status[data-outcome="blackjack"] { color: #1b1c0c; border-color: rgba(255,230,130,.72); background: linear-gradient(135deg, #fff3ad, #f0c84c); box-shadow: 0 0 28px rgba(255,220,93,.42), 0 14px 30px rgba(0,0,0,.2); animation: table-result-pop .42s cubic-bezier(.2,1.55,.35,1) both; }
+  #bj-status[data-outcome="lose"] { color: #ffe3e0; border-color: rgba(255,118,105,.42); background: linear-gradient(135deg, rgba(117,26,31,.92), rgba(63,11,18,.92)); animation: table-result-pop .42s cubic-bezier(.2,1.55,.35,1) both; }
+  #bj-status[data-outcome="push"] { color: #e8e6ff; border-color: rgba(173,160,255,.42); background: linear-gradient(135deg, rgba(62,54,126,.9), rgba(29,24,73,.9)); animation: table-result-pop .42s cubic-bezier(.2,1.55,.35,1) both; }
+  @keyframes table-result-pop { from { transform: translateY(8px) scale(.95); opacity: .25; } }
 
   .jackpot-overlay { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; overflow: hidden; pointer-events: none; opacity: 0; visibility: hidden; background: rgba(18, 7, 28, .84); transition: opacity .2s ease, visibility .2s ease; }
   .jackpot-overlay.show { opacity: 1; visibility: visible; }
@@ -1728,12 +1758,14 @@
     isolation: isolate;
     min-height: 190vh;
     min-height: 190svh;
-    overflow: visible;
+    overflow: clip;
     text-align: center;
-    color: #fff;
+    color: #172033;
     background:
-      radial-gradient(circle at 50% 12%, rgba(54, 104, 181, .25), transparent 32%),
-      linear-gradient(#070b15, #0a1325 64%, #102b4c);
+      linear-gradient(180deg, rgba(255,255,255,.65), transparent 34%),
+      radial-gradient(circle at 20% 20%, rgba(66,133,244,.18), transparent 30%),
+      radial-gradient(circle at 82% 62%, rgba(16,163,127,.14), transparent 31%),
+      #eef3f8;
   }
 
   #foot::before {
@@ -1741,16 +1773,17 @@
     position: absolute;
     inset: 0;
     z-index: -2;
-    opacity: .62;
-    background-image: radial-gradient(#fff 0.8px, transparent 0.8px), radial-gradient(#86bfff 0.7px, transparent 0.7px);
-    background-position: 0 0, 17px 23px;
-    background-size: 43px 43px, 67px 67px;
-    mask-image: linear-gradient(#000, transparent 88%);
+    opacity: .56;
+    background:
+      linear-gradient(90deg, rgba(55,65,81,.06) 1px, transparent 1px),
+      linear-gradient(0deg, rgba(55,65,81,.06) 1px, transparent 1px);
+    background-size: 34px 34px;
+    mask-image: linear-gradient(#000, transparent 82%);
   }
 
   .foot-stage { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr); place-items: center; overflow: hidden; padding: 2vh 28px 16vh; }
   .foot-content { position: relative; z-index: 4; width: min(1300px, 100%); }
-  .return-kicker { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 22px; color: #88c9ff; font-size: 10px; letter-spacing: .26em; text-transform: uppercase; }
+  .return-kicker { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 22px; color: #556170; font-size: 10px; letter-spacing: .26em; text-transform: uppercase; }
   .return-kicker::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #59cf83; box-shadow: 0 0 0 6px rgba(89,207,131,.12), 0 0 18px #59cf83; }
 
   #foot h3 {
@@ -1762,6 +1795,61 @@
     margin-bottom: 28px;
   }
 
+  .code-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: .96;
+  }
+
+  .code-editor-bg {
+    position: absolute;
+    left: 46%;
+    top: 52%;
+    width: min(1160px, 88vw);
+    height: min(74svh, 700px);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.5);
+    border-radius: 14px;
+    background: #181818;
+    box-shadow: 0 45px 120px rgba(29,43,63,.34), 0 0 0 1px rgba(10,16,25,.28);
+    filter: blur(1.25px) saturate(.9);
+    transform: translate(-50%, -50%) rotate(-1.4deg);
+  }
+  .code-titlebar { position: relative; height: 36px; display: flex; align-items: center; justify-content: center; padding: 0 14px; color: #b8b8b8; background: #181818; border-bottom: 1px solid #2a2a2a; font: 11px/1.2 -apple-system, BlinkMacSystemFont, sans-serif; }
+  .code-titlebar .code-lights { position: absolute; left: 15px; width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; box-shadow: 18px 0 #febc2e, 36px 0 #28c840; }
+  .code-titlebar strong { font-weight: 500; }
+  .code-titlebar em { position: absolute; right: 16px; color: #777; font-style: normal; }
+  .code-editor-shell { height: calc(100% - 58px); display: grid; grid-template-columns: 48px 210px 1fr; }
+  .code-activity-bg { display: flex; flex-direction: column; align-items: center; gap: 22px; padding-top: 14px; color: #858585; background: #181818; border-right: 1px solid #252525; font: 21px/1 monospace; }
+  .code-activity-bg span { width: 100%; text-align: center; opacity: .72; }
+  .code-activity-bg span.active { color: #fff; border-left: 2px solid #fff; opacity: 1; }
+  .code-sidebar-bg { padding: 12px 10px; color: #b5b5b5; background: #1f1f1f; border-right: 1px solid #2a2a2a; font: 11px/1.7 "SF Mono", Consolas, monospace; text-align: left; }
+  .code-explorer-title { display: flex; justify-content: space-between; margin: 0 5px 11px; color: #d2d2d2; font: 10px/1.2 -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+  .code-folder { display: block; margin-bottom: 4px; color: #e1e1e1; font-weight: 700; }
+  .code-file { display: block; padding: 3px 8px 3px 20px; border-radius: 3px; }
+  .code-file::before { display: inline-block; width: 18px; margin-left: -18px; color: #e8b44f; content: "◇"; }
+  .code-file.active { color: #fff; background: #37373d; }
+  .code-main-bg { min-width: 0; display: grid; grid-template-rows: 35px 1fr; background: #1e1e1e; }
+  .code-tabs-bg { display: flex; align-items: stretch; color: #969696; background: #181818; border-bottom: 1px solid #252525; font: 11px/1.2 -apple-system, BlinkMacSystemFont, sans-serif; }
+  .code-tab-bg { min-width: 145px; display: flex; align-items: center; gap: 8px; padding: 0 13px; border-right: 1px solid #252525; }
+  .code-tab-bg.active { color: #fff; background: #1e1e1e; border-top: 1px solid #007acc; }
+  .code-tab-bg::before { color: #e8b44f; content: "◇"; }
+  .code-pane-bg { position: relative; overflow: hidden; padding: 20px 42px 28px 18px; color: #d4d4d4; background: #1e1e1e; font: 12px/1.85 "SF Mono", Consolas, monospace; text-align: left; }
+  .code-pane-bg::before { content: ""; position: absolute; inset: 0; opacity: .18; background-image: linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px); background-size: 100% 26px; }
+  .code-pane-bg::after { content: ""; position: absolute; top: 18px; right: 8px; width: 23px; height: 62%; opacity: .45; background: repeating-linear-gradient(to bottom, #708090 0 2px, transparent 2px 5px); }
+  .code-line { position: relative; display: block; white-space: nowrap; }
+  .code-line::before { content: attr(data-n); display: inline-block; width: 28px; margin-right: 18px; color: #556174; text-align: right; }
+  .code-key { color: #7dd3fc; }
+  .code-fn { color: #c4b5fd; }
+  .code-str { color: #a7f3d0; }
+  .code-comment { color: #6b788d; }
+  .code-statusbar { height: 22px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; color: #fff; background: #007acc; font: 10px/1 -apple-system, BlinkMacSystemFont, sans-serif; }
+  .code-statusbar span { display: flex; gap: 14px; }
+
+  .contact-launch-anchor { width: min(1060px, 84vw); margin-left: auto; transform: translate(3.5vw, 4.5vh); }
+
   .contact-ai-browser {
     position: relative;
     width: 100%;
@@ -1772,7 +1860,7 @@
     border-radius: 22px;
     color: #202123;
     background: #fff;
-    box-shadow: 0 38px 100px rgba(0,0,0,.48), 0 0 0 1px rgba(17,50,86,.13);
+    box-shadow: -8px 28px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(17,50,86,.13), -24px 22px 45px rgba(6,14,24,.18);
     text-align: left;
   }
   .contact-ai-browser .ai-browserbar { position: relative; z-index: 4; }
@@ -1832,56 +1920,8 @@
     font-size: 11px;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: rgba(214,231,250,.55);
+    color: rgba(75,86,102,.58);
   }
-
-  .earth-return {
-    position: absolute;
-    left: 50%;
-    bottom: min(-31vw, -240px);
-    z-index: 1;
-    width: max(125vw, 1200px);
-    aspect-ratio: 2.2;
-    transform: translateX(-50%);
-    overflow: hidden;
-    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-    background:
-      radial-gradient(ellipse at 28% 32%, #5f985d 0 6%, transparent 6.4%),
-      radial-gradient(ellipse at 71% 26%, #4f8f5c 0 9%, transparent 9.5%),
-      radial-gradient(ellipse at 53% 56%, #6ca467 0 7%, transparent 7.5%),
-      radial-gradient(ellipse at 84% 64%, #3f7958 0 5%, transparent 5.5%),
-      linear-gradient(170deg, #66c8ef, #2479b5 48%, #0b3f76 78%);
-    box-shadow: 0 -8px 0 rgba(190,235,255,.92), 0 -18px 45px rgba(76,183,255,.75), 0 -70px 120px rgba(35,125,220,.25);
-  }
-  .earth-return::before { content: ""; position: absolute; inset: 0; opacity: .34; background: repeating-radial-gradient(ellipse at 50% 100%, transparent 0 7%, rgba(255,255,255,.3) 7.2% 7.5%, transparent 7.7% 14%); }
-
-  .landing-rocket {
-    position: absolute;
-    left: 14%;
-    bottom: clamp(150px, 17vh, 205px);
-    z-index: 6;
-    width: clamp(88px, 9vw, 130px);
-    opacity: 0;
-    filter: none;
-    transform-origin: 50% 88%;
-    will-change: transform, opacity;
-  }
-  .landing-rocket svg { position: relative; z-index: 2; display: block; width: 100%; height: auto; overflow: visible; }
-  .rocket-window-glow { animation: rocket-window-pulse 1.25s ease-in-out infinite; }
-  @keyframes rocket-window-pulse { 50% { opacity: .72; } }
-  .rocket-flame { position: absolute; left: 50%; top: 88%; width: 28%; height: 70%; transform: translateX(-50%); transform-origin: 50% 0; border-radius: 40% 40% 70% 70%; background: linear-gradient(#fff7b1 0 9%, #ffb139 30%, #ff4d37 58%, rgba(255,77,55,0) 100%); filter: blur(1px) drop-shadow(0 0 15px #ff8b39); animation: rocket-flame 0.16s ease-in-out infinite alternate; }
-  @keyframes rocket-flame { to { height: 82%; transform: translateX(-50%) scaleX(.77); } }
-  #foot.is-landed .rocket-flame { height: 13%; opacity: .28; animation: none; transition: height .35s ease, opacity .35s ease; }
-  .landing-shadow { position: absolute; left: 14%; bottom: clamp(141px, 16vh, 194px); z-index: 3; width: clamp(90px, 11vw, 155px); height: 18px; transform: translateX(-50%) scale(.2); border-radius: 50%; background: rgba(1,13,29,.58); filter: blur(9px); opacity: 0; will-change: transform, opacity; }
-  .landing-dust { position: absolute; left: 14%; bottom: clamp(140px, 16vh, 193px); z-index: 7; width: 260px; height: 95px; transform: translateX(-50%); pointer-events: none; }
-  .landing-dust i { position: absolute; left: 50%; bottom: 0; width: 45px; height: 24px; border-radius: 50%; background: rgba(214,236,255,.68); filter: blur(6px); opacity: 0; }
-  #foot.is-landed .landing-dust i { animation: landing-dust .95s cubic-bezier(.18,.72,.28,1) both; }
-  #foot.is-landed .landing-dust i:nth-child(2) { animation-delay: .08s; --dust-x: -92px; }
-  #foot.is-landed .landing-dust i:nth-child(3) { animation-delay: .13s; --dust-x: 86px; }
-  @keyframes landing-dust { 0% { opacity: 0; transform: translate(-50%,0) scale(.3); } 28% { opacity: .8; } 100% { opacity: 0; transform: translate(calc(-50% + var(--dust-x, 0px)),-36px) scale(2.1); } }
-  .landing-status { position: absolute; right: clamp(16px, 4vw, 64px); bottom: clamp(58px, 7vh, 80px); z-index: 4; display: inline-flex; align-items: center; gap: 9px; padding: 8px 12px; border: 1px solid rgba(155,220,255,.28); border-radius: 999px; color: #bde8ff; background: rgba(3,22,43,.48); backdrop-filter: blur(12px); font-size: 9px; letter-spacing: .13em; text-transform: uppercase; opacity: 0; transform: translateY(12px); }
-  .landing-status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #58d487; box-shadow: 0 0 12px #58d487; }
-  #foot.is-landed .landing-status { opacity: 1; transform: translateY(0); transition: opacity .45s ease .18s, transform .55s cubic-bezier(.2,1.4,.35,1) .18s; }
 
   /* Transforming chapter cursor: only enabled by JS on precise pointers. */
   #experience-cursor { position: fixed; left: 0; top: 0; z-index: 110; width: 42px; height: 42px; pointer-events: none; opacity: 0; transform: translate3d(-80px,-80px,0); will-change: transform; transition: opacity .2s ease; }
@@ -1893,8 +1933,7 @@
   #experience-cursor[data-mode="apple"] [data-cursor-icon="apple"],
   #experience-cursor[data-mode="google"] [data-cursor-icon="google"],
   #experience-cursor[data-mode="web"] [data-cursor-icon="web"],
-  #experience-cursor[data-mode="casino"] [data-cursor-icon="casino"],
-  #experience-cursor[data-mode="earth"] [data-cursor-icon="earth"] { opacity: 1; transform: scale(1) rotate(0); }
+  #experience-cursor[data-mode="casino"] [data-cursor-icon="casino"] { opacity: 1; transform: scale(1) rotate(0); }
   .google-g { font: 700 23px/1 Arial, sans-serif; color: transparent; background: conic-gradient(from -45deg, var(--google-blue) 0 25%, var(--google-red) 0 42%, var(--google-yellow) 0 62%, var(--google-green) 0 79%, var(--google-blue) 0); -webkit-background-clip: text; background-clip: text; }
   #experience-cursor[data-mode="casino"] .cursor-face { border-color: rgba(255, 219, 112, .92); background: rgba(31, 15, 43, .9); box-shadow: 0 0 0 3px rgba(255, 219, 112, .2), 0 10px 26px rgba(0,0,0,.34), 0 0 24px rgba(255, 61, 142, .28); }
   #experience-cursor.is-hovering[data-mode="casino"] .cursor-face { transform: scale(1.24) rotate(-9deg); background: #261033; }
@@ -1973,6 +2012,8 @@
     .project-preview { min-height: 430px; }
     .casino-intro { grid-template-columns: 1fr; }
     .private-card { max-width: 560px; }
+    .code-editor-bg { left: 47%; width: min(980px, 92vw); opacity: .88; }
+    .contact-launch-anchor { width: min(860px, 84vw); transform: translate(4vw, 4vh); }
     .contact-ai-app { grid-template-columns: 1fr; }
     .contact-ai-browser .ai-sidebar { display: none; }
     .contact-ai-thread,
@@ -2036,22 +2077,35 @@
     .blackjack-head { display: block; }
     .blackjack-head h3 { font-size: 30px; }
     .blackjack-rules { margin-top: 12px; text-align: left; }
-    .blackjack-table { min-height: 580px; padding: 12px 8px 16px; }
+    .blackjack-table { min-height: 620px; padding: 12px 8px 16px; }
     .bankroll-bar { padding-inline: 4px; }
     .bankroll-bar .table-bet { display: none; }
+    .hand-zone + .hand-zone { margin-top: 74px; }
+    .hand-label { gap: 7px; padding: 6px 7px 6px 10px; font-size: 7.5px; letter-spacing: .1em; }
+    .hand-label output { min-width: 42px; padding: 5px 8px; font-size: 14px; }
     .card-hand { gap: 6px; }
-    .tech-card { width: 56px; height: 82px; padding: 7px 5px; }
+    .tech-card { width: 64px; height: 92px; padding: 7px 5px; border-radius: 10px; }
     .tech-card + .tech-card { margin-left: -12px; }
-    .card-hand:has(.tech-card:nth-child(6)) .tech-card { width: 48px; height: 70px; padding: 5px 4px; }
+    .card-hand:has(.tech-card:nth-child(6)) .tech-card { width: 54px; height: 78px; padding: 5px 4px; }
     .card-hand:has(.tech-card:nth-child(6)) .tech-card + .tech-card { margin-left: -12px; }
+    .tech-card .card-rank { font-size: 21px; }
     .tech-card strong { font-size: 8px; }
     .blackjack-controls { gap: 6px; }
-    .blackjack-controls > button { padding-inline: 11px; }
+    .blackjack-controls > button { min-width: 78px; padding: 10px 13px; }
+    .bet-control button { width: 33px; height: 33px; }
     .bet-control { margin-right: 0; }
+    #bj-status { min-height: 50px; font-size: 11px; }
 
     #foot { min-height: 165svh; }
-    .foot-stage { position: relative; height: auto; min-height: 118svh; padding: 64px 10px 250px; }
+    .foot-stage { position: relative; height: auto; min-height: 118svh; padding: 64px 10px 120px; }
     #foot h3 { margin-bottom: 22px; font-size: clamp(34px, 10vw, 47px); }
+    .code-editor-bg { left: 48%; top: 43%; width: 100vw; height: 72svh; filter: blur(2.5px); opacity: .72; transform: translate(-50%, -50%) rotate(-1.5deg); }
+    .code-editor-shell { grid-template-columns: 36px 1fr; }
+    .code-activity-bg { gap: 17px; font-size: 16px; }
+    .code-sidebar-bg { display: none; }
+    .code-main-bg { min-width: 0; }
+    .code-pane-bg { padding: 16px 12px; font-size: 9px; }
+    .contact-launch-anchor { width: 96%; margin: 0 auto; transform: translate(2vw, 10vh); }
     .contact-ai-browser { height: 660px; min-height: 0; border-radius: 15px; }
     .contact-ai-browser .ai-browserbar { padding-inline: 9px; }
     .contact-ai-browser .ai-lights,
@@ -2067,10 +2121,6 @@
     .contact-send { width: 100%; }
     .contact-meta { align-items: flex-start; flex-direction: column; gap: 5px; }
     #foot .tiny { font-size: 9px; letter-spacing: .14em; }
-    .earth-return { bottom: -190px; width: 930px; }
-    .landing-rocket { left: 82%; bottom: 225px; width: 72px; }
-    .landing-shadow, .landing-dust { left: 82%; bottom: 215px; }
-    .landing-status { right: 12px; bottom: 45px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -2086,8 +2136,6 @@
     #experience-cursor { display: none; }
     #foot { min-height: 118vh; min-height: 118svh; }
     .foot-stage { position: relative; height: auto; min-height: 118vh; min-height: 118svh; }
-    .landing-rocket { opacity: 1; transform: translateX(-50%); }
-    .landing-shadow { opacity: .55; transform: translateX(-50%) scale(1); }
   }
 </style>
 </head>
@@ -2157,12 +2205,12 @@
         <div class="ai-browser-address">chatgpt.com</div>
       </div>
       <div class="ai-app">
-        <aside class="ai-sidebar" aria-hidden="true">
+        <aside class="ai-sidebar">
           <div class="ai-new-chat"><span>＋</span><span>New chat</span></div>
           <div class="ai-history-label">Today</div>
-          <div class="ai-history-item active">Make me a cool website</div>
-          <div class="ai-history-item">Explain Laravel queues</div>
-          <div class="ai-history-item">Name a production bug</div>
+          <button class="ai-history-item active" type="button" data-ai-history="website">Make me a cool website</button>
+          <button class="ai-history-item" type="button" data-ai-history="itchy">why's it so itchy?</button>
+          <button class="ai-history-item" type="button" data-ai-history="hot">it's getting really hot now too</button>
           <div class="ai-sidebar-profile"><span class="ai-avatar">GF</span><strong>George</strong></div>
         </aside>
         <div class="ai-conversation">
@@ -2181,6 +2229,13 @@
             <span class="ai-composer-copy" id="ai-composer-text"></span>
             <span class="ai-typing-caret ai-composer-caret"></span>
             <span class="ai-send">↑</span>
+          </div>
+          <div class="ai-history-popover" data-ai-history-popover aria-hidden="true">
+            <div class="ai-history-popover-head"><strong data-ai-history-title>Previous chat</strong><button class="ai-history-close" type="button" data-ai-history-close aria-label="Close previous chat">×</button></div>
+            <div class="ai-history-chat">
+              <div class="ai-history-bubble" data-ai-history-user></div>
+              <div class="ai-history-answer"><span class="ai-assistant-logo" aria-hidden="true">✦</span><div><strong>ChatGPT</strong><p data-ai-history-answer></p></div></div>
+            </div>
           </div>
           <div class="ai-disclaimer">ChatGPT can make mistakes. This portfolio is suspiciously real.</div>
         </div>
@@ -2523,14 +2578,14 @@
               </div>
 
               <div class="hand-zone dealer-zone">
-                <div class="hand-label"><span>Dealer</span><output id="dealer-score" aria-label="Dealer score">—</output></div>
+                <div class="hand-label"><span>Dealer total</span><output id="dealer-score" aria-label="Dealer score">—</output></div>
                 <ol class="card-hand" id="dealer-hand" aria-label="Dealer hand"></ol>
               </div>
 
               <div class="table-mark" aria-hidden="true">&lt; STACKJACK /&gt;</div>
 
               <div class="hand-zone player-zone">
-                <div class="hand-label"><span>Your hand</span><output id="player-score" aria-label="Your score">—</output></div>
+                <div class="hand-label"><span>Your total</span><output id="player-score" aria-label="Your score">—</output></div>
                 <ol class="card-hand" id="player-hand" aria-label="Your hand"></ol>
               </div>
 
@@ -2572,6 +2627,41 @@
 
   <section id="foot" aria-labelledby="foot-title">
     <div class="foot-stage">
+      <div class="code-backdrop" aria-hidden="true">
+        <div class="code-editor-bg">
+          <div class="code-titlebar"><span class="code-lights"></span><strong>PortfolioV2 — Visual Studio Code</strong><em>⌘ George</em></div>
+          <div class="code-editor-shell">
+            <div class="code-activity-bg">
+              <span class="active">▱</span><span>⌕</span><span>⑂</span><span>▷</span><span>▦</span>
+            </div>
+            <div class="code-sidebar-bg">
+              <div class="code-explorer-title"><span>Explorer</span><span>•••</span></div>
+              <span class="code-folder">⌄ PORTFOLIOV2</span>
+              <span class="code-file active">index.html</span>
+              <span class="code-file">scroll-story.js</span>
+              <span class="code-file">chatgpt-footer.css</span>
+              <span class="code-file">bad-ideas.json</span>
+            </div>
+            <div class="code-main-bg">
+              <div class="code-tabs-bg"><span class="code-tab-bg active">index.html&nbsp; ×</span><span class="code-tab-bg">scroll-story.js&nbsp; ×</span></div>
+              <div class="code-pane-bg">
+                <span class="code-line" data-n="42"><span class="code-key">const</span> portfolio = <span class="code-fn">createExperience</span>({</span>
+                <span class="code-line" data-n="43">  intro: <span class="code-str">"make me a cool website"</span>,</span>
+                <span class="code-line" data-n="44">  browserTabs: [<span class="code-str">"Apple"</span>, <span class="code-str">"Google"</span>, <span class="code-str">"Firefox"</span>],</span>
+                <span class="code-line" data-n="45">  footer: <span class="code-str">"ChatGPT contact form"</span>,</span>
+                <span class="code-line" data-n="46">  jokes: <span class="code-key">true</span>,</span>
+                <span class="code-line" data-n="47">  legalTeam: <span class="code-str">"nervous"</span></span>
+                <span class="code-line" data-n="48">});</span>
+                <span class="code-line" data-n="49"></span>
+                <span class="code-line" data-n="50"><span class="code-comment">// Vibe-coded responsibly. Mostly.</span></span>
+                <span class="code-line" data-n="51"><span class="code-key">export</span> <span class="code-key">default</span> <span class="code-fn">shipIt</span>(portfolio);</span>
+              </div>
+            </div>
+          </div>
+          <div class="code-statusbar"><span><b>⑂ main*</b><b>↻ 0</b><b>⚠ 1</b></span><span><b>Ln 51, Col 34</b><b>Spaces: 2</b><b>HTML</b><b>Go Live</b></span></div>
+        </div>
+      </div>
+
       <div class="foot-content">
         <div class="return-kicker reveal">Original prompt · resumed</div>
         <h3 class="reveal" id="foot-title">ChatGPT has one more thought.</h3>
@@ -2585,12 +2675,12 @@
             </div>
 
             <div class="contact-ai-app">
-              <aside class="ai-sidebar" aria-hidden="true">
+              <aside class="ai-sidebar">
                 <div class="ai-new-chat"><span>＋</span><span>New chat</span></div>
                 <div class="ai-history-label">Today</div>
-                <div class="ai-history-item active">Make me a cool website</div>
-                <div class="ai-history-item">Explain Laravel queues</div>
-                <div class="ai-history-item">Name a production bug</div>
+                <button class="ai-history-item active" type="button" data-ai-history="website">Make me a cool website</button>
+                <button class="ai-history-item" type="button" data-ai-history="itchy">why's it so itchy?</button>
+                <button class="ai-history-item" type="button" data-ai-history="hot">it's getting really hot now too</button>
                 <div class="ai-sidebar-profile"><span class="ai-avatar">GF</span><strong>George</strong></div>
               </aside>
 
@@ -2627,33 +2717,18 @@
                     <a class="email-fallback" id="email-fallback" href="mailto:mrgeorgeflood@gmail.com?subject=awesome%20website.%20we%20want%20to%20interview%20you">Use another mail app</a>
                   </div>
                 </form>
+                <div class="ai-history-popover" data-ai-history-popover aria-hidden="true">
+                  <div class="ai-history-popover-head"><strong data-ai-history-title>Previous chat</strong><button class="ai-history-close" type="button" data-ai-history-close aria-label="Close previous chat">×</button></div>
+                  <div class="ai-history-chat">
+                    <div class="ai-history-bubble" data-ai-history-user></div>
+                    <div class="ai-history-answer"><span class="ai-assistant-logo" aria-hidden="true">✦</span><div><strong>ChatGPT</strong><p data-ai-history-answer></p></div></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="landing-rocket" id="landing-rocket" aria-hidden="true">
-        <div class="rocket-flame"></div>
-        <svg viewBox="0 0 120 220">
-          <defs>
-            <linearGradient id="rocketHull" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#dbe7f2"/><stop offset="1" stop-color="#8fa8bf"/></linearGradient>
-            <radialGradient id="rocketGlass" cx="35%" cy="28%"><stop offset="0" stop-color="#dff7ff"/><stop offset=".4" stop-color="#6dd0ff"/><stop offset="1" stop-color="#124a88"/></radialGradient>
-          </defs>
-          <path d="M60 6C36 29 27 67 30 128l30 30 30-30C93 67 84 29 60 6Z" fill="url(#rocketHull)" stroke="#eef7ff" stroke-width="3"/>
-          <path d="M30 112 11 149l27-8 7-18Z" fill="#ef4d58" stroke="#ffadb3" stroke-width="2"/>
-          <path d="m90 112 19 37-27-8-7-18Z" fill="#ef4d58" stroke="#ffadb3" stroke-width="2"/>
-          <path d="M46 147h28l-5 27H51Z" fill="#c8d8e6" stroke="#eef7ff" stroke-width="2"/>
-          <path d="M39 139h42" stroke="#ef4d58" stroke-width="10"/>
-          <circle class="rocket-window-glow" cx="60" cy="69" r="18" fill="url(#rocketGlass)" stroke="#ffffff" stroke-width="4"/>
-          <path d="M49 171 39 196M71 171l10 25M32 198h18M70 198h18" fill="none" stroke="#a9bdce" stroke-width="5" stroke-linecap="round"/>
-          <path d="M52 20c7-7 13-7 18 0" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="landing-shadow" id="landing-shadow" aria-hidden="true"></div>
-      <div class="landing-dust" aria-hidden="true"><i></i><i></i><i></i></div>
-      <div class="landing-status" aria-hidden="true">Portfolio deployed · engines safe</div>
-      <div class="earth-return" aria-hidden="true"></div>
       <div class="tiny">George Flood · London · Canvas &amp; caffeine</div>
     </div>
   </section>
@@ -2687,9 +2762,6 @@
         <circle cx="18.3" cy="9.2" r="3.4" fill="#4b1d63" stroke="#ffe27b" stroke-width="1.35"/>
         <path d="M18.3 2.1v3M18.3 13.5v2.8M11.2 9.2h2.8M22.6 9.2h2.8M13.2 4.1l2 2M21.4 12.3l2 2M23.4 4.1l-2 2M15.2 12.3l-2 2" stroke="#ffe27b" stroke-width="1.15" stroke-linecap="round"/>
       </svg>
-    </span>
-    <span class="cursor-icon" data-cursor-icon="earth">
-      <svg viewBox="0 0 24 24" width="23" height="23"><circle cx="12" cy="12" r="10" fill="#3c9ee8"/><path d="M4 8.5 8.2 6l2.1 1.3-.7 2.5 2.4 1.3-1.1 2.2-3.5-.2-1.6 2.1M14 4.2l2.6 2.1-.4 2.6 2.9 1.2.8 3.5-2.8 1.5-.2 3.1-2.6 1.5-1.3-3.1 1.1-2.4-1.8-2.7 1.8-2.2-1.4-2.6Z" fill="#62b86e"/></svg>
     </span>
   </div>
 </div>
@@ -3352,6 +3424,58 @@
     updateDraftLinks();
   }
 
+  function setupAiHistoryTabs() {
+    const conversations = {
+      itchy: {
+        title: "why's it so itchy?",
+        user: "Hypothetically, if a gentleman's private branch has been itching for three days, is that a software bug? Also the photo upload says ‘file too large’.",
+        answer: "GEORGE. FOR THE LOVE OF GOD, STOP TRYING TO SEND A 4K PHOTO OF THE INCIDENT. I am a language model, not an NHS walk-in centre. Put the camera down, put some trousers on, and call a doctor."
+      },
+      hot: {
+        title: "it's getting really hot now too",
+        user: "Quick update: the private branch is now hot as well as itchy. Like a laptop rendering 4K video. Is that progress?",
+        answer: "No, mate. That is not a loading bar. And those photos are now scorched into my context window. Close the camera app, open the NHS website, and speak to an actual doctor before your next prompt is ‘why is there smoke?’"
+      }
+    };
+
+    document.querySelectorAll(".ai-app, .contact-ai-app").forEach(app => {
+      const popover = app.querySelector("[data-ai-history-popover]");
+      if (!popover) return;
+      const titleEl = popover.querySelector("[data-ai-history-title]");
+      const userEl = popover.querySelector("[data-ai-history-user]");
+      const answerEl = popover.querySelector("[data-ai-history-answer]");
+      const close = popover.querySelector("[data-ai-history-close]");
+      const buttons = Array.from(app.querySelectorAll("[data-ai-history]"));
+
+      const hide = () => {
+        popover.classList.remove("show");
+        popover.setAttribute("aria-hidden", "true");
+        buttons.forEach(button => button.classList.toggle("active", button.dataset.aiHistory === "website"));
+      };
+
+      buttons.forEach(button => {
+        button.addEventListener("click", () => {
+          const conversation = conversations[button.dataset.aiHistory];
+          if (!conversation) {
+            hide();
+            return;
+          }
+          titleEl.textContent = conversation.title;
+          userEl.textContent = conversation.user;
+          answerEl.textContent = conversation.answer;
+          buttons.forEach(item => item.classList.toggle("active", item === button));
+          popover.classList.add("show");
+          popover.setAttribute("aria-hidden", "false");
+        });
+      });
+
+      close?.addEventListener("click", hide);
+      popover.addEventListener("keydown", event => {
+        if (event.key === "Escape") hide();
+      });
+    });
+  }
+
   function setupCasinoTabs() {
     const tabs = Array.from(document.querySelectorAll(".fox-tab[data-game]"));
     const panels = Array.from(document.querySelectorAll(".casino-game[role='tabpanel']"));
@@ -3664,7 +3788,7 @@
       playerHandEl.innerHTML = state.player.length ? state.player.map(card => cardMarkup(card)).join("") : emptyHand();
       dealerHandEl.innerHTML = state.dealer.length ? state.dealer.map((card, index) => cardMarkup(card, state.dealerHidden && index === 1)).join("") : emptyHand();
       playerScoreEl.textContent = state.player.length ? String(playerScore.total) : "—";
-      dealerScoreEl.textContent = state.dealer.length ? (state.dealerHidden ? String(state.dealer[0].value) : String(dealerScore.total)) : "—";
+      dealerScoreEl.textContent = state.dealer.length ? (state.dealerHidden ? `${state.dealer[0].value} + ?` : String(dealerScore.total)) : "—";
       bankrollEl.textContent = `${state.credits} credits`;
       betEl.textContent = `${state.bet} DEV`;
       const playerTurn = state.phase === "player";
@@ -3688,6 +3812,7 @@
         message += " The bankroll is empty. The private table is now closed.";
       }
       state.bet = Math.min(state.bet, Math.max(10, state.credits));
+      statusEl.dataset.outcome = outcome;
       statusEl.textContent = message;
       render();
     };
@@ -3707,10 +3832,10 @@
       }
       const player = scoreHand(state.player);
       const dealer = scoreHand(state.dealer);
-      if (dealer.bust) settle("win", `Dealer busts on ${dealer.total}. You win ${state.bet} DEV credits.`);
-      else if (dealer.total > player.total) settle("lose", `Dealer wins ${dealer.total} to ${player.total}. The house refactors your bet.`);
-      else if (dealer.total < player.total) settle("win", `You win ${player.total} to ${dealer.total}. Clean build, cleaner payout.`);
-      else settle("push", `Push on ${player.total}. Your ${state.bet} DEV credits are returned.`);
+      if (dealer.bust) settle("win", `WIN! Dealer busts on ${dealer.total}. You take ${state.bet} DEV credits.`);
+      else if (dealer.total > player.total) settle("lose", `OOF! Dealer wins ${dealer.total} to ${player.total}. The house refactors your bet.`);
+      else if (dealer.total < player.total) settle("win", `WIN! You beat the dealer ${player.total} to ${dealer.total}. Clean build, cleaner payout.`);
+      else settle("push", `PUSH. Both hands land on ${player.total}. Your ${state.bet} DEV credits are returned.`);
     };
 
     const deal = () => {
@@ -3721,6 +3846,7 @@
       state.dealer = [drawCard(), drawCard()];
       state.dealerHidden = true;
       state.phase = "player";
+      delete statusEl.dataset.outcome;
       statusEl.textContent = "Your move. Hit for another technology or stand on the current build.";
       render();
       const player = scoreHand(state.player);
@@ -3728,9 +3854,9 @@
       if (player.blackjack || dealer.blackjack) {
         state.dealerHidden = false;
         render();
-        if (player.blackjack && dealer.blackjack) settle("push", "Double blackjack. The hand is a push.");
-        else if (player.blackjack) settle("blackjack", `Natural 21. Stackjack pays ${state.bet * 1.5} DEV credits profit.`);
-        else settle("lose", "Dealer has blackjack. Even private browsing cannot hide that.");
+        if (player.blackjack && dealer.blackjack) settle("push", "PUSH. Double blackjack. Nobody gets to be smug.");
+        else if (player.blackjack) settle("blackjack", `BLACKJACK! Natural 21 pays ${state.bet * 1.5} DEV credits profit.`);
+        else settle("lose", "OOF! Dealer has blackjack. Even private browsing cannot hide that.");
       }
     };
 
@@ -3739,11 +3865,15 @@
       state.player.push(drawCard());
       const score = scoreHand(state.player);
       render();
-      if (score.bust) settle("lose", `Bust on ${score.total}. Too many dependencies.`);
+      if (score.bust) settle("lose", `OOF! Bust on ${score.total}. Too many dependencies.`);
       else if (score.total === 21) {
+        delete statusEl.dataset.outcome;
         statusEl.textContent = "Twenty-one. The dealer has to answer.";
         dealerTurn();
-      } else statusEl.textContent = `${score.total}. Hit again or stand.`;
+      } else {
+        delete statusEl.dataset.outcome;
+        statusEl.textContent = `Your total is ${score.total}. Hit again or stand.`;
+      }
     };
 
     const changeBet = amount => {
@@ -3784,7 +3914,7 @@
         if (chapter.id === "about" || chapter.id === "work") mode = "google";
         if (chapter.id === "projects") mode = "web";
         if (chapter.id === "stack") mode = "casino";
-        if (chapter.id === "foot") mode = "earth";
+        if (chapter.id === "foot") mode = "web";
       }
       if (cursor.dataset.mode !== mode) cursor.dataset.mode = mode;
     };
@@ -3928,69 +4058,42 @@
           : [];
         const naturalRadius = getComputedStyle(browserWindow).borderTopLeftRadius;
 
-        const miniGeometry = () => {
-          const width = browserWindow.offsetWidth;
-          const height = browserWindow.offsetHeight;
-          const left = Math.min(76, width * 0.08);
-          const miniWidth = Math.min(270, Math.max(190, width * 0.23));
-          const miniHeight = Math.min(52, Math.max(42, height * 0.085));
-          return {
-            x: width / 2 - (left + miniWidth / 2),
-            left,
-            right: Math.max(0, width - left - miniWidth),
-            bottom: Math.max(0, height - miniHeight)
-          };
-        };
-
         const launchTimeline = gsap.timeline({
           scrollTrigger: {
             trigger: anchor,
-            start: "top 94%",
-            end: "top 18%",
-            scrub: 0.72,
+            start: "top 104%",
+            end: "top 34%",
+            scrub: 0.68,
             invalidateOnRefresh: true,
-            onUpdate: self => { browserWindow.inert = self.progress < 0.78; }
+            onUpdate: self => { browserWindow.inert = self.progress < 0.48; }
           }
         });
 
         launchTimeline
           .fromTo(browserWindow,
             {
-              x: () => miniGeometry().x,
-              y: -18,
-              scale: 0.97,
-              rotationX: 7,
-              opacity: 0.9,
-              borderRadius: 34,
-              clipPath: () => {
-                const g = miniGeometry();
-                return `inset(0px ${g.right}px ${g.bottom}px ${g.left}px round 17px)`;
-              },
-              transformOrigin: "50% 0%"
+              y: () => Math.min(window.innerHeight * 0.58, 520),
+              scale: 0.66,
+              opacity: 0,
+              filter: "blur(14px)",
+              borderRadius: 30,
+              transformOrigin: "50% 100%"
             },
             {
-              x: 0,
               y: 0,
               scale: 1,
-              rotationX: 0,
               opacity: 1,
-              borderRadius: 22,
-              clipPath: () => `inset(0px 0px ${miniGeometry().bottom}px 0px round 17px)`,
-              duration: 0.38,
-              ease: "power2.inOut"
-            }, 0)
-          .to(browserWindow, {
-            borderRadius: naturalRadius,
-            clipPath: "inset(0px 0px 0px 0px round 0px)",
-            duration: 0.62,
-            ease: "power3.inOut"
-          }, 0.38);
+              filter: "blur(0px)",
+              borderRadius: naturalRadius,
+              duration: 1,
+              ease: "power3.out"
+            }, 0);
 
         if (surfaces.length) {
           launchTimeline.fromTo(surfaces,
-            { autoAlpha: 0, y: 10 },
-            { autoAlpha: 1, y: 0, duration: 0.34, stagger: 0.035, ease: "power1.out" },
-            0.66);
+            { autoAlpha: 0.48, y: 16, filter: "blur(4px)" },
+            { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.5, stagger: 0.035, ease: "power2.out" },
+            0.26);
         }
       });
 
@@ -4142,48 +4245,13 @@
           y: 0,
           opacity: 1,
           clipPath: "inset(0 0 0% 0)",
-          duration: 0.34,
-          stagger: 0.19,
+          duration: 0.28,
+          stagger: 0.12,
           ease: "power2.out"
         }, 0.08)
-        .to(contactCaret, { opacity: 1, duration: 0.08 }, 0.72)
-        .to(contactComposer, { y: 0, opacity: 1, duration: 0.34, ease: "back.out(1.25)" }, 0.68)
-        .to({}, { duration: 0.14 }, 1.02);
-    }
-
-    const landingRocket = document.getElementById("landing-rocket");
-    const landingShadow = document.getElementById("landing-shadow");
-    const earthReturn = document.querySelector(".earth-return");
-    const foot = document.getElementById("foot");
-    if (landingRocket && landingShadow && earthReturn && foot) {
-      const landingTimeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: foot,
-          start: "top 88%",
-          end: "bottom bottom",
-          scrub: 0.82,
-          invalidateOnRefresh: true,
-          onUpdate: self => foot.classList.toggle("is-landed", self.progress > 0.93)
-        }
-      });
-
-      landingTimeline
-        .fromTo(earthReturn,
-          { y: 120, scale: 1.025, transformOrigin: "50% 100%" },
-          { y: 0, scale: 1, duration: 1, ease: "power1.out" }, 0)
-        .fromTo(landingRocket,
-          {
-            xPercent: -50,
-            x: () => -Math.min(340, window.innerWidth * 0.24),
-            y: () => -window.innerHeight * 0.78,
-            rotation: -14,
-            scale: 0.64,
-            opacity: 0
-          },
-          { xPercent: -50, x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, duration: 0.58, ease: "power1.inOut" }, 0.42)
-        .fromTo(landingShadow,
-          { xPercent: -50, scale: 0.2, opacity: 0 },
-          { xPercent: -50, scale: 1, opacity: 0.66, duration: 0.2, ease: "power2.in" }, 0.8);
+        .to(contactCaret, { opacity: 1, duration: 0.08 }, 0.5)
+        .to(contactComposer, { y: 0, opacity: 1, duration: 0.34, ease: "back.out(1.25)" }, 0.46)
+        .to({}, { duration: 0.14 }, 0.84);
     }
 
     if (document.fonts && document.fonts.ready) {
@@ -4264,6 +4332,7 @@
   resize();
   setupProjectBrowser();
   setupContactDraft();
+  setupAiHistoryTabs();
   setupCasinoTabs();
   const normalizeSlotReels = setupStackMachine();
   setupBlackjack();
