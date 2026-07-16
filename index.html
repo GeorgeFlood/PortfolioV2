@@ -189,7 +189,7 @@
   #sky-zone {
     position: relative;
     z-index: 20;
-    height: 520vh;
+    height: 680vh;
   }
 
   #sky-sticky {
@@ -202,7 +202,7 @@
   }
 
   /* The empty sky appears first. Clouds then surge upward past the camera,
-     briefly surround us, and only then open to reveal the Safari hero. */
+     briefly surround us, and only then open to reveal the Apple Music hero. */
   #scene {
     position: absolute;
     inset: 0;
@@ -353,7 +353,7 @@
   .ai-send { width: 36px; height: 36px; display: grid; place-items: center; flex: 0 0 auto; margin-left: auto; border-radius: 11px; color: #fff; background: #202123; font-size: 17px; transform: scale(.88); }
   .ai-disclaimer { position: absolute; left: 0; right: 0; bottom: 5px; color: #a1a3aa; font-size: 8px; text-align: center; }
 
-  /* ---- Safari hero ---- */
+  /* ---- Apple Music hero ---- */
 
   #window {
     --bp: 0;
@@ -361,11 +361,12 @@
     left: 50%;
     bottom: 0;
     z-index: 6;
-    width: calc(90% + 10% * var(--bp));
-    height: calc(82svh + 18svh * var(--bp));
+    width: calc(92% + 8% * var(--bp));
+    height: calc(84svh + 16svh * var(--bp));
     transform: translateX(-50%) translateY(calc((1 - var(--bp)) * 94vh)) scale(calc(0.9 + 0.1 * var(--bp)));
     border-radius: calc(24px * (1 - var(--bp)));
-    background: var(--page-bg);
+    color: #1d1d1f;
+    background: #f6f6f8;
     box-shadow:
       0 -24px 90px rgba(50, 92, 154, 0.35),
       0 0 0 1px rgba(255, 255, 255, 0.6);
@@ -377,13 +378,14 @@
 
   #safari-bar {
     flex: 0 0 auto;
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(160px, 1fr) minmax(260px, 1.25fr) minmax(160px, 1fr);
     align-items: center;
-    gap: 13px;
-    min-height: 52px;
-    padding: 10px 15px;
-    background: linear-gradient(to bottom, rgba(250, 250, 252, 0.94), rgba(229, 230, 235, 0.92));
-    border-bottom: 1px solid rgba(173, 176, 184, 0.66);
+    gap: 18px;
+    min-height: 58px;
+    padding: 8px 15px;
+    background: linear-gradient(to bottom, rgba(251, 251, 253, 0.97), rgba(232, 232, 236, 0.96));
+    border-bottom: 1px solid rgba(173, 176, 184, 0.58);
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.76) inset;
     backdrop-filter: blur(28px) saturate(1.45);
     -webkit-backdrop-filter: blur(28px) saturate(1.45);
@@ -397,289 +399,204 @@
   .lights .y { background: #febc2e; }
   .lights .g { background: #28c840; }
 
-  .safari-nav,
-  .safari-actions {
+  .music-title-left,
+  .music-title-right,
+  .music-transport {
     display: flex;
     align-items: center;
-    gap: 6px;
-    color: #777e89;
-    flex: 0 0 auto;
+    gap: 10px;
   }
 
-  .safari-nav span,
-  .safari-actions span {
-    width: 27px;
-    height: 27px;
+  .music-title-right { justify-content: flex-end; color: #74747a; }
+  .music-transport { justify-content: center; gap: 14px; color: #55555b; }
+  .music-transport span {
+    width: 25px;
+    height: 25px;
     display: grid;
     place-items: center;
-    border-radius: 7px;
-    font-size: 17px;
-    font-weight: 500;
+    border-radius: 50%;
+    font-size: 13px;
   }
+  .music-transport .music-play-state { color: #fff; background: #fa2d55; box-shadow: 0 4px 12px rgba(250,45,85,.28); }
 
-  .safari-nav span:first-child { background: rgba(255, 255, 255, 0.58); }
-
-  #address {
-    flex: 1;
-    max-width: 560px;
-    margin: 0 auto;
-    background: rgba(255, 255, 255, 0.78);
-    border: 1px solid rgba(185, 188, 196, 0.72);
-    border-radius: 9px;
-    padding: 7px 14px;
+  .music-now-playing {
+    min-width: 0;
+    height: 41px;
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: #3a3f47;
+    gap: 10px;
+    padding: 5px 8px;
+    border: 1px solid rgba(169, 169, 176, .36);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, .66);
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
     overflow: hidden;
-    white-space: nowrap;
   }
-
-  #address .lock { flex: 0 0 auto; opacity: 0.55; }
-
-  #url-caret {
-    display: inline-block;
-    width: 1px;
-    height: 14px;
-    background: #3a3f47;
-    animation: blink 1s steps(1) infinite;
-  }
-  @keyframes blink { 50% { opacity: 0; } }
+  .music-mini-art { width: 29px; height: 29px; flex: 0 0 auto; border-radius: 5px; color: #fff; background: linear-gradient(145deg, #ff7d65, #d63880 52%, #5630bd); display: grid; place-items: center; font-size: 9px; font-weight: 700; }
+  .music-now-copy { min-width: 0; flex: 1; text-align: center; }
+  .music-now-copy strong, .music-now-copy span { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .music-now-copy strong { font-size: 10px; font-weight: 600; }
+  .music-now-copy span { margin-top: 2px; color: #85858b; font-size: 8px; }
+  .music-mini-progress { height: 2px; margin-top: 4px; border-radius: 2px; background: #d8d8dc; overflow: hidden; }
+  .music-mini-progress i { display: block; width: var(--music-p, 0%); height: 100%; background: #fa2d55; }
+  .music-volume { width: 76px; height: 3px; border-radius: 4px; background: linear-gradient(90deg, #8b8b91 0 58%, #c9c9ce 58%); }
+  .music-title-right small { font-size: 12px; }
 
   #loadbar {
     position: absolute;
-    left: 0; bottom: -1px;
+    left: 0;
+    bottom: -1px;
     height: 2px;
     width: 0%;
-    background: var(--page-accent);
+    background: #fa2d55;
   }
+  @keyframes blink { 50% { opacity: 0; } }
 
   #window-hero {
     flex: 1;
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.82fr);
-    align-items: center;
-    gap: clamp(28px, 5vw, 78px);
-    color: var(--page-ink);
-    padding: clamp(34px, 6vw, 84px) clamp(28px, 7vw, 104px);
-    overflow: hidden;
-    background:
-      radial-gradient(circle at 84% 18%, rgba(129, 190, 255, 0.28), transparent 27%),
-      radial-gradient(circle at 76% 83%, rgba(191, 156, 255, 0.17), transparent 29%),
-      linear-gradient(135deg, #ffffff 0%, #f7f7f9 54%, #eef1f6 100%);
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
-  }
-
-  .hero-copy { position: relative; z-index: 2; max-width: 680px; }
-
-  #window-hero .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    font-size: 11px;
-    letter-spacing: -0.01em;
+    grid-template-columns: 218px minmax(0, 1fr);
     color: #1d1d1f;
-    margin-bottom: 20px;
-    padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.68);
-    border: 1px solid rgba(30, 31, 35, 0.09);
-    border-radius: 999px;
-    box-shadow: 0 10px 28px rgba(28, 33, 43, 0.07);
-    backdrop-filter: blur(16px);
-  }
-
-  #window-hero .eyebrow::before {
-    content: "";
-    width: 7px;
-    height: 7px;
-    border-radius: 2px 8px 2px 8px;
-    background: #1d1d1f;
-    transform: rotate(-35deg);
-  }
-
-  #window-hero h2 {
+    padding: 0;
+    overflow: hidden;
+    background: #f5f5f7;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
-    font-weight: 700;
-    font-size: clamp(42px, 6vw, 84px);
-    line-height: 0.94;
-    letter-spacing: -0.065em;
   }
 
-  #window-hero h2 .name-line {
-    display: block;
-    color: var(--page-ink);
-  }
-
-  #window-hero h2 .promise-line {
-    display: block;
-    color: transparent;
-    background: linear-gradient(90deg, #2477ff 5%, #8c57ff 48%, #f05c9d 95%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    padding-right: 0.06em;
-  }
-
-  #window-hero .hero-intro {
-    margin-top: 24px;
-    color: var(--page-dim);
-    font-size: clamp(14px, 1.45vw, 17px);
-    max-width: 52ch;
-    line-height: 1.6;
-    font-weight: 400;
-  }
-
-  .hero-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 9px;
-    margin-top: 25px;
-  }
-
-  .hero-meta span {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    border-radius: 999px;
-    padding: 8px 12px;
-    font-size: 12px;
-    color: #515154;
-    background: rgba(255, 255, 255, 0.82);
-    border: 1px solid rgba(29, 29, 31, 0.10);
-  }
-
-  .hero-meta span::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: #1d1d1f; opacity: 0.58; }
-
-  .apple-stage {
+  .music-sidebar {
     position: relative;
-    width: min(32vw, 410px);
-    aspect-ratio: 0.92;
-    justify-self: center;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 22px 13px 16px;
+    border-right: 1px solid rgba(82,82,91,.12);
+    background: rgba(242, 242, 245, .92);
+    backdrop-filter: blur(24px);
+  }
+  .music-brand { display: flex; align-items: center; gap: 10px; padding: 0 10px 20px; font-size: 15px; font-weight: 650; }
+  .music-brand-mark { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 8px; color: #fff; background: linear-gradient(160deg,#ff6d88,#fb234c); box-shadow: 0 6px 18px rgba(250,45,85,.24); font-size: 17px; }
+  .music-side-label { margin: 13px 10px 7px; color: #8a8a91; font-size: 9px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+  .music-side-link,
+  .music-tab {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 8px;
+    color: #4d4d53;
+    background: transparent;
+    font: 500 11px/1.25 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    text-align: left;
+  }
+  .music-side-link span:first-child, .music-tab > span:first-child { width: 18px; color: #fa2d55; text-align: center; font-size: 14px; }
+  .music-tab { cursor: pointer; }
+  .music-tab:hover { background: rgba(0,0,0,.045); }
+  .music-tab[aria-selected="true"] { color: #1d1d1f; background: rgba(0,0,0,.075); }
+  .music-tab:focus-visible { outline:2px solid #fa2d55; outline-offset:-2px; }
+  .music-tab small { margin-left: auto; color: #929298; font-size: 8px; text-transform: uppercase; }
+  .music-sidebar-foot { margin-top: auto; padding: 13px 10px 0; border-top: 1px solid rgba(82,82,91,.1); color: #898990; font-size: 9px; line-height: 1.45; }
+
+  .music-content { position: relative; min-width: 0; min-height: 0; overflow: hidden; background: #111116; }
+  .music-view { position: absolute; inset: 0; opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(12px); transition: opacity .25s ease, visibility .25s ease, transform .35s cubic-bezier(.2,1,.3,1); }
+  .music-view.is-active { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0); }
+  .music-view-intro {
+    display: grid;
+    grid-template-columns: minmax(230px, .78fr) minmax(330px, 1.22fr);
+    align-items: center;
+    gap: clamp(32px, 5vw, 78px);
+    padding: clamp(30px, 5vw, 74px) clamp(30px, 5.4vw, 82px) 92px;
+    color: #fff;
+    background:
+      radial-gradient(circle at 18% 15%, rgba(255,157,89,.7), transparent 30%),
+      radial-gradient(circle at 74% 82%, rgba(87,57,190,.9), transparent 42%),
+      linear-gradient(135deg, #c92963 0%, #762e80 42%, #15142d 100%);
+  }
+  .music-view-intro::before { content:""; position:absolute; inset:0; pointer-events:none; background: linear-gradient(110deg, rgba(255,255,255,.14), transparent 32% 72%, rgba(255,255,255,.05)); mix-blend-mode: screen; }
+  .music-album-column { position: relative; z-index: 2; min-width: 0; }
+  .music-art {
+    position: relative;
+    width: min(100%, 390px);
+    aspect-ratio: 1;
     display: grid;
     place-items: center;
-    perspective: 1000px;
-  }
-
-  .apple-glow {
-    position: absolute;
-    inset: 14% 4% 5%;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(91, 152, 255, 0.36), rgba(141, 91, 255, 0.14) 45%, transparent 72%);
-    filter: blur(15px);
-    animation: apple-breathe 5.5s ease-in-out infinite alternate;
-  }
-
-  @keyframes apple-breathe {
-    to { transform: scale(1.08); opacity: 0.72; }
-  }
-
-  .apple-product {
-    position: absolute;
-    inset: 7% 6% 12%;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.28);
-    border-radius: clamp(42px, 5vw, 68px);
-    color: #f5f5f7;
+    border: 1px solid rgba(255,255,255,.28);
+    border-radius: clamp(17px, 2.2vw, 28px);
+    background: #151515;
+    box-shadow: 0 34px 70px rgba(20,10,38,.38), 0 2px 0 rgba(255,255,255,.22) inset;
+    transform: perspective(900px) rotateY(-4deg) rotateX(2deg);
+    will-change: transform;
+  }
+  .music-art img { width:100%; height:100%; display:block; object-fit:cover; }
+  .music-track-meta { margin-top: 17px; }
+  .music-track-meta strong, .music-track-meta span { display:block; }
+  .music-track-meta strong { font-size:clamp(18px,2vw,25px); letter-spacing:-.025em; }
+  .music-track-meta span { margin-top:5px; color:rgba(255,255,255,.58); font-size:11px; }
+  .music-track-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:13px; }
+  .music-track-tags span { padding:6px 9px; border:1px solid rgba(255,255,255,.14); border-radius:999px; color:rgba(255,255,255,.74); background:rgba(255,255,255,.07); font-size:9px; }
+
+  .music-lyrics { position:relative; z-index:2; min-width:0; height:min(58svh,570px); overflow:hidden; mask-image:linear-gradient(to bottom,transparent,#000 14%,#000 78%,transparent); }
+  .music-lyrics-track { padding:46% 0 54%; will-change:transform; }
+  .music-lyric-line { max-width:17ch; margin:0 0 28px; color:rgba(255,255,255,.18); font-size:clamp(25px,3.6vw,53px); font-weight:700; line-height:1.02; letter-spacing:-.045em; transition:color .25s ease, opacity .25s ease, transform .3s ease; }
+  .music-lyric-line.is-past { color:rgba(255,255,255,.1); }
+  .music-lyric-line.is-active { color:#fff; opacity:1; transform:translateX(10px); text-shadow:0 12px 40px rgba(15,4,35,.26); }
+
+  .music-playback {
+    position: absolute;
+    left: clamp(30px, 5.4vw, 82px);
+    right: clamp(30px, 5.4vw, 82px);
+    bottom: 23px;
+    z-index:5;
+    display:grid;
+    grid-template-columns:34px 1fr 34px;
+    align-items:center;
+    gap:12px;
+    color:rgba(255,255,255,.62);
+    font-size:9px;
+  }
+  .music-scrubber { position:relative; height:4px; border-radius:5px; background:rgba(255,255,255,.22); }
+  .music-scrubber-fill { width:var(--music-p,0%); height:100%; border-radius:inherit; background:#fff; }
+  .music-scrubber-knob { position:absolute; left:var(--music-p,0%); top:50%; width:13px; height:13px; transform:translate(-50%,-50%); border-radius:50%; background:#fff; box-shadow:0 3px 10px rgba(0,0,0,.28); }
+  .music-playback-hint { position:absolute; right:0; bottom:16px; color:rgba(255,255,255,.42); font-size:8px; letter-spacing:.16em; text-transform:uppercase; }
+
+  .music-view-podcast {
+    display:grid;
+    grid-template-columns:minmax(250px,.72fr) minmax(350px,1.28fr);
+    align-items:center;
+    gap:clamp(34px,6vw,92px);
+    padding:clamp(34px,5vw,78px);
+    color:#f7f4ee;
     background:
-      radial-gradient(circle at 72% 14%, rgba(130, 169, 255, 0.24), transparent 30%),
-      radial-gradient(circle at 24% 88%, rgba(186, 103, 244, 0.17), transparent 33%),
-      linear-gradient(145deg, #30343c, #111318 58%, #050608);
-    box-shadow:
-      0 45px 80px rgba(22, 30, 45, 0.28),
-      0 2px 0 rgba(255, 255, 255, 0.28) inset,
-      0 -2px 0 rgba(0, 0, 0, 0.7) inset;
-    transform: rotateY(-7deg) rotateX(3deg);
-    animation: apple-product-float 5s cubic-bezier(0.45, 0, 0.3, 1) infinite alternate;
+      radial-gradient(circle at 20% 15%,rgba(255,139,48,.22),transparent 32%),
+      radial-gradient(circle at 78% 80%,rgba(193,45,38,.17),transparent 35%),
+      #12100e;
   }
-
-  @keyframes apple-product-float {
-    to { transform: rotateY(4deg) rotateX(-1deg) translateY(-9px); }
-  }
-
-  .apple-product::before {
-    content: "";
-    position: absolute;
-    inset: -35% 54% 42% -28%;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,0.24), transparent 69%);
-    transform: rotate(-20deg);
-  }
-
-  .apple-wordmark {
-    position: absolute;
-    inset: 13% 13% auto;
-  }
-
-  .apple-wordmark span {
-    display: block;
-    font-size: clamp(58px, 7vw, 100px);
-    font-weight: 700;
-    line-height: 0.9;
-    letter-spacing: -0.09em;
-  }
-
-  .apple-wordmark small {
-    display: block;
-    margin-top: 12px;
-    color: rgba(245, 245, 247, 0.58);
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.19em;
-    text-transform: uppercase;
-  }
-
-  .apple-specs {
-    position: absolute;
-    left: 12%;
-    right: 12%;
-    bottom: 11%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-
-  .apple-specs div {
-    padding-top: 11px;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-  }
-
-  .apple-specs span,
-  .apple-specs strong { display: block; }
-  .apple-specs span { color: rgba(245,245,247,0.44); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; }
-  .apple-specs strong { margin-top: 4px; color: #fff; font-size: clamp(9px, 1vw, 12px); font-weight: 500; }
-
-  .apple-caption {
-    position: absolute;
-    right: -1%;
-    bottom: 5%;
-    z-index: 3;
-    min-width: 170px;
-    padding: 13px 15px;
-    border: 1px solid rgba(29, 29, 31, 0.08);
-    border-radius: 16px;
-    color: #6e6e73;
-    background: rgba(255, 255, 255, 0.78);
-    box-shadow: 0 18px 45px rgba(31, 38, 51, 0.12);
-    backdrop-filter: blur(18px);
-    font-size: 10px;
-  }
-
-  .apple-caption span,
-  .apple-caption strong { display: block; }
-  .apple-caption strong { margin-top: 3px; color: #1d1d1f; font-size: 12px; font-weight: 600; }
+  .podcast-cover { position:relative; width:min(100%,380px); aspect-ratio:1; overflow:hidden; border:1px solid rgba(255,255,255,.15); border-radius:22px; background:#fff; box-shadow:0 35px 80px rgba(0,0,0,.46); }
+  .podcast-cover img { width:100%; height:100%; display:block; object-fit:cover; }
+  .podcast-transcript { position:relative; z-index:2; }
+  .podcast-kicker { color:#ff9351; font-size:9px; font-weight:700; letter-spacing:.17em; text-transform:uppercase; }
+  .podcast-transcript h2 { margin-top:12px; font-size:clamp(30px,4.5vw,62px); line-height:.94; letter-spacing:-.055em; }
+  .podcast-paused { display:inline-flex; align-items:center; gap:8px; margin-top:17px; padding:7px 10px; border:1px solid rgba(255,255,255,.14); border-radius:999px; color:rgba(255,255,255,.62); background:rgba(255,255,255,.05); font-size:9px; letter-spacing:.12em; text-transform:uppercase; }
+  .podcast-paused i { width:7px; height:7px; border-radius:50%; background:#ff4c3f; box-shadow:0 0 0 5px rgba(255,76,63,.12); }
+  .podcast-exchange { max-width:620px; margin-top:22px; display:grid; gap:10px; }
+  .podcast-exchange p { margin:0; padding:10px 13px; border:1px solid rgba(255,255,255,.08); border-radius:12px; color:rgba(255,255,255,.72); background:rgba(255,255,255,.04); font-size:clamp(11px,1.15vw,14px); line-height:1.42; }
+  .podcast-exchange p:nth-child(even) { margin-left:clamp(12px,3vw,38px); border-color:rgba(255,147,81,.2); background:rgba(255,147,81,.07); }
+  .podcast-exchange strong { color:#fff; }
+  .podcast-disclaimer { margin-top:18px; color:rgba(255,255,255,.32); font-size:9px; line-height:1.5; }
 
   #window-hero .cue {
-    position: absolute;
-    left: 50%;
-    bottom: 20px;
-    transform: translateX(-50%);
-    font-size: 11px;
-    letter-spacing: 0.26em;
-    text-transform: uppercase;
-    color: var(--page-dim);
-    opacity: 0.65;
-    white-space: nowrap;
+    position:absolute;
+    right:22px;
+    bottom:18px;
+    z-index:7;
+    color:rgba(255,255,255,.44);
+    font-size:8px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
   }
 
   /* ============================================================
@@ -766,7 +683,7 @@
 
   #about {
     position: relative;
-    height: 190vh;
+    height: 225vh;
     background:
       radial-gradient(circle at 12% 18%, rgba(66, 133, 244, 0.14), transparent 24%),
       radial-gradient(circle at 91% 80%, rgba(52, 168, 83, 0.10), transparent 22%),
@@ -929,93 +846,136 @@
   .chrome-menu { color: #6d7686; font-size: 19px; letter-spacing: 1px; }
 
   .about-page {
-    height: calc(100% - 85px);
-    display: grid;
-    grid-template-columns: minmax(250px, 0.74fr) minmax(0, 1.26fr);
-    gap: clamp(28px, 5vw, 72px);
-    align-items: center;
-    padding: clamp(24px, 4vw, 52px);
-    background:
-      linear-gradient(90deg, rgba(238, 243, 252, 0.8) 1px, transparent 1px),
-      linear-gradient(rgba(238, 243, 252, 0.8) 1px, transparent 1px),
-      #fff;
-    background-size: 32px 32px;
-  }
-
-  .search-brand {
-    font-size: clamp(31px, 4vw, 48px);
-    font-weight: 500;
-    letter-spacing: -0.08em;
-    margin-bottom: 19px;
-  }
-
-  .search-brand span:nth-child(1), .search-brand span:nth-child(4) { color: var(--google-blue); }
-  .search-brand span:nth-child(2), .search-brand span:nth-child(6) { color: var(--google-red); }
-  .search-brand span:nth-child(3) { color: var(--google-yellow); }
-  .search-brand span:nth-child(5) { color: var(--google-green); }
-
-  .search-question {
     position: relative;
-    min-height: 68px;
+    height: calc(100% - 85px);
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 14% 18%, rgba(66,133,244,.065), transparent 25%),
+      radial-gradient(circle at 88% 84%, rgba(52,168,83,.055), transparent 24%),
+      #fff;
+  }
+
+  .google-home {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    padding: 30px;
+    background: #fff;
+    will-change: transform, opacity;
+  }
+  .google-logo { display:flex; align-items:flex-end; margin-bottom:30px; font:500 clamp(48px,7vw,82px)/1 Arial,sans-serif; letter-spacing:-.08em; }
+  .google-logo span:nth-child(1), .google-logo span:nth-child(4) { color:var(--google-blue); }
+  .google-logo span:nth-child(2), .google-logo span:nth-child(6) { color:var(--google-red); }
+  .google-logo span:nth-child(3) { color:var(--google-yellow); }
+  .google-logo span:nth-child(5) { color:var(--google-green); }
+  .google-query-box {
+    position: relative;
+    width:min(620px, 78vw);
+    min-height: 52px;
     display: flex;
     align-items: center;
-    padding: 14px 46px 14px 20px;
-    border: 1px solid #dfe4ec;
-    border-radius: 24px;
+    gap:9px;
+    padding: 11px 56px 11px 19px;
+    border: 1px solid #dfe1e5;
+    border-radius: 999px;
     background: #fff;
-    box-shadow: 0 8px 22px rgba(50, 71, 104, 0.09);
-    color: #3f4a5e;
-    font-size: clamp(13px, 1.2vw, 15px);
-    line-height: 1.45;
+    box-shadow: 0 2px 6px rgba(32,33,36,.12);
+    color:#303134;
+    font:16px/1.35 Arial,sans-serif;
   }
-
-  .search-question::after {
-    content: "⌕";
-    position: absolute;
-    right: 18px;
-    color: var(--google-blue);
-    font-size: 23px;
+  .google-query-box:hover { box-shadow:0 3px 10px rgba(32,33,36,.18); }
+  .google-search-glyph { color:#9aa0a6; font-size:17px; }
+  #google-query-text { min-width:0; white-space:nowrap; overflow:hidden; }
+  .google-query-caret { width:1px; height:19px; background:#303134; animation:blink 1s steps(1) infinite; }
+  .google-search-submit {
+    position:absolute;
+    right:9px;
+    width:38px;
+    height:38px;
+    display:grid;
+    place-items:center;
+    border:0;
+    border-radius:50%;
+    color:#fff;
+    background:var(--google-blue);
+    box-shadow:0 6px 18px rgba(66,133,244,.25);
+    font-size:17px;
   }
+  .google-home-note { margin-top:18px; color:#8a9099; font:11px/1.4 Arial,sans-serif; }
 
-  .search-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
-  .search-chips span { padding: 6px 9px; border-radius: 8px; background: #f0f4fa; color: #6d778a; font-size: 10px; }
-
-  .about-result .result-label {
+  .google-results {
+    position:absolute;
+    inset:0;
+    z-index:2;
+    display:grid;
+    grid-template-rows:auto 1fr;
+    background:#fff;
+    will-change:transform,opacity;
+  }
+  .google-results-head { min-height:74px; display:flex; align-items:center; gap:20px; padding:12px clamp(20px,4vw,48px); border-bottom:1px solid #edf0f4; }
+  .google-mini-logo { display:flex; flex:0 0 auto; font:600 23px/1 Arial,sans-serif; letter-spacing:-.08em; }
+  .google-mini-logo span:nth-child(1), .google-mini-logo span:nth-child(4) { color:var(--google-blue); }
+  .google-mini-logo span:nth-child(2), .google-mini-logo span:nth-child(6) { color:var(--google-red); }
+  .google-mini-logo span:nth-child(3) { color:var(--google-yellow); }
+  .google-mini-logo span:nth-child(5) { color:var(--google-green); }
+  .google-results-query { width:min(620px,70%); min-height:42px; display:flex; align-items:center; padding:9px 16px; border:1px solid #dfe1e5; border-radius:999px; box-shadow:0 2px 6px rgba(32,33,36,.08); color:#303134; font:13px/1.3 Arial,sans-serif; }
+  .google-results-query span:last-child { margin-left:auto; color:var(--google-blue); font-size:16px; }
+  .google-results-body { min-height:0; display:grid; grid-template-columns:minmax(0,1.35fr) minmax(230px,.65fr); gap:clamp(24px,4vw,58px); align-content:center; padding:clamp(22px,3.5vw,46px) clamp(24px,5vw,72px); overflow:auto; }
+  .google-result-count { color:#8a9099; font:10px/1.3 Arial,sans-serif; }
+  .google-primary-result .result-label {
     color: var(--google-blue);
     font-size: 10px;
     letter-spacing: 0.24em;
     text-transform: uppercase;
-    margin-bottom: 12px;
+    margin:10px 0 9px;
   }
-
-  .about-result h3 {
-    max-width: 14ch;
+  .google-primary-result h3 {
+    max-width: 17ch;
     font-family: 'Fraunces', serif;
     font-weight: 300;
-    font-size: clamp(29px, 3.6vw, 48px);
+    font-size: clamp(27px, 3.2vw, 43px);
     line-height: 1.08;
     letter-spacing: -0.035em;
   }
-
-  .about-result > p {
-    max-width: 57ch;
-    margin-top: 15px;
+  .google-primary-result > p {
+    max-width: 60ch;
+    margin-top: 12px;
     color: var(--page-dim);
-    font-size: clamp(13px, 1.25vw, 15px);
-    line-height: 1.65;
+    font-size: clamp(12px, 1.15vw, 14px);
+    line-height: 1.58;
   }
+  .google-knowledge-panel { align-self:center; padding:21px; border:1px solid #e0e3e7; border-radius:18px; box-shadow:0 10px 28px rgba(50,71,104,.08); }
+  .knowledge-avatar { width:54px; height:54px; display:grid; place-items:center; border-radius:50%; color:#fff; background:linear-gradient(135deg,var(--google-blue),#7956d8); font-size:15px; font-weight:700; }
+  .google-knowledge-panel h4 { margin-top:13px; font-size:18px; }
+  .google-knowledge-panel > p { margin-top:4px; color:#70757a; font:11px/1.45 Arial,sans-serif; }
+  .knowledge-facts { display:grid; gap:8px; margin-top:15px; padding-top:14px; border-top:1px solid #eceff3; }
+  .knowledge-facts span { display:flex; justify-content:space-between; gap:10px; color:#70757a; font:9px/1.3 Arial,sans-serif; }
+  .knowledge-facts strong { color:#3c4043; font-weight:600; text-align:right; }
+  .google-lucky { display:inline-flex; align-items:center; gap:7px; margin-top:14px; padding:7px 10px; border-radius:7px; color:#356bc4; background:#eef4ff; font-size:9px; }
+
+  body.no-gsap .google-home,
+  body.motion-static .google-home { display:none; }
+  body.no-gsap .google-results,
+  body.motion-static .google-results { position:relative; opacity:1 !important; transform:none !important; }
+  body.no-gsap .about-page,
+  body.motion-static .about-page { height:auto; overflow:visible; }
+  body.no-gsap .google-results-body,
+  body.motion-static .google-results-body { overflow:visible; }
 
   .answer-flow {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 9px;
-    margin-top: 21px;
+    gap: 8px;
+    margin-top: 17px;
   }
 
   .answer-step {
     position: relative;
-    min-height: 96px;
-    padding: 14px;
+    min-height: 82px;
+    padding: 12px;
     border: 1px solid #e1e6ee;
     border-radius: 14px;
     background: rgba(255, 255, 255, 0.92);
@@ -1094,49 +1054,24 @@
   }
 
   .journey-browser-page {
-    --journey-grid-x: 0px;
-    --journey-parallax-x: 0px;
+    --run-x: 7%;
+    --cloud-x: 0vw;
+    --hill-x: 0vw;
+    --ground-x: 0px;
+    --road-p: 0;
     position: relative;
     height: calc(100% - 85px);
     overflow: hidden;
     isolation: isolate;
     background:
-      radial-gradient(circle at 10% 85%, rgba(251, 188, 4, 0.17), transparent 24%),
-      radial-gradient(circle at 92% 12%, rgba(234, 67, 53, 0.10), transparent 23%),
-      linear-gradient(rgba(203, 194, 178, 0.22) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(203, 194, 178, 0.22) 1px, transparent 1px),
-      var(--warm);
-    background-size: auto, auto, 28px 28px, 28px 28px, auto;
-    background-position: calc(10% + var(--journey-grid-x)) 85%, calc(92% + var(--journey-grid-x)) 12%, var(--journey-grid-x) 0, var(--journey-grid-x) 0, 0 0;
-  }
-
-  .journey-browser-page::before {
-    content: "";
-    position: absolute;
-    inset: -12% -28%;
-    z-index: 0;
-    pointer-events: none;
-    opacity: .72;
-    transform: translate3d(var(--journey-parallax-x), 0, 0);
-    will-change: transform;
-    background:
-      linear-gradient(90deg, transparent 0 11%, rgba(234,67,53,.07) 16%, transparent 22%, transparent 43%, rgba(251,188,4,.09) 50%, transparent 57%, transparent 76%, rgba(52,168,83,.07) 83%, transparent 90%),
-      repeating-linear-gradient(0deg, transparent 0 84px, rgba(100,91,74,.055) 85px, transparent 86px);
-    filter: blur(.2px);
-  }
-
-  .journey-browser-page::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
-    background: linear-gradient(90deg, rgba(248,244,235,.12), transparent 14% 86%, rgba(248,244,235,.12));
+      linear-gradient(180deg, #f7f7f7 0 68%, #f2f2f2 68% 100%);
+    color:#535353;
+    font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   }
 
   .journey-head {
     position: absolute;
-    z-index: 10;
+    z-index: 20;
     top: clamp(20px, 3.8vh, 38px);
     left: clamp(22px, 5vw, 70px);
     right: clamp(22px, 5vw, 70px);
@@ -1147,139 +1082,85 @@
     pointer-events: none;
   }
 
-  .journey-heading { max-width: 560px; }
-  .journey-heading p { margin-top: 10px; color: #746f66; font-size: 13px; }
+  .journey-heading { max-width: 620px; }
+  .journey-heading h2 { font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-weight:650; letter-spacing:-.05em; }
+  .journey-heading p { margin-top: 10px; color: #777; font-size: 12px; }
 
   .journey-progress { width: min(330px, 30vw); padding-top: 7px; }
   .journey-progress-labels { display: flex; justify-content: space-between; color: #8b857a; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; }
   .journey-progress-labels span:first-child { color: var(--google-red); }
   .journey-progress-labels span:nth-child(2) { color: #ad7c00; }
   .journey-progress-labels span:last-child { color: var(--google-green); }
-  .journey-progress-track { height: 3px; margin-top: 11px; border-radius: 4px; background: #d9d1c4; overflow: hidden; }
-  .journey-progress-fill { width: 0%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--google-red) 0 34%, var(--google-yellow) 46% 69%, var(--google-green) 82% 100%); }
+  .journey-progress-track { height: 3px; margin-top: 11px; border-radius: 4px; background: #d5d5d5; overflow: hidden; }
+  .journey-progress-fill { width: 100%; height: 100%; transform:scaleX(0); transform-origin:left; border-radius: inherit; background: linear-gradient(90deg, var(--google-red) 0 34%, var(--google-yellow) 34% 68%, var(--google-green) 68% 100%); }
 
-  .journey-world {
-    position: absolute;
-    z-index: 1;
-    left: 50%;
-    top: 54%;
-    width: max(2300px, 230vw);
-    height: 700px;
-    transform: translate(-50%, -50%) scale(0.48);
-    transform-origin: 50% 50%;
-    will-change: transform;
-  }
+  .dino-game { position:absolute; inset:clamp(122px,19vh,166px) 0 0; z-index:3; overflow:hidden; }
+  .dino-hud { position:absolute; top:12px; right:clamp(20px,4vw,58px); z-index:10; display:flex; align-items:center; gap:18px; color:#777; font-size:10px; letter-spacing:.1em; text-transform:uppercase; }
+  .dino-offline { display:flex; align-items:center; gap:7px; }
+  .dino-offline i { width:7px; height:7px; border-radius:50%; background:#ea4335; box-shadow:0 0 0 4px rgba(234,67,53,.1); }
+  #dino-score { min-width:82px; text-align:right; }
+  .dino-cloud-layer { position:absolute; inset:6% -15% auto; height:31%; transform:translate3d(var(--cloud-x),0,0); will-change:transform; }
+  .pixel-cloud { position:absolute; width:64px; height:11px; border:3px solid #d8d8d8; border-top:0; }
+  .pixel-cloud::before,.pixel-cloud::after { content:""; position:absolute; bottom:8px; border:3px solid #d8d8d8; border-bottom:0; background:#f7f7f7; }
+  .pixel-cloud::before { left:12px; width:18px; height:11px; }
+  .pixel-cloud::after { right:10px; width:14px; height:7px; }
+  .pixel-cloud:nth-child(1){left:8%;top:24%;}.pixel-cloud:nth-child(2){left:42%;top:7%;transform:scale(.75)}.pixel-cloud:nth-child(3){left:76%;top:38%;transform:scale(1.12)}.pixel-cloud:nth-child(4){left:104%;top:11%;transform:scale(.82)}
+  .dino-hill-layer { position:absolute; left:-15%; right:-15%; bottom:56px; height:39%; transform:translate3d(var(--hill-x),0,0); opacity:.55; will-change:transform; background:radial-gradient(ellipse at 12% 100%,transparent 0 31%,#ececec 31.5% 33%,transparent 33.5%),radial-gradient(ellipse at 45% 100%,transparent 0 39%,#ebebeb 39.5% 41%,transparent 41.5%),radial-gradient(ellipse at 78% 100%,transparent 0 35%,#ededed 35.5% 37%,transparent 37.5%); }
+  .dino-ground { position:absolute; left:0; right:0; bottom:52px; z-index:5; height:3px; background:#535353; }
+  .dino-ground-fill { position:absolute; inset:0; transform:scaleX(var(--road-p)); transform-origin:left; background:linear-gradient(90deg,var(--google-red) 0 34%,var(--google-yellow) 34% 68%,var(--google-green) 68%); }
+  .dino-ground-texture { position:absolute; left:0; right:0; bottom:0; height:52px; opacity:.55; background-image:repeating-linear-gradient(90deg,transparent 0 21px,#777 22px 24px,transparent 25px 46px),repeating-linear-gradient(90deg,transparent 0 69px,#999 70px 72px,transparent 73px 118px); background-size:180px 1px,260px 1px; background-position:var(--ground-x) 10px,var(--ground-x) 28px; background-repeat:repeat-x; }
 
-  .journey-route {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
+  .dino-obstacle { position:absolute; left:var(--obstacle-x); bottom:55px; z-index:7; width:28px; height:47px; transform:translateX(-50%); color:#535353; }
+  .dino-obstacle i { position:absolute; left:10px; bottom:0; width:8px; height:46px; background:currentColor; }
+  .dino-obstacle::before,.dino-obstacle::after { content:""; position:absolute; width:10px; height:8px; border-bottom:7px solid currentColor; }
+  .dino-obstacle::before { left:0; top:18px; border-left:6px solid currentColor; }
+  .dino-obstacle::after { right:0; top:10px; border-right:6px solid currentColor; }
 
-  .route-shadow { fill: none; stroke: rgba(91, 82, 67, 0.12); stroke-width: 18; stroke-linecap: round; }
-  .route-base { fill: none; stroke: #cbc2b2; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 12 15; }
-  .route-drawn { fill: none; stroke-width: 7; stroke-linecap: round; stroke-dasharray: 3000; stroke-dashoffset: 3000; }
-  .route-red { stroke: var(--google-red); }
-  .route-yellow { stroke: var(--google-yellow); }
-  .route-green { stroke: var(--google-green); }
+  .dino-runner { position:absolute; left:var(--run-x); bottom:calc(56px + var(--jump-y, 0px)); z-index:14; width:66px; height:72px; transform:translateX(-50%); color:#535353; will-change:left,bottom,transform; filter:drop-shadow(0 8px 0 rgba(83,83,83,.06)); }
+  .dino-runner[data-facing="left"] { transform:translateX(-50%) scaleX(-1); }
+  .dino-sprite { width:100%; height:100%; overflow:visible; }
+  .dino-leg-b { opacity:0; }
+  .dino-runner[data-step="1"] .dino-leg-a { opacity:0; }
+  .dino-runner[data-step="1"] .dino-leg-b { opacity:1; }
+  .dino-runner.is-jumping .dino-shadow { transform:scaleX(.58); opacity:.2; }
+  .dino-shadow { position:absolute; left:9px; right:5px; bottom:-5px; height:5px; border-radius:50%; background:rgba(83,83,83,.2); transform-origin:center; }
 
-  .journey-station {
-    --station-color: var(--google-blue);
-    position: absolute;
-    width: 420px;
-    transform: translate(-50%, -50%);
-  }
-
-  .journey-station.origin { --station-color: var(--google-red); left: 15%; top: 48%; }
-  .journey-station.indie { --station-color: var(--google-yellow); left: 50%; top: 64%; }
-  .journey-station.hydro { --station-color: var(--google-green); left: 85%; top: 47%; }
-
-  .station-marker {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    width: 74px;
-    height: 74px;
-    display: grid;
-    place-items: center;
-    transform: translate(-50%, -50%);
-    border: 8px solid var(--warm);
-    border-radius: 50%;
-    color: #fff;
-    background: var(--station-color);
-    box-shadow: 0 10px 0 rgba(74, 63, 47, 0.09), 0 18px 42px rgba(74, 63, 47, 0.18);
-    font-family: 'Fraunces', serif;
-    font-size: 26px;
-  }
-
-  .station-marker::after {
-    content: "";
-    position: absolute;
-    inset: -14px;
-    border: 2px solid var(--station-color);
-    border-radius: 50%;
-    opacity: 0.23;
-    transform: scale(0.8);
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
-  }
-
-  .journey-station.active .station-marker::after { opacity: 0.48; transform: scale(1.14); }
-
-  .story-card {
-    position: absolute;
-    left: 50%;
-    top: 54px;
-    width: 390px;
-    transform: translateX(-50%);
-    padding: 23px 24px 21px;
-    border: 1px solid rgba(116, 104, 84, 0.17);
-    border-radius: 22px;
-    background: rgba(255, 255, 255, 0.94);
-    box-shadow: 0 24px 60px rgba(87, 72, 49, 0.14);
-    backdrop-filter: blur(12px);
-  }
-
-  .journey-station.indie .story-card { top: 54px; bottom: auto; }
-
-  .story-card .when {
+  .dino-milestones { position:absolute; inset:0; z-index:8; list-style:none; }
+  .dino-milestone { --stop-colour:var(--google-blue); position:absolute; left:clamp(185px,var(--stop-x),calc(100% - 185px)); bottom:55px; width:350px; transform:translateX(-50%); }
+  .dino-sign { position:absolute; left:50%; bottom:0; width:4px; height:84px; transform:translateX(-50%); background:#6d6d6d; }
+  .dino-sign::before { content:""; position:absolute; left:-5px; bottom:-4px; width:14px; height:4px; background:#6d6d6d; }
+  .dino-sign span { position:absolute; left:4px; top:0; min-width:54px; height:30px; display:grid; place-items:center; border:3px solid #535353; color:#fff; background:var(--stop-colour); box-shadow:5px 5px 0 rgba(83,83,83,.13); font-size:10px; font-weight:800; letter-spacing:.08em; }
+  .dino-milestone.is-passed .dino-sign span { color:#fff; box-shadow:0 0 0 5px color-mix(in srgb,var(--stop-colour) 16%,transparent),5px 5px 0 rgba(83,83,83,.13); }
+  .dino-story { position:absolute; left:50%; bottom:112px; width:350px; transform:translateX(-50%); padding:18px 20px 17px; border:2px solid #535353; border-radius:3px; color:#535353; background:rgba(255,255,255,.97); box-shadow:9px 9px 0 rgba(83,83,83,.1); opacity:.12; }
+  .dino-story::after { content:""; position:absolute; left:50%; bottom:-10px; width:16px; height:16px; transform:translateX(-50%) rotate(45deg); border-right:2px solid #535353; border-bottom:2px solid #535353; background:#fff; }
+  .dino-milestone.is-active .dino-story { box-shadow:9px 9px 0 color-mix(in srgb,var(--stop-colour) 22%,transparent); }
+  .dino-story .when {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    color: var(--station-color);
-    font-size: 10px;
+    color: var(--stop-colour);
+    font-size: 8px;
     font-weight: 700;
-    letter-spacing: 0.17em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
   }
+  .dino-story .when span:last-child { color:#8b8b8b; font-weight:400; }
+  .dino-story h3 { margin-top:9px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:22px; line-height:1.08; letter-spacing:-.045em; }
+  .dino-story .org { margin-top:5px; color:#777; font-size:9px; }
+  .dino-story p { margin-top:10px; color:#676767; font:11px/1.5 'Space Grotesk',sans-serif; }
+  .dino-story p strong { color:#3f3f3f; font-weight:600; }
 
-  .story-card .when span:last-child { color: #8c867d; font-weight: 400; letter-spacing: 0.08em; }
+  .story-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 11px; }
+  .story-tags span { padding: 4px 6px; border:1px solid #dedede; border-radius:2px; color:#6c6c6c; background:#f8f8f8; font-size:7.5px; }
 
-  .story-card h3 {
-    margin-top: 11px;
-    font-family: 'Fraunces', serif;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 1.05;
-    letter-spacing: -0.025em;
-  }
-
-  .story-card .org { margin-top: 5px; color: #7c756a; font-size: 12px; }
-  .story-card p { margin-top: 13px; color: #655f56; font-size: 13.5px; line-height: 1.6; }
-  .story-card p strong { color: var(--page-ink); font-weight: 500; }
-
-  .story-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 15px; }
-  .story-tags span { padding: 5px 8px; border-radius: 7px; color: #655f56; background: #f3efe7; font-size: 10px; }
-
-  .sites-visual { display: flex; align-items: center; gap: 8px; margin-top: 15px; }
+  .sites-visual { display: flex; align-items: center; gap: 8px; margin-top: 11px; }
   .site-stack { display: flex; }
   .site-stack span { width: 24px; height: 31px; margin-left: -8px; border: 2px solid #fff; border-radius: 5px; background: var(--google-blue); box-shadow: 0 4px 8px rgba(42, 64, 99, 0.12); }
   .site-stack span:first-child { margin-left: 0; background: var(--google-red); }
   .site-stack span:nth-child(2) { background: var(--google-yellow); }
   .site-stack span:nth-child(3) { background: var(--google-green); }
-  .sites-visual strong { color: var(--google-green); font-family: 'Fraunces', serif; font-size: 21px; font-weight: 400; }
+  .sites-visual strong { color: var(--google-green); font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:16px; font-weight:700; }
 
   /* Static route when GSAP is unavailable or motion is reduced. */
   body.no-gsap #about,
@@ -1297,24 +1178,34 @@
   body.motion-static .journey-browser-page { height: auto; overflow: visible; padding: 44px 24px; }
   body.no-gsap .journey-head,
   body.motion-static .journey-head { position: relative; inset: auto; max-width: 1120px; margin: 0 auto 52px; }
-  body.no-gsap .journey-world,
-  body.motion-static .journey-world { position: relative; inset: auto; width: min(1120px, 100%); height: auto; margin: 0 auto; transform: none !important; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  body.no-gsap .journey-route,
-  body.motion-static .journey-route { display: none; }
-  body.no-gsap .journey-station,
-  body.motion-static .journey-station { position: relative; inset: auto; width: auto; transform: none !important; }
-  body.no-gsap .journey-station.origin,
-  body.no-gsap .journey-station.indie,
-  body.no-gsap .journey-station.hydro,
-  body.motion-static .journey-station.origin,
-  body.motion-static .journey-station.indie,
-  body.motion-static .journey-station.hydro { left: auto; top: auto; }
-  body.no-gsap .station-marker,
-  body.motion-static .station-marker { position: relative; left: auto; top: auto; transform: none; margin: 0 auto -28px; z-index: 2; }
-  body.no-gsap .story-card,
-  body.motion-static .story-card,
-  body.no-gsap .journey-station.indie .story-card,
-  body.motion-static .journey-station.indie .story-card { position: relative; inset: auto; width: 100%; min-height: 330px; transform: none !important; padding-top: 48px; }
+  body.no-gsap .dino-game,
+  body.motion-static .dino-game { position:relative; inset:auto; overflow:visible; }
+  body.no-gsap .dino-cloud-layer,
+  body.no-gsap .dino-hill-layer,
+  body.no-gsap .dino-ground,
+  body.no-gsap .dino-ground-texture,
+  body.no-gsap .dino-runner,
+  body.no-gsap .dino-hud,
+  body.motion-static .dino-cloud-layer,
+  body.motion-static .dino-hill-layer,
+  body.motion-static .dino-ground,
+  body.motion-static .dino-ground-texture,
+  body.motion-static .dino-runner,
+  body.motion-static .dino-hud { display:none; }
+  body.no-gsap .dino-milestones,
+  body.motion-static .dino-milestones { position:relative; inset:auto; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
+  body.no-gsap .dino-milestone,
+  body.motion-static .dino-milestone { position:relative; inset:auto; width:auto; transform:none !important; }
+  body.no-gsap .dino-sign,
+  body.motion-static .dino-sign { position:relative; left:auto; bottom:auto; width:100%; height:34px; transform:none; background:transparent; }
+  body.no-gsap .dino-sign::before,
+  body.motion-static .dino-sign::before { display:none; }
+  body.no-gsap .dino-sign span,
+  body.motion-static .dino-sign span { left:0; top:0; }
+  body.no-gsap .dino-story,
+  body.motion-static .dino-story { position:relative; inset:auto; width:100%; min-height:300px; transform:none !important; opacity:1 !important; }
+  body.no-gsap .dino-story::after,
+  body.motion-static .dino-story::after { display:none; }
 
   #projects { padding: 14vh 0 15vh; background: linear-gradient(#fff, #f7f9fc); }
 
@@ -1986,9 +1877,15 @@
 
   @media (max-width: 900px) {
     #window-hero { grid-template-columns: 1fr; }
-    .hero-copy { max-width: 650px; }
-    .apple-stage { position: absolute; right: -78px; width: 350px; opacity: 0.27; }
-    .about-page { gap: 28px; }
+    .music-sidebar { position:absolute; inset:0 0 auto; z-index:8; display:block; height:48px; padding:7px 10px; border:0; border-bottom:1px solid rgba(255,255,255,.11); background:rgba(21,18,31,.74); color:#fff; backdrop-filter:blur(18px); }
+    .music-brand,.music-side-label,.music-side-link,.music-sidebar-foot { display:none; }
+    .music-sidebar [role="tablist"] { display:flex; align-items:center; gap:7px; }
+    .music-tab { width:auto; min-width:0; flex:0 1 auto; padding:8px 11px; color:rgba(255,255,255,.7); }
+    .music-tab:hover { background:rgba(255,255,255,.08); }
+    .music-tab[aria-selected="true"] { color:#fff; background:rgba(255,255,255,.13); }
+    .music-content { grid-column:1; }
+    .music-view-intro { padding-top:calc(clamp(30px,5vw,74px) + 48px); }
+    .music-view-podcast { padding-top:calc(clamp(34px,5vw,78px) + 48px); }
     .answer-flow { grid-template-columns: 1fr; }
     .answer-step { min-height: 0; }
     .slot-layout { grid-template-columns: 1fr; min-height: 0; }
@@ -2005,7 +1902,7 @@
     body.has-experience-cursor button { cursor: auto !important; }
 
     #intro-track { height: 240vh; }
-    #sky-zone { height: 460vh; }
+    #sky-zone { height: 580vh; }
 
     #ai-window { width: 94%; height: 81svh; }
     .ai-app { grid-template-columns: 1fr; }
@@ -2014,33 +1911,53 @@
     .ai-thread { width: min(680px, calc(100% - 34px)); }
     .ai-composer { width: min(680px, calc(100% - 34px)); }
 
-    #window-hero { padding: 40px 25px 64px; }
-    #window-hero h2 { font-size: clamp(44px, 11vw, 72px); max-width: 9ch; }
-    #window-hero .hero-intro { max-width: 42ch; }
+    #window { width:96%; height:90svh; }
+    #safari-bar { grid-template-columns:minmax(150px,.8fr) minmax(200px,1.2fr); }
+    .music-title-right { display:none; }
+    .music-view-intro { grid-template-columns:1fr; display:block; padding:22px 22px 76px; }
+    .music-album-column { position:absolute; left:22px; right:22px; top:68px; display:grid; grid-template-columns:84px 1fr; align-items:center; gap:15px; }
+    .music-art { width:84px; border-radius:12px; }
+    .music-art-monogram { font-size:31px; }
+    .music-art-label { display:none; }
+    .music-track-meta { margin:0; }
+    .music-track-meta strong { font-size:17px; }
+    .music-track-tags { grid-column:2; margin-top:-25px; }
+    .music-lyrics { height:calc(100% - 164px); margin-top:156px; }
+    .music-lyrics-track { padding:42% 0 58%; }
+    .music-lyric-line { max-width:90%; margin-bottom:22px; font-size:clamp(25px,7vw,42px); }
+    .music-playback { left:22px; right:22px; }
+    .music-view-podcast { grid-template-columns:1fr; align-content:center; gap:20px; padding:24px 24px 38px; }
+    .podcast-cover { position:absolute; right:-12%; top:calc(5% + 44px); width:42vw; opacity:.22; }
+    .podcast-transcript { max-width:640px; }
+    .podcast-quote { max-width:21ch; }
 
     #about { height: auto; padding: 82px 14px; }
     .about-sticky { position: relative; height: auto; padding: 0; overflow: visible; }
     .about-heading { align-items: flex-start; }
     .about-heading .aside-note { display: none; }
     .about-browser { height: auto; min-height: 0; border-radius: 17px; }
-    .about-page { height: auto; min-height: 540px; grid-template-columns: 1fr; align-content: center; padding: 30px 24px 34px; }
-    .about-search { max-width: 570px; }
+    .about-page { height:auto; min-height:0; overflow:visible; }
+    .google-home { display:none; }
+    .google-results { position:relative; inset:auto; opacity:1 !important; visibility:visible !important; transform:none !important; filter:none !important; }
+    .google-results-body { grid-template-columns:1fr; overflow:visible; }
+    .google-primary-result, .google-knowledge-panel, .answer-step { opacity:1 !important; transform:none !important; }
+    .google-results-query { width:100%; }
 
     #work { padding: 72px 14px; }
     .journey-stage { height: auto; min-height: 0; overflow: visible; padding: 0; background: transparent; }
     .journey-browser { height: auto; overflow: visible; border-radius: 17px; }
-    .journey-browser-page { height: auto; overflow: visible; padding: 46px 18px 28px; }
+    .journey-browser-page { height:auto; overflow:visible; padding:38px 18px 28px; }
     .journey-head { position: relative; inset: auto; display: block; margin: 0 0 48px; }
     .journey-progress { display: none; }
-    .journey-world { position: relative; inset: auto; width: 100%; height: auto; transform: none !important; display: grid; grid-template-columns: 1fr; gap: 26px; }
-    .journey-route { display: none; }
-    .journey-station { position: relative; inset: auto; width: auto; transform: none !important; }
-    .journey-station.origin,
-    .journey-station.indie,
-    .journey-station.hydro { left: auto; top: auto; }
-    .station-marker { position: relative; left: auto; top: auto; width: 66px; height: 66px; transform: none; margin: 0 0 -25px 22px; z-index: 2; }
-    .story-card,
-    .journey-station.indie .story-card { position: relative; inset: auto; width: 100%; min-height: 0; transform: none !important; padding: 47px 22px 23px; }
+    .dino-game { position:relative; inset:auto; overflow:visible; }
+    .dino-cloud-layer,.dino-hill-layer,.dino-ground,.dino-ground-texture,.dino-runner,.dino-hud,.dino-obstacle { display:none; }
+    .dino-milestones { position:relative; inset:auto; display:grid; grid-template-columns:1fr; gap:24px; }
+    .dino-milestone { position:relative; inset:auto; width:auto; transform:none !important; }
+    .dino-sign { position:relative; left:auto; bottom:auto; width:100%; height:34px; transform:none; background:transparent; }
+    .dino-sign::before { display:none; }
+    .dino-sign span { left:0; top:0; }
+    .dino-story { position:relative; inset:auto; width:100%; min-height:0; transform:none !important; opacity:1 !important; }
+    .dino-story::after { display:none; }
 
     #projects { padding-top: 11vh; }
     .section-head { flex-wrap: wrap; }
@@ -2058,26 +1975,43 @@
   }
 
   @media (max-width: 560px) {
-    #safari-bar { gap: 9px; padding: 9px 11px; }
+    #safari-bar { grid-template-columns:auto minmax(0,1fr); gap:9px; padding:8px 10px; }
     .lights { gap: 6px; }
     .lights span { width: 10px; height: 10px; }
-    .safari-nav, .safari-actions { display: none; }
-    #address { font-size: 11px; padding: 6px 10px; }
-    .apple-stage { display: none; }
-    .hero-meta span { font-size: 10.5px; }
+    .music-transport { display:none; }
+    .music-now-playing { height:39px; }
+    .music-mini-art { width:27px; height:27px; }
+    .music-sidebar { height:50px; padding-inline:7px; }
+    .music-tab { flex:1 1 50%; justify-content:center; min-height:36px; padding-inline:7px; font-size:9px; }
+    .music-tab > span:first-child { width:auto; }
+    .music-tab small { display:none; }
+    .music-album-column { grid-template-columns:68px 1fr; left:16px; right:16px; top:66px; }
+    .music-art { width:68px; }
+    .music-track-meta strong { font-size:14px; }
+    .music-track-meta span { font-size:8px; }
+    .music-track-tags { display:none; }
+    .music-view-intro { padding-inline:16px; }
+    .music-lyrics { margin-top:142px; height:calc(100% - 148px); }
+    .music-lyric-line { max-width:100%; font-size:clamp(24px,8.5vw,36px); }
+    .music-playback { left:16px; right:16px; bottom:17px; }
+    .music-playback-hint { display:none; }
+    .podcast-cover { right:-22%; width:68vw; }
+    .podcast-transcript h2 { font-size:clamp(30px,10vw,44px); }
+    .podcast-quote { font-size:clamp(21px,6.8vw,30px); }
 
     .chrome-tabstrip { padding-left: 8px; }
     .chrome-window-lights, .chrome-nav, .chrome-menu { display: none; }
     .chrome-tab { width: 72%; }
     .chrome-toolbar { gap: 8px; padding-inline: 9px; }
     .omnibox { font-size: 10px; }
-    .about-page { min-height: 650px; padding: 27px 18px 30px; }
+    .google-results-head { align-items:flex-start; flex-direction:column; gap:9px; padding:16px; }
+    .google-results-body { padding:24px 18px 28px; }
+    .google-knowledge-panel { padding:17px; }
     .answer-flow { grid-template-columns: 1fr; }
-    .search-brand { margin-bottom: 14px; }
 
     .journey-browser .chrome-tab.inactive { display: none; }
     .journey-browser .chrome-tab.active { width: 76%; }
-    .journey-browser-page { padding: 38px 12px 22px; }
+    .journey-browser-page { padding:32px 12px 20px; }
     .journey-heading h2 { font-size: 34px; }
 
     .project-tabstrip { padding-left: 8px; }
@@ -2166,10 +2100,12 @@
     #ai-window { display: none; }
     #scroll-hint .scroll-orbit::before, #scroll-hint .scroll-orbit::after { animation: none; opacity: 1; }
     .cloud { animation: none; }
-    .apple-glow, .apple-product, .map-node.mid, .slot-light, .jackpot-rays, .jackpot-message, .confetti i, .slot-machine.is-winning, .tech-card { animation: none; }
+    .map-node.mid, .slot-light, .jackpot-rays, .jackpot-message, .confetti i, .slot-machine.is-winning, .tech-card { animation: none; }
     .project-panel { animation: none; }
-    .reveal, .section-head .tail, #totop, .station-marker::after, .cursor-icon, .cursor-face { transition: none; }
-    #url-caret, .about-caret { animation: none; }
+    .reveal, .section-head .tail, #totop, .cursor-icon, .cursor-face, .music-view, .music-lyric-line { transition: none; }
+    .about-caret, .google-query-caret { animation: none; }
+    .music-lyrics { overflow:auto; mask-image:none; }
+    .music-lyrics-track { transform:none !important; padding:18% 0 28%; }
     #experience-cursor { display: none; }
     #foot { min-height: 118vh; min-height: 118svh; }
     .foot-stage { position: relative; height: auto; min-height: 118vh; min-height: 118svh; }
@@ -2279,46 +2215,96 @@
       </div>
     </div>
 
-    <!-- the generated Safari portfolio rises over the conversation -->
-    <div id="window">
+    <!-- the generated Apple Music introduction rises over the conversation -->
+    <div id="window" role="region" aria-label="Apple Music-style introduction to George Flood">
       <div id="safari-bar" aria-hidden="true">
-        <div class="lights"><span class="r"></span><span class="y"></span><span class="g"></span></div>
-        <div class="safari-nav"><span>‹</span><span>›</span></div>
-        <div id="address">
-          <svg class="lock" width="11" height="13" viewBox="0 0 11 13" fill="none">
-            <rect x="1" y="5" width="9" height="7" rx="1.5" fill="#3a3f47"/>
-            <path d="M3 5V3.5C3 2.1 4.1 1 5.5 1S8 2.1 8 3.5V5" stroke="#3a3f47" stroke-width="1.6"/>
-          </svg>
-          <span id="url-text"></span><span id="url-caret"></span>
+        <div class="music-title-left">
+          <div class="lights"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+          <div class="music-transport"><span>◀</span><span class="music-play-state">Ⅱ</span><span>▶</span></div>
         </div>
-        <div class="safari-actions"><span>↗</span><span>＋</span></div>
+        <div class="music-now-playing">
+          <span class="music-mini-art">GF</span>
+          <div class="music-now-copy">
+            <strong id="url-text">Full Stack, Fully Considered</strong>
+            <span>George Flood · PortfolioV2</span>
+            <div class="music-mini-progress"><i></i></div>
+          </div>
+        </div>
+        <div class="music-title-right"><small>🔊</small><span class="music-volume"></span></div>
         <div id="loadbar"></div>
       </div>
+
       <div id="window-hero">
-        <div class="hero-copy">
-          <div class="eyebrow">Developer, thoughtfully made</div>
-          <h2>
-            <span class="name-line">George Flood.</span>
-            <span class="promise-line">Full stack, fully considered.</span>
-          </h2>
-          <p class="hero-intro">I turn complicated ideas into products that feel simple. Laravel, React and AWS — carefully composed, production tested, and built to be genuinely useful.</p>
-          <div class="hero-meta"><span>Designed in London</span><span>End-to-end craft</span><span>Ready to ship</span></div>
-        </div>
-
-        <div class="apple-stage" aria-hidden="true">
-          <div class="apple-glow"></div>
-          <div class="apple-product">
-            <div class="apple-wordmark"><span>GF</span><small>Full-stack developer</small></div>
-            <div class="apple-specs">
-              <div><span>Craft</span><strong>Frontend</strong></div>
-              <div><span>Core</span><strong>Laravel</strong></div>
-              <div><span>Scale</span><strong>AWS</strong></div>
-            </div>
+        <aside class="music-sidebar" aria-label="Music library">
+          <div class="music-brand"><span class="music-brand-mark">♪</span><span>Music</span></div>
+          <div class="music-side-label">Apple Music</div>
+          <div class="music-side-link"><span>⌕</span><span>Listen Now</span></div>
+          <div class="music-side-link"><span>◉</span><span>Browse</span></div>
+          <div class="music-side-label">Made for you</div>
+          <div role="tablist" aria-label="George's audio tabs">
+            <button class="music-tab" id="music-tab-intro" type="button" role="tab" aria-selected="true" aria-controls="music-panel-intro" data-music-tab="intro">
+              <span>♫</span><span>Introducing George</span><small>Playing</small>
+            </button>
+            <button class="music-tab" id="music-tab-podcast" type="button" role="tab" aria-selected="false" aria-controls="music-panel-podcast" tabindex="-1" data-music-tab="podcast">
+              <span>◉</span><span>JRE with George</span><small>Bonus</small>
+            </button>
           </div>
-          <div class="apple-caption"><span>Designed in London.</span><strong>Built for production.</strong></div>
-        </div>
+          <div class="music-sidebar-foot">Visual playback only.<br>Scroll is the remote.</div>
+        </aside>
 
-        <div class="cue">Keep scrolling <span aria-hidden="true">↓</span></div>
+        <div class="music-content">
+          <section class="music-view music-view-intro is-active" id="music-panel-intro" role="tabpanel" aria-labelledby="music-tab-intro" data-music-panel="intro">
+            <div class="music-album-column">
+              <div class="music-art">
+                <img src="assets/george-album-cover.png" alt="Overthinking Out Loud, a solo album by George Flood">
+              </div>
+              <div class="music-track-meta">
+                <strong>Full Stack, Fully Considered</strong>
+                <span>George Flood · Introducing George · 2026</span>
+              </div>
+              <div class="music-track-tags"><span>London</span><span>Laravel</span><span>React</span><span>AWS</span></div>
+            </div>
+
+            <div class="music-lyrics" aria-label="Introduction, presented like song lyrics">
+              <div class="music-lyrics-track">
+                <p class="music-lyric-line is-active" aria-current="true">From running pubs and coffee shops</p>
+                <p class="music-lyric-line">to running production servers.</p>
+                <p class="music-lyric-line">Self-taught in London.</p>
+                <p class="music-lyric-line">Two years learning by shipping.</p>
+                <p class="music-lyric-line">Now shipping with a senior.</p>
+                <p class="music-lyric-line">Laravel. React. AWS.</p>
+                <p class="music-lyric-line">Helping support 200+ live sites.</p>
+                <p class="music-lyric-line">George Flood. Ready for the next track.</p>
+              </div>
+            </div>
+
+            <div class="music-playback" aria-label="Scroll-controlled visual playback progress">
+              <span id="music-time">0:00</span>
+              <div class="music-scrubber" aria-hidden="true"><div class="music-scrubber-fill"></div><span class="music-scrubber-knob"></span></div>
+              <span>0:36</span>
+              <div class="music-playback-hint">Scroll controls playback</div>
+            </div>
+          </section>
+
+          <section class="music-view music-view-podcast" id="music-panel-podcast" role="tabpanel" aria-labelledby="music-tab-podcast" data-music-panel="podcast" hidden>
+            <div class="podcast-cover">
+              <img src="assets/joe-rogan-podcast-cover.png" alt="The Joe Rogan Experience podcast artwork">
+            </div>
+            <div class="podcast-transcript">
+              <div class="podcast-kicker">Unofficial parody podcast · no audio</div>
+              <h2>JRE #404:<br>The Full-Stack Detour</h2>
+              <div class="podcast-paused"><i></i><span>Paused at 4:20:00 — mercifully</span></div>
+              <div class="podcast-exchange" aria-label="Fictional podcast transcript">
+                <p><strong>George:</strong> “I asked ChatGPT why my… private branch had developed a rash.”</p>
+                <p><strong>Joe:</strong> “Wait. The AI actually saw it?”</p>
+                <p><strong>George:</strong> “Briefly. It begged me to stop uploading 4K close-ups and see a doctor.”</p>
+                <p><strong>Joe:</strong> “That’s wild, man. You gave artificial intelligence its first traumatic memory. Jamie, pull up whether Bigfoot gets contact dermatitis. I bet it’s the elk meat.”</p>
+              </div>
+              <p class="podcast-disclaimer">Fictional parody. Joe Rogan has not interviewed or endorsed George. ChatGPT would also prefer not to discuss the photographs.</p>
+            </div>
+          </section>
+
+        </div>
       </div>
     </div>
 
@@ -2333,16 +2319,16 @@
       <header class="about-heading">
         <div>
           <div class="chapter-kicker">01 — About</div>
-          <h2 id="about-title">A little context, in a new tab.</h2>
+          <h2 id="about-title">Okay Google, who’s George?</h2>
         </div>
-        <div class="aside-note">Safari → Chrome</div>
+        <div class="aside-note">Apple Music → Chrome</div>
       </header>
 
       <div class="browser-launch-anchor about-launch-anchor" data-browser-launch>
       <div class="about-browser chapter-window" id="about-browser" role="group" aria-label="About George in a Chrome-inspired browser window">
         <div class="chrome-tabstrip" aria-hidden="true">
           <div class="chrome-window-lights"><span></span><span></span><span></span></div>
-          <div class="chrome-tab"><span class="favicon">G</span><span>About George</span><span style="margin-left:auto">×</span></div>
+          <div class="chrome-tab"><span class="favicon">G</span><span>George Flood — Google Search</span><span style="margin-left:auto">×</span></div>
           <div class="new-tab">+</div>
         </div>
         <div class="chrome-toolbar" aria-hidden="true">
@@ -2353,22 +2339,46 @@
         </div>
 
         <div class="about-page">
-          <div class="about-search">
-            <div class="search-brand" aria-label="George"><span>G</span><span>e</span><span>o</span><span>r</span><span>g</span><span>e</span></div>
-            <div class="search-question">How does a pub manager become a full-stack developer?</div>
-            <div class="search-chips" aria-hidden="true"><span>London</span><span>Self-taught</span><span>Ships things</span></div>
-          </div>
-
-          <div class="about-result">
-            <div class="result-label">A surprisingly transferable skill set</div>
-            <h3>People skills, now with semicolons.</h3>
-            <p>I went from running pubs and coffee shops to running production servers. I learned by shipping real products for real users — and found my happy place between a messy idea and a dependable release.</p>
-            <div class="answer-flow">
-              <div class="answer-step" style="--step-color:var(--google-red)"><span class="step-no">01</span><strong>Keep calm</strong><span>Saturday rush or production incident.</span></div>
-              <div class="answer-step" style="--step-color:var(--google-yellow)"><span class="step-no">02</span><strong>Learn fast</strong><span>Curiosity over certificates.</span></div>
-              <div class="answer-step" style="--step-color:var(--google-green)"><span class="step-no">03</span><strong>Own the outcome</strong><span>From first brief to live system.</span></div>
+          <section class="google-home" aria-label="Google search animation">
+            <div class="google-logo" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div>
+            <div class="google-query-box" role="search">
+              <span class="google-search-glyph" aria-hidden="true">⌕</span>
+              <span id="google-query-text"></span><span class="google-query-caret" aria-hidden="true"></span>
+              <span class="google-search-submit" aria-hidden="true">→</span>
             </div>
-          </div>
+            <p class="google-home-note">Searching the internet for someone already on this page. Efficient.</p>
+          </section>
+
+          <section class="google-results" aria-label="Google results for George Flood">
+            <header class="google-results-head">
+              <div class="google-mini-logo" aria-label="Google"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div>
+              <div class="google-results-query"><span>George Flood full stack developer London</span><span aria-hidden="true">⌕</span></div>
+            </header>
+            <div class="google-results-body">
+              <article class="google-primary-result">
+                <div class="google-result-count">About 1 very relevant result (0.42 seconds)</div>
+                <div class="result-label">A surprisingly transferable skill set</div>
+                <h3>People skills, now with semicolons.</h3>
+                <p>I went from running pubs and coffee shops to running production servers. I learned by shipping real products for real users — and found my happy place between a messy idea and a dependable release.</p>
+                <div class="answer-flow">
+                  <div class="answer-step" style="--step-color:var(--google-red)"><span class="step-no">01</span><strong>Keep calm</strong><span>Saturday rush or production incident.</span></div>
+                  <div class="answer-step" style="--step-color:var(--google-yellow)"><span class="step-no">02</span><strong>Learn fast</strong><span>Curiosity over certificates.</span></div>
+                  <div class="answer-step" style="--step-color:var(--google-green)"><span class="step-no">03</span><strong>Own the outcome</strong><span>From first brief to live system.</span></div>
+                </div>
+              </article>
+              <aside class="google-knowledge-panel" aria-label="George Flood summary">
+                <div class="knowledge-avatar">GF</div>
+                <h4>George Flood</h4>
+                <p>Full-stack developer · London</p>
+                <div class="knowledge-facts">
+                  <span>Core stack <strong>Laravel · React · AWS</strong></span>
+                  <span>Learning style <strong>Ship, learn, improve</strong></span>
+                  <span>Current energy <strong>Open to the next thing</strong></span>
+                </div>
+                <div class="google-lucky"><span aria-hidden="true">★</span><span>I’m feeling employable</span></div>
+              </aside>
+            </div>
+          </section>
         </div>
       </div>
       </div>
@@ -2382,21 +2392,21 @@
         <div class="chrome-tabstrip" aria-hidden="true">
           <div class="chrome-window-lights"><span></span><span></span><span></span></div>
           <div class="chrome-tab inactive"><span class="favicon">G</span><span>About George</span><span style="margin-left:auto">×</span></div>
-          <div class="chrome-tab active"><span class="favicon">G</span><span>Career journey</span><span style="margin-left:auto">×</span></div>
+          <div class="chrome-tab active"><span class="favicon">G</span><span>Chrome Dino · Career Run</span><span style="margin-left:auto">×</span></div>
           <div class="new-tab">+</div>
         </div>
         <div class="chrome-toolbar" aria-hidden="true">
           <div class="chrome-nav"><span>←</span><span>→</span><span>↻</span></div>
-          <div class="omnibox"><span class="tune">◉</span><span>georgeflood.co.uk/career</span></div>
+          <div class="omnibox"><span class="tune">◉</span><span>chrome://dino?career=george</span></div>
           <div class="chrome-profile">GF</div>
           <div class="chrome-menu">⋮</div>
         </div>
         <div class="journey-browser-page">
           <header class="journey-head">
             <div class="journey-heading">
-              <div class="chapter-kicker">02 — The route so far</div>
-              <h2 id="journey-title">Three stops. One useful detour.</h2>
-              <p>Scroll to travel through the bits that shaped how I build.</p>
+              <div class="chapter-kicker">02 — Offline, still progressing</div>
+              <h2 id="journey-title">Scroll to run the career path.</h2>
+              <p>No Wi-Fi. Three checkpoints. Surprisingly transferable XP.</p>
             </div>
             <div class="journey-progress" aria-hidden="true">
               <div class="journey-progress-labels"><span>People</span><span>Practice</span><span>Production</span></div>
@@ -2404,47 +2414,60 @@
             </div>
           </header>
 
-          <div class="journey-world" id="journey-world">
-            <svg class="journey-route" viewBox="0 0 2400 700" preserveAspectRatio="none" aria-hidden="true">
-              <path class="route-shadow" d="M80 350 C250 280 300 336 360 336 C690 336 860 520 1200 448 C1530 378 1710 270 2040 329 C2200 358 2290 320 2360 350"/>
-              <path class="route-base" d="M80 350 C250 280 300 336 360 336 C690 336 860 520 1200 448 C1530 378 1710 270 2040 329 C2200 358 2290 320 2360 350"/>
-              <path class="route-drawn route-red" d="M360 336 C690 336 860 520 1200 448"/>
-              <path class="route-drawn route-yellow" d="M1200 448 C1530 378 1710 270 2040 329"/>
-              <path class="route-drawn route-green" d="M2040 329 C2200 358 2290 320 2360 350"/>
-            </svg>
+          <div class="dino-game" id="dino-game">
+            <div class="dino-hud" aria-hidden="true"><span class="dino-offline"><i></i>Offline career mode</span><span id="dino-score">XP 00000</span></div>
+            <div class="dino-cloud-layer" aria-hidden="true"><span class="pixel-cloud"></span><span class="pixel-cloud"></span><span class="pixel-cloud"></span><span class="pixel-cloud"></span></div>
+            <div class="dino-hill-layer" aria-hidden="true"></div>
+            <div class="dino-ground" aria-hidden="true"><div class="dino-ground-fill"></div></div>
+            <div class="dino-ground-texture" aria-hidden="true"></div>
+            <span class="dino-obstacle" style="--obstacle-x:34%" aria-hidden="true"><i></i></span>
+            <span class="dino-obstacle" style="--obstacle-x:68%" aria-hidden="true"><i></i></span>
 
-            <article class="journey-station origin active" data-stop="0">
-              <div class="station-marker" aria-hidden="true">01</div>
-              <div class="story-card">
-                <div class="when"><span>Origin story</span><span>Before code</span></div>
-                <h3>Pressure became a feature.</h3>
-                <div class="org">Costa · Young's Pubs</div>
-                <p>I ran teams, hit targets and kept a room moving when everything caught fire at once. A Saturday-night rush turns out to be excellent training for a production incident.</p>
-                <div class="story-tags"><span>People</span><span>Priorities</span><span>Calm under pressure</span></div>
-              </div>
-            </article>
+            <div class="dino-runner" id="dino-runner" data-step="0" data-facing="right" aria-hidden="true">
+              <svg class="dino-sprite" viewBox="0 0 64 70" shape-rendering="crispEdges">
+                <path fill="currentColor" d="M35 3h22v4h5v20H45v5h-6v7h-7v6H19v-5h-7v-5H5v-7h10v4h6V20h5v-8h9V3Zm17 8h4v4h-4zM39 28h8v4h-8z"/>
+                <path fill="#f7f7f7" d="M52 9h4v4h-4z"/>
+                <path fill="currentColor" d="M35 34h12v4h-8v4h-4z"/>
+                <g class="dino-leg-a" fill="currentColor"><path d="M20 43h8v16h-7v6h-8v-4h5z"/><path d="M32 43h8v12h7v5H35z"/></g>
+                <g class="dino-leg-b" fill="currentColor"><path d="M20 43h8v12h7v5H23z"/><path d="M32 43h8v16h-2v6h-9v-4h5z"/></g>
+              </svg>
+              <span class="dino-shadow"></span>
+            </div>
 
-            <article class="journey-station indie" data-stop="1">
-              <div class="station-marker" aria-hidden="true">02</div>
-              <div class="story-card">
-                <div class="when"><span>Learning by shipping</span><span>2 years</span></div>
-                <h3>Practice met real clients.</h3>
-                <div class="org">Freelance Web Developer</div>
-                <p>Small-business sites taught me the unglamorous half of development: scope clearly, make the thing, invoice it, support it — then handle “one small change”.</p>
-                <div class="story-tags"><span>Laravel</span><span>PHP</span><span>JavaScript</span><span>End to end</span></div>
-              </div>
-            </article>
+            <ol class="dino-milestones">
+              <li class="dino-milestone is-active" data-stop="0" style="--stop-x:15%;--stop-colour:var(--google-red)">
+                <div class="dino-sign" aria-hidden="true"><span>01</span></div>
+                <article class="dino-story">
+                  <div class="when"><span>Origin story</span><span>Before code</span></div>
+                  <h3>Pressure became a feature.</h3>
+                  <div class="org">Costa · Young's Pubs</div>
+                  <p>I ran teams, hit targets and kept a room moving when everything caught fire at once. A Saturday-night rush turns out to be excellent training for a production incident.</p>
+                  <div class="story-tags"><span>People</span><span>Priorities</span><span>Calm under pressure</span></div>
+                </article>
+              </li>
 
-            <article class="journey-station hydro" data-stop="2">
-              <div class="station-marker" aria-hidden="true">03</div>
-              <div class="story-card">
-                <div class="when"><span>Shipping with a senior</span><span>1.5 years</span></div>
-                <h3>Then it got properly real.</h3>
-                <div class="org">Web Developer · Hydro Cleansing Ltd</div>
-                <p>I build and support a custom Laravel CMS on AWS alongside a senior developer, sharing responsibility for features, deployments, monitoring and the occasional 2am moment. <strong>It taught me when to own a problem — and when another pair of eyes makes the work better.</strong></p>
-                <div class="sites-visual"><div class="site-stack" aria-hidden="true"><span></span><span></span><span></span><span></span></div><strong><span class="count" data-target="200">0</span>+ live sites</strong></div>
-              </div>
-            </article>
+              <li class="dino-milestone" data-stop="1" style="--stop-x:50%;--stop-colour:var(--google-yellow)">
+                <div class="dino-sign" aria-hidden="true"><span>02</span></div>
+                <article class="dino-story">
+                  <div class="when"><span>Learning by shipping</span><span>2 years</span></div>
+                  <h3>Practice met real clients.</h3>
+                  <div class="org">Freelance Web Developer</div>
+                  <p>Small-business sites taught me the unglamorous half of development: scope clearly, make the thing, invoice it, support it — then handle “one small change”.</p>
+                  <div class="story-tags"><span>Laravel</span><span>PHP</span><span>JavaScript</span><span>End to end</span></div>
+                </article>
+              </li>
+
+              <li class="dino-milestone" data-stop="2" style="--stop-x:85%;--stop-colour:var(--google-green)">
+                <div class="dino-sign" aria-hidden="true"><span>03</span></div>
+                <article class="dino-story">
+                  <div class="when"><span>Shipping with a senior</span><span>1.5 years</span></div>
+                  <h3>Then it got properly real.</h3>
+                  <div class="org">Web Developer · Hydro Cleansing Ltd</div>
+                  <p>I build and support a custom Laravel CMS on AWS alongside a senior developer, sharing responsibility for features, deployments, monitoring and the occasional 2am moment. <strong>It taught me when to own a problem — and when another pair of eyes makes the work better.</strong></p>
+                  <div class="sites-visual"><div class="site-stack" aria-hidden="true"><span></span><span></span><span></span><span></span></div><strong><span class="count" data-target="200">0</span>+ live sites</strong></div>
+                </article>
+              </li>
+            </ol>
           </div>
         </div>
       </div>
@@ -2836,8 +2859,9 @@
   const cloudGroups = Array.from(document.querySelectorAll(".cgroup"));
   const aboutUrlText = document.getElementById("about-url-text");
 
-  const URL_STRING = "georgeflood.co.uk";
-  const ABOUT_URL_STRING = "georgeflood.co.uk/about";
+  const MUSIC_TRACK_TITLE = "Full Stack, Fully Considered";
+  const GOOGLE_QUERY_STRING = "George Flood full stack developer London";
+  const ABOUT_URL_STRING = "google.com/search?q=George+Flood+full+stack+developer+London";
 
   let vw = 0, vh = 0, dpr = 1;
   let planetSize = 0;
@@ -3326,7 +3350,7 @@
     stage.style.visibility = (p >= 0.995 && skyA >= 1) ? "hidden" : "visible";
 
     // The clouds complete their reveal early, leaving room for the prompt,
-    // the answer and finally the generated Safari portfolio.
+    // the answer and finally the generated Apple Music introduction.
     const part = smooth(clamp((sp - 0.12) / 0.18, 0, 1));
     const upwardPass = smooth(clamp((sp - 0.08) / 0.12, 0, 1));
 
@@ -3354,9 +3378,8 @@
     if (!canUseMotion) {
       const bp = smooth(clamp((sp - 0.28) / 0.64, 0, 1));
       windowEl.style.setProperty("--bp", bp.toFixed(4));
-      const chars = Math.round(clamp(bp * 1.45, 0, 1) * URL_STRING.length);
-      const shown = URL_STRING.slice(0, chars);
-      if (urlText.textContent !== shown) urlText.textContent = shown;
+      windowEl.style.setProperty("--music-p", `${(bp * 100).toFixed(1)}%`);
+      if (urlText.textContent !== MUSIC_TRACK_TITLE) urlText.textContent = MUSIC_TRACK_TITLE;
       const load = clamp((bp - 0.52) / 0.38, 0, 1);
       loadbar.style.width = (load * 100).toFixed(1) + "%";
       loadbar.style.opacity = load >= 1 ? 0 : 1;
@@ -3386,6 +3409,52 @@
   }
 
   /* ================= Interface interactions ================= */
+
+  function setupMusicTabs() {
+    const tabs = Array.from(document.querySelectorAll(".music-tab[role='tab']"));
+    const panels = Array.from(document.querySelectorAll(".music-view[role='tabpanel']"));
+    const playState = document.querySelector(".music-play-state");
+    const miniArt = document.querySelector(".music-mini-art");
+    if (!tabs.length || !panels.length || !playState || !miniArt) return;
+
+    const titles = {
+      intro: "Full Stack, Fully Considered",
+      podcast: "JRE #404 — The Full-Stack Detour"
+    };
+
+    const selectTab = (index, focus = false) => {
+      const selectedTab = tabs[index];
+      const selectedName = selectedTab.dataset.musicTab;
+      tabs.forEach((tab, i) => {
+        const selected = i === index;
+        tab.setAttribute("aria-selected", String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+      });
+      panels.forEach(panel => {
+        const selected = panel.dataset.musicPanel === selectedName;
+        panel.hidden = !selected;
+        panel.classList.toggle("is-active", selected);
+      });
+      urlText.textContent = titles[selectedName];
+      playState.textContent = selectedName === "intro" ? "Ⅱ" : "▶";
+      miniArt.textContent = selectedName === "intro" ? "GF" : "404";
+      if (focus) selectedTab.focus();
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => selectTab(index));
+      tab.addEventListener("keydown", event => {
+        let next;
+        if (event.key === "ArrowDown" || event.key === "ArrowRight") next = (index + 1) % tabs.length;
+        if (event.key === "ArrowUp" || event.key === "ArrowLeft") next = (index - 1 + tabs.length) % tabs.length;
+        if (event.key === "Home") next = 0;
+        if (event.key === "End") next = tabs.length - 1;
+        if (next === undefined) return;
+        event.preventDefault();
+        selectTab(next, true);
+      });
+    });
+  }
 
   function animateCount(el) {
     const target = +el.dataset.target;
@@ -3947,7 +4016,7 @@
       const chapter = centre && centre.closest("#foot, #stack, #projects, #work, #about, #sky-zone");
       let mode = "rocket";
       if (chapter) {
-        if (chapter.id === "sky-zone") mode = sp > 0.72 ? "apple" : "rocket";
+        if (chapter.id === "sky-zone") mode = sp > 0.54 ? "apple" : "rocket";
         if (chapter.id === "about" || chapter.id === "work") mode = "google";
         if (chapter.id === "projects") mode = "web";
         if (chapter.id === "stack") mode = "casino";
@@ -4007,16 +4076,43 @@
     const aiHandoff = aiWindowEl && aiWindowEl.querySelector(".ai-handoff");
     const aiComposerCaret = aiWindowEl && aiWindowEl.querySelector(".ai-composer-caret");
     const aiResponseCaret = aiWindowEl && aiWindowEl.querySelector(".ai-response-caret");
+    const musicArt = document.querySelector(".music-art");
+    const musicLyrics = document.querySelector(".music-lyrics");
+    const musicLyricsTrack = document.querySelector(".music-lyrics-track");
+    const musicLines = Array.from(document.querySelectorAll(".music-lyric-line"));
+    const musicTime = document.getElementById("music-time");
+    const musicPlayback = { value: 0 };
+    const MUSIC_STORY_START = 7.04;
+    const MUSIC_STORY_DURATION = 3.55;
+    const SKY_STORY_DURATION = 11;
+
+    const renderMusicPlayback = () => {
+      if (!musicArt || !musicLyrics || !musicLyricsTrack || !musicLines.length || !musicTime) return;
+      const value = clamp(musicPlayback.value, 0, 1);
+      const activeIndex = Math.min(musicLines.length - 1, Math.floor(value * musicLines.length));
+      windowEl.style.setProperty("--music-p", `${(value * 100).toFixed(2)}%`);
+      musicTime.textContent = `0:${String(Math.round(value * 36)).padStart(2, "0")}`;
+      musicLines.forEach((line, index) => {
+        const active = index === activeIndex;
+        line.classList.toggle("is-active", active);
+        line.classList.toggle("is-past", index < activeIndex);
+        if (active) line.setAttribute("aria-current", "true");
+        else line.removeAttribute("aria-current");
+      });
+      const activeLine = musicLines[activeIndex];
+      const trackY = musicLyrics.clientHeight * 0.43 - activeLine.offsetTop - activeLine.offsetHeight / 2;
+      gsap.set(musicLyricsTrack, { y: trackY });
+    };
 
     if (aiWindowEl && aiComposerText && aiPromptText && aiResponseText && aiUserMessage && aiAssistantMessage && aiEmptyState && aiHandoff) {
-      const urlTyping = { chars: 0 };
       aiPromptText.textContent = AI_PROMPT_STRING;
       aiComposerText.textContent = AI_PROMPT_STRING;
       aiResponseText.textContent = AI_RESPONSE_STRING;
-      urlText.textContent = "";
+      urlText.textContent = MUSIC_TRACK_TITLE;
 
       gsap.set(aiWindowEl, { "--ai-p": 0, "--ai-exit": 0, opacity: 0, filter: "blur(0px)" });
       gsap.set(windowEl, { "--bp": 0, opacity: 0 });
+      windowEl.inert = true;
       gsap.set(aiEmptyState, { y: 0, opacity: 1 });
       gsap.set(aiUserMessage, { y: 22, opacity: 0 });
       gsap.set(aiAssistantMessage, { y: 22, opacity: 0 });
@@ -4026,6 +4122,11 @@
       gsap.set(aiComposerText, { width: 0 });
       gsap.set(aiResponseText, { width: 0 });
       gsap.set(loadbar, { width: "0%", opacity: 1 });
+      gsap.set(".music-sidebar", { x: -34, opacity: 0 });
+      gsap.set(musicArt, { scale: 0.82, rotationY: -12, opacity: 0 });
+      gsap.set(musicLyrics, { x: 46, opacity: 0 });
+      musicPlayback.value = 0;
+      renderMusicPlayback();
 
       const skyPromptTimeline = gsap.timeline({
         scrollTrigger: {
@@ -4033,7 +4134,12 @@
           start: "top top",
           end: "bottom bottom",
           scrub: 0.72,
-          invalidateOnRefresh: true
+          invalidateOnRefresh: true,
+          onUpdate: self => {
+            windowEl.inert = self.progress < 0.54;
+            musicPlayback.value = clamp((self.progress * SKY_STORY_DURATION - MUSIC_STORY_START) / MUSIC_STORY_DURATION, 0, 1);
+            renderMusicPlayback();
+          }
         }
       });
 
@@ -4061,17 +4167,15 @@
         .to(aiHandoff, { y: 0, opacity: 1, duration: 0.42, ease: "back.out(1.45)" }, 5.5)
         .to(aiWindowEl, { "--ai-exit": 1, opacity: 0.08, filter: "blur(10px)", duration: 1.12, ease: "power2.inOut" }, 6.0)
         .to(windowEl, { "--bp": 1, opacity: 1, duration: 1.35, ease: "power3.out" }, 5.92)
-        .to(urlTyping, {
-          chars: URL_STRING.length,
-          duration: 0.9,
-          ease: "none",
-          onUpdate: () => {
-            urlText.textContent = URL_STRING.slice(0, Math.round(urlTyping.chars));
-          }
-        }, 6.12)
         .to(loadbar, { width: "100%", duration: 0.82, ease: "power1.inOut" }, 6.08)
         .to(loadbar, { opacity: 0, duration: 0.2 }, 6.92)
-        .to({}, { duration: 0.2 }, 7.18);
+        .to(".music-sidebar", { x: 0, opacity: 1, duration: 0.72, ease: "power3.out" }, 6.42)
+        .to(musicArt, { scale: 0.98, rotationY: -4, opacity: 1, duration: 0.78, ease: "back.out(1.18)" }, 6.46)
+        .to(musicLyrics, { x: 0, opacity: 1, duration: 0.72, ease: "power2.out" }, 6.62)
+        .to({}, { duration: MUSIC_STORY_DURATION }, MUSIC_STORY_START)
+        .to(".music-playback-hint", { opacity: 1, duration: 0.25 }, 7.0)
+        .to(".music-playback-hint", { opacity: 0.42, duration: 0.32 }, 10.25)
+        .to({}, { duration: 0.38 }, 10.62);
     }
 
     const mm = gsap.matchMedia();
@@ -4134,10 +4238,13 @@
         }
       });
 
-      const typing = { chars: 0 };
+      const googleQueryText = document.getElementById("google-query-text");
+      const typing = { queryChars: 0, urlChars: 0 };
       aboutUrlText.textContent = "";
-      gsap.set(".about-search", { x: -52, opacity: 0 });
-      gsap.set(".about-result", { x: 62, opacity: 0 });
+      googleQueryText.textContent = "";
+      gsap.set(".google-home", { y: 0, autoAlpha: 1, filter: "blur(0px)" });
+      gsap.set(".google-results", { y: 42, autoAlpha: 0, filter: "blur(7px)" });
+      gsap.set(".google-primary-result, .google-knowledge-panel", { y: 25, opacity: 0 });
       gsap.set(".answer-step", { y: 28, opacity: 0, scale: 0.92 });
 
       const aboutTimeline = gsap.timeline({
@@ -4152,55 +4259,77 @@
 
       aboutTimeline
         .to(typing, {
-          chars: ABOUT_URL_STRING.length,
-          duration: 0.72,
+          queryChars: GOOGLE_QUERY_STRING.length,
+          duration: 0.9,
           ease: "none",
           onUpdate: () => {
-            aboutUrlText.textContent = ABOUT_URL_STRING.slice(0, Math.round(typing.chars));
+            googleQueryText.textContent = GOOGLE_QUERY_STRING.slice(0, Math.round(typing.queryChars));
           }
-        }, 0.12)
-        .to(".about-search", { x: 0, opacity: 1, duration: 0.58, ease: "power2.out" }, 0.58)
-        .to(".about-result", { x: 0, opacity: 1, duration: 0.68, ease: "power2.out" }, 0.72)
-        .to(".answer-step", { y: 0, opacity: 1, scale: 1, stagger: 0.10, duration: 0.5, ease: "back.out(1.5)" }, 1.14);
+        }, 0.08)
+        .to(".google-search-submit", { scale: 1.16, duration: 0.16, ease: "back.out(2)" }, 0.94)
+        .to(".google-search-submit", { scale: 1, duration: 0.17, ease: "power2.in" }, 1.10)
+        .to(".google-home", { y: -82, autoAlpha: 0, filter: "blur(9px)", duration: 0.58, ease: "power2.inOut" }, 1.16)
+        .to(typing, {
+          urlChars: ABOUT_URL_STRING.length,
+          duration: 0.74,
+          ease: "none",
+          onUpdate: () => {
+            aboutUrlText.textContent = ABOUT_URL_STRING.slice(0, Math.round(typing.urlChars));
+          }
+        }, 1.18)
+        .to(".google-results", { y: 0, autoAlpha: 1, filter: "blur(0px)", duration: 0.62, ease: "power3.out" }, 1.42)
+        .to(".google-primary-result, .google-knowledge-panel", { y: 0, opacity: 1, duration: 0.5, stagger: 0.12, ease: "power2.out" }, 1.68)
+        .to(".answer-step", { y: 0, opacity: 1, scale: 1, stagger: 0.09, duration: 0.46, ease: "back.out(1.45)" }, 1.92)
+        .to({}, { duration: 0.28 }, 2.32);
 
-      const world = document.getElementById("journey-world");
       const journeyPage = document.querySelector(".journey-browser-page");
-      const stations = Array.from(document.querySelectorAll(".journey-station"));
-      const storyCards = stations.map(station => station.querySelector(".story-card"));
-      const routeSegments = Array.from(document.querySelectorAll(".route-drawn"));
-      const routeLengths = routeSegments.map(segment => segment.getTotalLength());
-      let routeRanges = [[0.28, 0.54], [0.58, 0.84], [0.84, 0.98]];
+      const runner = document.getElementById("dino-runner");
+      const milestones = Array.from(document.querySelectorAll(".dino-milestone"));
+      const storyCards = milestones.map(milestone => milestone.querySelector(".dino-story"));
+      const scoreEl = document.getElementById("dino-score");
       const progressFill = document.querySelector(".journey-progress-fill");
       const countEl = document.querySelector(".count[data-target]");
-      let activeStop = -1;
-      let hasCounted = false;
+      const journeyState = { p: 0 };
+      let journeyDirection = 1;
+      const cardRanges = [[-0.08, 0, 0.26, 0.35], [0.27, 0.38, 0.58, 0.68], [0.61, 0.72, 1, 1]];
+      const passThresholds = [15, 50, 85].map(x => (x - 7) / 86);
+
+      const alphaInRange = (value, enterA, enterB, exitA, exitB) => {
+        const enter = clamp((value - enterA) / (enterB - enterA), 0, 1);
+        const exit = exitB >= 1 ? 1 : 1 - clamp((value - exitA) / (exitB - exitA), 0, 1);
+        return Math.min(enter, exit);
+      };
+
+      const jumpAt = (value, centre, radius = 0.065) => {
+        const local = clamp((value - (centre - radius)) / (radius * 2), 0, 1);
+        return value > centre - radius && value < centre + radius ? Math.sin(local * Math.PI) : 0;
+      };
+
+      const renderJourney = () => {
+        const value = clamp(journeyState.p, 0, 1);
+        const jump = Math.max(jumpAt(value, 0.315), jumpAt(value, 0.709));
+        journeyPage.style.setProperty("--run-x", `${(7 + value * 86).toFixed(2)}%`);
+        journeyPage.style.setProperty("--cloud-x", `${(-value * 6).toFixed(2)}vw`);
+        journeyPage.style.setProperty("--hill-x", `${(-value * 13).toFixed(2)}vw`);
+        journeyPage.style.setProperty("--ground-x", `${(-value * 360).toFixed(1)}px`);
+        journeyPage.style.setProperty("--road-p", value.toFixed(4));
+        journeyPage.style.setProperty("--jump-y", `${(jump * 82).toFixed(1)}px`);
+        progressFill.style.transform = `scaleX(${value.toFixed(4)})`;
+        scoreEl.textContent = `XP ${String(Math.round(value * 99999)).padStart(5, "0")}`;
+        runner.dataset.facing = journeyDirection < 0 ? "left" : "right";
+        runner.dataset.step = String(Math.floor(value * 72) % 2);
+        runner.classList.toggle("is-jumping", jump > 0.08);
+        storyCards.forEach((card, index) => {
+          const alpha = alphaInRange(value, ...cardRanges[index]);
+          gsap.set(card, { opacity: alpha, y: (1 - alpha) * 18, scale: 0.965 + alpha * 0.035 });
+          milestones[index].classList.toggle("is-passed", value >= passThresholds[index]);
+          milestones[index].classList.toggle("is-active", alpha > 0.65);
+        });
+        countEl.textContent = String(Math.round(200 * clamp((value - 0.72) / 0.18, 0, 1)));
+      };
 
       countEl.textContent = "0";
-      gsap.set(world, { xPercent: -50, yPercent: -50, scale: 0.48, transformOrigin: "50% 50%" });
-      gsap.set(storyCards, { opacity: 0.16 });
-      routeSegments.forEach((segment, index) => {
-        gsap.set(segment, { strokeDasharray: routeLengths[index], strokeDashoffset: routeLengths[index] });
-      });
-
-      const setRouteDraw = progress => {
-        routeSegments.forEach((segment, index) => {
-          const [start, end] = routeRanges[index];
-          const segmentProgress = clamp((progress - start) / (end - start), 0, 1);
-          segment.style.strokeDashoffset = String(routeLengths[index] * (1 - segmentProgress));
-        });
-      };
-
-      const setActiveStop = index => {
-        if (index === activeStop) return;
-        activeStop = index;
-        stations.forEach((station, i) => station.classList.toggle("active", i === index));
-        if (index === 2 && !hasCounted) {
-          hasCounted = true;
-          animateCount(countEl);
-        }
-      };
-
-      setActiveStop(0);
+      renderJourney();
 
       const journeyTimeline = gsap.timeline({
         scrollTrigger: {
@@ -4208,51 +4337,23 @@
           start: "top top",
           end: () => "+=" + Math.max(window.innerHeight * 3.8, 2600),
           pin: ".journey-stage",
-          scrub: 0.8,
+          scrub: 0.58,
           anticipatePin: 1,
           refreshPriority: 10,
           invalidateOnRefresh: true,
-          onUpdate: self => {
-            progressFill.style.width = (self.progress * 100).toFixed(1) + "%";
-            journeyPage.style.setProperty("--journey-grid-x", `${(-self.progress * 120).toFixed(1)}px`);
-            journeyPage.style.setProperty("--journey-parallax-x", `${(-self.progress * 72).toFixed(1)}px`);
-            setRouteDraw(self.progress);
-            setActiveStop(self.progress < routeRanges[0][1] ? 0 : self.progress < routeRanges[1][1] ? 1 : 2);
-          }
+          onUpdate: self => { journeyDirection = self.direction; }
         }
       });
 
-      journeyTimeline
-        .addLabel("stopOne", 0)
-        .to(world, { xPercent: -15, yPercent: -48, scale: 1, duration: 1.25, ease: "power2.inOut" }, 0)
-        .to(storyCards[0], { opacity: 1, duration: 0.55, ease: "power2.out" }, 0.34)
-        .to(storyCards[0], { opacity: 0.12, duration: 0.42, ease: "power1.in" }, 1.62)
-        .addLabel("travelToTwo", 1.42)
-        .to(world, { xPercent: -50, yPercent: -64, scale: 1.04, duration: 1.28, ease: "power2.inOut" }, 1.56)
-        .to(storyCards[1], { opacity: 1, duration: 0.55, ease: "power2.out" }, 1.92)
-        .to(storyCards[1], { opacity: 0.12, duration: 0.42, ease: "power1.in" }, 3.16)
-        .addLabel("stopTwo", 2.84)
-        .addLabel("travelToThree", 3.02)
-        .to(world, { xPercent: -85, yPercent: -47, scale: 1, duration: 1.28, ease: "power2.inOut" }, 3.10)
-        .to(storyCards[2], { opacity: 1, duration: 0.55, ease: "power2.out" }, 3.48)
-        .addLabel("stopThree", 4.38)
-        .to(storyCards[2], { opacity: 1, duration: 0.88 }, 4.36)
-        .addLabel("finish", 5.24);
-
-      const routeProgressAt = label => journeyTimeline.labels[label] / journeyTimeline.duration();
-      routeRanges = [
-        [routeProgressAt("travelToTwo"), routeProgressAt("stopTwo")],
-        [routeProgressAt("travelToThree"), routeProgressAt("stopThree")],
-        [routeProgressAt("stopThree"), routeProgressAt("finish")]
-      ];
-      setRouteDraw(0);
+      journeyTimeline.to(journeyState, { p: 1, duration: 1, ease: "none", onUpdate: renderJourney });
 
       return () => {
         aboutUrlText.textContent = ABOUT_URL_STRING;
-        progressFill.style.width = "100%";
-        journeyPage.style.setProperty("--journey-grid-x", "0px");
-        journeyPage.style.setProperty("--journey-parallax-x", "0px");
-        stations.forEach(station => station.classList.add("active"));
+        googleQueryText.textContent = GOOGLE_QUERY_STRING;
+        ["--run-x", "--cloud-x", "--hill-x", "--ground-x", "--road-p", "--jump-y"].forEach(prop => journeyPage.style.removeProperty(prop));
+        progressFill.style.transform = "scaleX(1)";
+        gsap.set(storyCards, { clearProps: "opacity,transform" });
+        milestones.forEach(milestone => milestone.classList.remove("is-active", "is-passed"));
         counters.forEach(el => { el.textContent = el.dataset.target; });
       };
     });
@@ -4294,6 +4395,9 @@
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(() => ScrollTrigger.refresh());
     }
+    window.addEventListener("pageshow", () => {
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+    });
   }
 
   function setupTotop() {
@@ -4357,7 +4461,10 @@
     if (reduceMotion) {
       drawStars(0, 0, 0);
       drawPlanet();
-      urlText.textContent = URL_STRING;
+      urlText.textContent = MUSIC_TRACK_TITLE;
+      windowEl.style.setProperty("--music-p", "100%");
+      const musicTime = document.getElementById("music-time");
+      if (musicTime) musicTime.textContent = "0:36";
       loadbar.style.opacity = 0;
     }
   }
@@ -4367,6 +4474,7 @@
   applyCloudSprites();
   initStars();
   resize();
+  setupMusicTabs();
   setupProjectBrowser();
   setupContactDraft();
   setupAiHistoryTabs();
