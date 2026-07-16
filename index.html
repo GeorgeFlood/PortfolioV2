@@ -28,11 +28,21 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
+
   body {
+    width: 100%;
+    max-width: 100%;
     background: var(--space-black);
     color: var(--ink);
     font-family: 'Space Grotesk', sans-serif;
     overflow-x: hidden;
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -97,50 +107,77 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 9vh;
+    bottom: clamp(22px, 4.5vh, 48px);
+    width: min(92vw, 640px);
     text-align: center;
     pointer-events: none;
   }
 
   #intro-copy .eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.35em;
+    font-size: 10px;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--ink-dim);
-    margin-bottom: 14px;
+    color: rgba(220, 234, 255, 0.66);
+    margin-bottom: 10px;
   }
 
   #intro-copy h1 {
-    font-family: 'Fraunces', serif;
-    font-weight: 300;
-    font-size: clamp(28px, 4.5vw, 52px);
-    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: clamp(20px, 2.5vw, 30px);
+    letter-spacing: -0.035em;
+    color: rgba(248, 251, 255, 0.96);
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.7);
   }
 
   #scroll-hint {
-    margin-top: 28px;
-    display: flex;
-    flex-direction: column;
+    width: max-content;
+    margin: 18px auto 0;
+    padding: 7px 9px 7px 14px;
+    display: inline-flex;
+    flex-direction: row;
     align-items: center;
-    gap: 8px;
-    color: var(--ink-dim);
-    font-size: 11px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
+    gap: 11px;
+    border: 1px solid rgba(206, 226, 255, 0.2);
+    border-radius: 999px;
+    color: rgba(231, 240, 255, 0.78);
+    background: rgba(12, 24, 49, 0.42);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 12px 38px rgba(0,0,0,.2);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    font: 500 10px/1 -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+    letter-spacing: 0.09em;
   }
 
-  #scroll-hint .line {
-    width: 1px;
-    height: 36px;
-    background: linear-gradient(to bottom, transparent, var(--accent));
-    animation: drip 1.8s ease-in-out infinite;
+  #scroll-hint .scroll-orbit {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(210, 229, 255, 0.22);
+    border-radius: 50%;
+    background: rgba(128, 179, 244, 0.1);
   }
 
-  @keyframes drip {
-    0%   { transform: scaleY(0); transform-origin: top; }
-    45%  { transform: scaleY(1); transform-origin: top; }
-    55%  { transform: scaleY(1); transform-origin: bottom; }
-    100% { transform: scaleY(0); transform-origin: bottom; }
+  #scroll-hint .scroll-orbit::before,
+  #scroll-hint .scroll-orbit::after {
+    content: "";
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid rgba(242, 248, 255, 0.88);
+    border-bottom: 1.5px solid rgba(242, 248, 255, 0.88);
+    transform: translateY(-3px) rotate(45deg);
+    animation: scroll-chevron 1.8s ease-in-out infinite;
+  }
+
+  #scroll-hint .scroll-orbit::after { animation-delay: .16s; }
+
+  @keyframes scroll-chevron {
+    0%, 25% { opacity: 0; transform: translateY(-5px) rotate(45deg); }
+    48% { opacity: 1; }
+    80%, 100% { opacity: 0; transform: translateY(3px) rotate(45deg); }
   }
 
   #intro-track { height: 280vh; }
@@ -2127,7 +2164,7 @@
     #intro-track { height: 110vh; }
     #sky-zone { height: 100vh; height: 100svh; }
     #ai-window { display: none; }
-    #scroll-hint .line { animation: none; height: 24px; }
+    #scroll-hint .scroll-orbit::before, #scroll-hint .scroll-orbit::after { animation: none; opacity: 1; }
     .cloud { animation: none; }
     .apple-glow, .apple-product, .map-node.mid, .slot-light, .jackpot-rays, .jackpot-message, .confetti i, .slot-machine.is-winning, .tech-card { animation: none; }
     .project-panel { animation: none; }
@@ -2150,11 +2187,11 @@
   <div id="atmosphere"></div>
   <div id="skyflat"></div>
   <div id="intro-copy">
-    <div class="eyebrow">Somewhere in orbit</div>
-    <h1>Begin the descent</h1>
+    <div class="eyebrow">George Flood / Portfolio</div>
+    <h1>Made on Earth. Viewed from orbit.</h1>
     <div id="scroll-hint">
-      <div class="line"></div>
-      <span>Scroll</span>
+      <span>Scroll to explore</span>
+      <span class="scroll-orbit" aria-hidden="true"></span>
     </div>
   </div>
 </div>
