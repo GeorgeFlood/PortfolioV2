@@ -345,7 +345,7 @@
   .ai-assistant-message { display: grid; grid-template-columns: 32px 1fr; gap: 13px; margin-top: 27px; color: #292a2e; font-size: clamp(15px, 1.65vw, 18px); line-height: 1.6; }
   .ai-assistant-logo { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 9px; color: #fff; background: #101113; font-size: 15px; }
   .ai-assistant-message strong { display: block; margin-bottom: 4px; font-size: 12px; }
-  #ai-response-text { display: inline-block; width: 0; overflow: hidden; vertical-align: bottom; white-space: nowrap; }
+  #ai-response-text { display:inline; vertical-align:bottom; white-space:normal; }
   .ai-handoff { display: inline-flex; align-items: center; gap: 9px; margin: 18px 0 0 45px; padding: 8px 12px; border: 1px solid #d9dce2; border-radius: 999px; color: #646974; background: #fafafa; font-size: 10px; opacity: 0; transform: translateY(10px); }
   .ai-handoff i { width: 7px; height: 7px; border-radius: 50%; background: #10a37f; box-shadow: 0 0 0 5px rgba(16,163,127,.1); }
   .ai-composer { position: absolute; left: 50%; bottom: 22px; width: min(760px, calc(100% - 52px)); min-height: 58px; display: flex; align-items: center; gap: 12px; transform: translateX(-50%); padding: 10px 11px 10px 19px; border: 1px solid #dedfe3; border-radius: 19px; color: #9b9da4; background: #fff; box-shadow: 0 6px 30px rgba(20,22,30,.08); font-size: 13px; }
@@ -925,32 +925,24 @@
   .google-results-query span:last-child { margin-left:auto; color:var(--google-blue); font-size:16px; }
   .google-results-body { min-height:0; display:grid; grid-template-columns:minmax(0,1.35fr) minmax(230px,.65fr); gap:clamp(24px,4vw,58px); align-content:center; padding:clamp(22px,3.5vw,46px) clamp(24px,5vw,72px); overflow:auto; }
   .google-result-count { color:#8a9099; font:10px/1.3 Arial,sans-serif; }
-  .google-primary-result .result-label {
-    color: var(--google-blue);
-    font-size: 10px;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    margin:10px 0 9px;
-  }
-  .google-primary-result h3 {
-    max-width: 17ch;
-    font-family: 'Fraunces', serif;
-    font-weight: 300;
-    font-size: clamp(27px, 3.2vw, 43px);
-    line-height: 1.08;
-    letter-spacing: -0.035em;
-  }
-  .google-primary-result > p {
-    max-width: 60ch;
-    margin-top: 12px;
-    color: var(--page-dim);
-    font-size: clamp(12px, 1.15vw, 14px);
-    line-height: 1.58;
-  }
-  .google-knowledge-panel { align-self:center; padding:21px; border:1px solid #e0e3e7; border-radius:18px; box-shadow:0 10px 28px rgba(50,71,104,.08); }
-  .knowledge-avatar { width:54px; height:54px; display:grid; place-items:center; border-radius:50%; color:#fff; background:linear-gradient(135deg,var(--google-blue),#7956d8); font-size:15px; font-weight:700; }
-  .google-knowledge-panel h4 { margin-top:13px; font-size:18px; }
+  .google-search-result { max-width:660px; margin-top:14px; }
+  .google-search-result + .google-search-result { margin-top:20px; }
+  .result-source { display:flex; align-items:center; gap:8px; color:#4d5156; font:10px/1.3 Arial,sans-serif; }
+  .result-source-mark { width:21px; height:21px; display:grid; place-items:center; flex:0 0 auto; border-radius:50%; color:#fff; background:var(--google-blue); font-size:9px; font-weight:700; }
+  .result-source small { display:block; color:#70757a; font-size:8px; }
+  .google-search-result h3 { margin-top:7px; color:#1a0dab; font:400 clamp(19px,2.1vw,25px)/1.18 Arial,sans-serif; letter-spacing:-.018em; }
+  .google-search-result p,.google-search-result .result-snippet { display:block; max-width:64ch; margin-top:7px; color:#4d5156; font:clamp(11px,1vw,13px)/1.52 Arial,sans-serif; }
+  .bbc-result { appearance:none; width:100%; padding:0; border:0; color:inherit; background:transparent; text-align:left; cursor:pointer; }
+  .bbc-result .result-source-mark { background:#bb1919; font-family:Arial,sans-serif; }
+  .bbc-result [role="heading"] { display:block; margin-top:7px; color:#1a0dab; font:400 clamp(19px,2.1vw,25px)/1.18 Arial,sans-serif; letter-spacing:-.018em; }
+  .bbc-result:hover [role="heading"] { text-decoration:underline; }
+  .bbc-parody-label { display:inline-block; margin-left:5px; padding:2px 5px; border-radius:3px; color:#8b1414; background:#fff0f0; font-size:8px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+  .google-knowledge-panel { align-self:center; overflow:hidden; padding:0 0 18px; border:1px solid #e0e3e7; border-radius:18px; box-shadow:0 10px 28px rgba(50,71,104,.08); }
+  .knowledge-photo { width:100%; height:clamp(130px,18vh,175px); display:block; object-fit:cover; object-position:center 22%; background:#f1f3f4; }
+  .knowledge-copy { padding:0 19px; }
+  .google-knowledge-panel h4 { margin-top:15px; font:400 22px/1.1 Arial,sans-serif; }
   .google-knowledge-panel > p { margin-top:4px; color:#70757a; font:11px/1.45 Arial,sans-serif; }
+  .knowledge-copy > p { margin-top:4px; color:#70757a; font:11px/1.45 Arial,sans-serif; }
   .knowledge-facts { display:grid; gap:8px; margin-top:15px; padding-top:14px; border-top:1px solid #eceff3; }
   .knowledge-facts span { display:flex; justify-content:space-between; gap:10px; color:#70757a; font:9px/1.3 Arial,sans-serif; }
   .knowledge-facts strong { color:#3c4043; font-weight:600; text-align:right; }
@@ -965,34 +957,35 @@
   body.no-gsap .google-results-body,
   body.motion-static .google-results-body { overflow:visible; }
 
-  .answer-flow {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-    margin-top: 17px;
+  .bbc-story {
+    position:absolute;
+    inset:0;
+    z-index:12;
+    display:grid;
+    place-items:center;
+    padding:clamp(18px,3vw,34px);
+    color:#202124;
+    background:rgba(246,247,249,.93);
+    backdrop-filter:blur(13px);
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .22s ease,visibility .22s ease;
   }
-
-  .answer-step {
-    position: relative;
-    min-height: 82px;
-    padding: 12px;
-    border: 1px solid #e1e6ee;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.92);
-    overflow: hidden;
-  }
-
-  .answer-step::before {
-    content: "";
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 4px;
-    background: var(--step-color);
-  }
-
-  .answer-step .step-no { color: var(--step-color); font-size: 10px; font-weight: 700; }
-  .answer-step strong { display: block; margin-top: 7px; font-size: 13px; }
-  .answer-step span:last-child { display: block; margin-top: 3px; color: #778195; font-size: 10.5px; line-height: 1.4; }
+  .bbc-story.show { opacity:1; visibility:visible; pointer-events:auto; }
+  .bbc-story-card { width:min(760px,100%); max-height:100%; overflow:auto; border:1px solid #d8dadd; background:#fff; box-shadow:0 28px 70px rgba(32,33,36,.22); transform:translateY(18px) scale(.985); transition:transform .35s cubic-bezier(.2,1,.3,1); }
+  .bbc-story.show .bbc-story-card { transform:translateY(0) scale(1); }
+  .bbc-story-bar { min-height:54px; display:flex; align-items:center; justify-content:space-between; gap:14px; padding:10px 18px; color:#fff; background:#b80000; }
+  .bbc-logo { display:flex; gap:3px; font:700 15px/1 Arial,sans-serif; }
+  .bbc-logo span { width:23px; height:23px; display:grid; place-items:center; color:#111; background:#fff; }
+  .bbc-story-close { padding:8px 11px; border:1px solid rgba(255,255,255,.55); color:#fff; background:transparent; font:700 9px/1.2 Arial,sans-serif; cursor:pointer; }
+  .bbc-story-body { padding:clamp(22px,4vw,42px); }
+  .bbc-story-section { color:#b80000; font:700 10px/1 Arial,sans-serif; letter-spacing:.1em; text-transform:uppercase; }
+  .bbc-story-body h3 { max-width:19ch; margin-top:12px; font:700 clamp(26px,4vw,46px)/1.02 Arial,sans-serif; letter-spacing:-.045em; }
+  .bbc-story-deck { max-width:62ch; margin-top:13px; color:#4f5358; font:16px/1.45 Georgia,serif; }
+  .bbc-story-byline { margin-top:18px; padding-bottom:14px; border-bottom:1px solid #d8dadd; color:#5f6368; font:10px/1.4 Arial,sans-serif; }
+  .bbc-story-copy { max-width:69ch; margin-top:18px; color:#26282b; font:13px/1.68 Georgia,serif; }
+  .bbc-story-copy p + p { margin-top:13px; }
 
   /* ============================================================
      CHAPTER: WHERE I'VE BEEN — zoomable career route
@@ -1056,9 +1049,15 @@
   .journey-browser-page {
     --run-x: 7%;
     --cloud-x: 0vw;
+    --far-x: 0vw;
     --hill-x: 0vw;
+    --near-x: 0vw;
     --ground-x: 0px;
     --road-p: 0;
+    --dino-camera: 1;
+    --runner-scale: 1;
+    --runner-opacity: 1;
+    --roar-opacity: 0;
     position: relative;
     height: calc(100% - 85px);
     overflow: hidden;
@@ -1094,7 +1093,7 @@
   .journey-progress-track { height: 3px; margin-top: 11px; border-radius: 4px; background: #d5d5d5; overflow: hidden; }
   .journey-progress-fill { width: 100%; height: 100%; transform:scaleX(0); transform-origin:left; border-radius: inherit; background: linear-gradient(90deg, var(--google-red) 0 34%, var(--google-yellow) 34% 68%, var(--google-green) 68% 100%); }
 
-  .dino-game { position:absolute; inset:clamp(122px,19vh,166px) 0 0; z-index:3; overflow:hidden; }
+  .dino-game { position:absolute; inset:clamp(122px,19vh,166px) 0 0; z-index:3; overflow:hidden; transform:scale(var(--dino-camera)); transform-origin:34% 72%; will-change:transform; }
   .dino-hud { position:absolute; top:12px; right:clamp(20px,4vw,58px); z-index:10; display:flex; align-items:center; gap:18px; color:#777; font-size:10px; letter-spacing:.1em; text-transform:uppercase; }
   .dino-offline { display:flex; align-items:center; gap:7px; }
   .dino-offline i { width:7px; height:7px; border-radius:50%; background:#ea4335; box-shadow:0 0 0 4px rgba(234,67,53,.1); }
@@ -1105,7 +1104,9 @@
   .pixel-cloud::before { left:12px; width:18px; height:11px; }
   .pixel-cloud::after { right:10px; width:14px; height:7px; }
   .pixel-cloud:nth-child(1){left:8%;top:24%;}.pixel-cloud:nth-child(2){left:42%;top:7%;transform:scale(.75)}.pixel-cloud:nth-child(3){left:76%;top:38%;transform:scale(1.12)}.pixel-cloud:nth-child(4){left:104%;top:11%;transform:scale(.82)}
+  .dino-far-ridge { position:absolute; left:-28%; right:-28%; bottom:55px; height:52%; transform:translate3d(var(--far-x),0,0); opacity:.32; will-change:transform; background:radial-gradient(ellipse at 14% 100%,transparent 0 43%,#dadde2 43.4% 44.2%,transparent 44.6%),radial-gradient(ellipse at 49% 100%,transparent 0 50%,#d8dce1 50.4% 51.1%,transparent 51.5%),radial-gradient(ellipse at 82% 100%,transparent 0 46%,#d9dce1 46.4% 47.2%,transparent 47.6%); }
   .dino-hill-layer { position:absolute; left:-15%; right:-15%; bottom:56px; height:39%; transform:translate3d(var(--hill-x),0,0); opacity:.55; will-change:transform; background:radial-gradient(ellipse at 12% 100%,transparent 0 31%,#ececec 31.5% 33%,transparent 33.5%),radial-gradient(ellipse at 45% 100%,transparent 0 39%,#ebebeb 39.5% 41%,transparent 41.5%),radial-gradient(ellipse at 78% 100%,transparent 0 35%,#ededed 35.5% 37%,transparent 37.5%); }
+  .dino-near-ridge { position:absolute; left:-28%; right:-28%; bottom:54px; height:23%; transform:translate3d(var(--near-x),0,0); opacity:.46; will-change:transform; background:repeating-radial-gradient(ellipse at 12% 110%,transparent 0 17%,#e3e4e6 17.4% 18.5%,transparent 19% 31%); }
   .dino-ground { position:absolute; left:0; right:0; bottom:52px; z-index:5; height:3px; background:#535353; }
   .dino-ground-fill { position:absolute; inset:0; transform:scaleX(var(--road-p)); transform-origin:left; background:linear-gradient(90deg,var(--google-red) 0 34%,var(--google-yellow) 34% 68%,var(--google-green) 68%); }
   .dino-ground-texture { position:absolute; left:0; right:0; bottom:0; height:52px; opacity:.55; background-image:repeating-linear-gradient(90deg,transparent 0 21px,#777 22px 24px,transparent 25px 46px),repeating-linear-gradient(90deg,transparent 0 69px,#999 70px 72px,transparent 73px 118px); background-size:180px 1px,260px 1px; background-position:var(--ground-x) 10px,var(--ground-x) 28px; background-repeat:repeat-x; }
@@ -1116,8 +1117,8 @@
   .dino-obstacle::before { left:0; top:18px; border-left:6px solid currentColor; }
   .dino-obstacle::after { right:0; top:10px; border-right:6px solid currentColor; }
 
-  .dino-runner { position:absolute; left:var(--run-x); bottom:calc(56px + var(--jump-y, 0px)); z-index:14; width:66px; height:72px; transform:translateX(-50%); color:#535353; will-change:left,bottom,transform; filter:drop-shadow(0 8px 0 rgba(83,83,83,.06)); }
-  .dino-runner[data-facing="left"] { transform:translateX(-50%) scaleX(-1); }
+  .dino-runner { position:absolute; left:var(--run-x); bottom:calc(56px + var(--jump-y, 0px)); z-index:14; width:66px; height:72px; transform:translateX(-50%) scale(var(--runner-scale)); transform-origin:50% 100%; opacity:var(--runner-opacity); color:#535353; will-change:left,bottom,transform,opacity; filter:drop-shadow(0 8px 0 rgba(83,83,83,.06)); }
+  .dino-runner[data-facing="left"] { transform:translateX(-50%) scaleX(-1) scale(var(--runner-scale)); }
   .dino-sprite { width:100%; height:100%; overflow:visible; }
   .dino-leg-b { opacity:0; }
   .dino-runner[data-step="1"] .dino-leg-a { opacity:0; }
@@ -1125,8 +1126,14 @@
   .dino-runner.is-jumping .dino-shadow { transform:scaleX(.58); opacity:.2; }
   .dino-shadow { position:absolute; left:9px; right:5px; bottom:-5px; height:5px; border-radius:50%; background:rgba(83,83,83,.2); transform-origin:center; }
 
+  .dino-roar { position:absolute; left:var(--run-x); bottom:142px; z-index:16; width:max-content; max-width:210px; padding:10px 13px; transform:translate(-20%,-4px) scale(calc(.82 + var(--roar-opacity) * .18)); transform-origin:15% 100%; opacity:var(--roar-opacity); border:2px solid #535353; border-radius:11px 11px 11px 2px; color:#535353; background:#fff; box-shadow:6px 6px 0 rgba(83,83,83,.12); pointer-events:none; }
+  .dino-roar::after { content:""; position:absolute; left:12px; bottom:-8px; width:13px; height:13px; transform:rotate(45deg); border-right:2px solid #535353; border-bottom:2px solid #535353; background:#fff; }
+  .dino-roar strong,.dino-roar small { display:block; }
+  .dino-roar strong { color:var(--google-red); font-size:24px; line-height:1; letter-spacing:-.06em; }
+  .dino-roar small { margin-top:4px; color:#777; font-size:8px; letter-spacing:.04em; }
+
   .dino-milestones { position:absolute; inset:0; z-index:8; list-style:none; }
-  .dino-milestone { --stop-colour:var(--google-blue); position:absolute; left:clamp(185px,var(--stop-x),calc(100% - 185px)); bottom:55px; width:350px; transform:translateX(-50%); }
+  .dino-milestone { --stop-colour:var(--google-blue); position:absolute; left:var(--stop-x); bottom:55px; width:350px; transform:translateX(-50%); opacity:0; will-change:left,opacity; }
   .dino-sign { position:absolute; left:50%; bottom:0; width:4px; height:84px; transform:translateX(-50%); background:#6d6d6d; }
   .dino-sign::before { content:""; position:absolute; left:-5px; bottom:-4px; width:14px; height:4px; background:#6d6d6d; }
   .dino-sign span { position:absolute; left:4px; top:0; min-width:54px; height:30px; display:grid; place-items:center; border:3px solid #535353; color:#fff; background:var(--stop-colour); box-shadow:5px 5px 0 rgba(83,83,83,.13); font-size:10px; font-weight:800; letter-spacing:.08em; }
@@ -1181,21 +1188,27 @@
   body.no-gsap .dino-game,
   body.motion-static .dino-game { position:relative; inset:auto; overflow:visible; }
   body.no-gsap .dino-cloud-layer,
+  body.no-gsap .dino-far-ridge,
   body.no-gsap .dino-hill-layer,
+  body.no-gsap .dino-near-ridge,
   body.no-gsap .dino-ground,
   body.no-gsap .dino-ground-texture,
   body.no-gsap .dino-runner,
+  body.no-gsap .dino-roar,
   body.no-gsap .dino-hud,
   body.motion-static .dino-cloud-layer,
+  body.motion-static .dino-far-ridge,
   body.motion-static .dino-hill-layer,
+  body.motion-static .dino-near-ridge,
   body.motion-static .dino-ground,
   body.motion-static .dino-ground-texture,
   body.motion-static .dino-runner,
+  body.motion-static .dino-roar,
   body.motion-static .dino-hud { display:none; }
   body.no-gsap .dino-milestones,
   body.motion-static .dino-milestones { position:relative; inset:auto; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
   body.no-gsap .dino-milestone,
-  body.motion-static .dino-milestone { position:relative; inset:auto; width:auto; transform:none !important; }
+  body.motion-static .dino-milestone { position:relative; inset:auto; width:auto; opacity:1 !important; transform:none !important; }
   body.no-gsap .dino-sign,
   body.motion-static .dino-sign { position:relative; left:auto; bottom:auto; width:100%; height:34px; transform:none; background:transparent; }
   body.no-gsap .dino-sign::before,
@@ -1377,6 +1390,19 @@
   .preview-bar::after { content: ""; width: 43%; height: 8px; margin-left: 8px; border-radius: 99px; background: #e4e8ee; }
   .preview-content { position: absolute; inset: 34px 0 0; }
 
+  .campfire-preview { --preview-bg:linear-gradient(145deg,#07111f,#203445); }
+  .campfire-scene { position:absolute; inset:34px 0 0; overflow:hidden; color:#f5eee2; background:linear-gradient(180deg,#07111f 0 42%,#183044 67%,#d08255 100%); }
+  .campfire-scene::before { content:""; position:absolute; inset:0 0 42%; opacity:.72; background-image:radial-gradient(#fff 0 1px,transparent 1.5px); background-size:31px 31px; }
+  .campfire-moon { position:absolute; right:13%; top:13%; width:54px; aspect-ratio:1; border-radius:50%; background:#f8e7bf; box-shadow:0 0 38px rgba(248,231,191,.4); }
+  .campfire-hills { position:absolute; left:-8%; right:-8%; bottom:0; height:45%; background:radial-gradient(ellipse at 17% 100%,#172a2d 0 38%,transparent 38.5%),radial-gradient(ellipse at 68% 100%,#102226 0 49%,transparent 49.5%); }
+  .campfire-flame { position:absolute; left:50%; bottom:14%; width:34px; height:54px; transform:translateX(-50%) rotate(45deg); border-radius:52% 50% 48% 20%; background:linear-gradient(135deg,#ffd58d,#ff6b3d 72%); box-shadow:0 0 26px rgba(255,116,55,.76),0 0 70px rgba(255,146,62,.34); animation:campfire-flicker 1.35s ease-in-out infinite alternate; }
+  @keyframes campfire-flicker { to { transform:translateX(-50%) rotate(42deg) scale(.9,1.08); } }
+  .campfire-preview-copy { position:absolute; left:8%; top:13%; z-index:2; max-width:54%; }
+  .campfire-preview-copy small,.campfire-preview-copy strong,.campfire-preview-copy span { display:block; }
+  .campfire-preview-copy small { color:#85b8c2; font-size:8px; letter-spacing:.14em; text-transform:uppercase; }
+  .campfire-preview-copy strong { margin-top:9px; font-family:'Fraunces',serif; font-size:clamp(19px,3vw,34px); font-weight:300; line-height:1.02; }
+  .campfire-preview-copy span { margin-top:8px; color:rgba(244,238,226,.7); font-size:9px; }
+
   .meet-preview { --preview-bg: linear-gradient(145deg, #e8f1ff, #d8f8ed); }
   .meet-map { position: absolute; inset: 0; background: linear-gradient(29deg, transparent 48%, rgba(55, 105, 170, 0.08) 49% 51%, transparent 52%), linear-gradient(-32deg, transparent 48%, rgba(55, 105, 170, 0.08) 49% 51%, transparent 52%), #f8fbff; background-size: 90px 80px; }
   .meet-map::after { content: "LONDON"; position: absolute; right: 7%; bottom: 7%; color: rgba(39, 73, 116, 0.11); font-size: clamp(30px, 5vw, 62px); font-weight: 700; letter-spacing: 0.08em; }
@@ -1524,6 +1550,29 @@
   .casino-game { min-width: 0; min-height: 620px; border: 1px solid rgba(255,255,255,.09); border-radius: 22px; box-shadow: 0 22px 50px rgba(0,0,0,.23); animation: casino-tab-in .44s cubic-bezier(.16,1,.3,1) both; }
   .casino-game[hidden] { display: none !important; }
   @keyframes casino-tab-in { from { opacity: 0; transform: translateY(16px) scale(.985); } }
+  .nsfw-booth { display:grid; grid-template-columns:minmax(280px,.95fr) minmax(320px,1.05fr); align-items:center; gap:clamp(22px,4vw,58px); padding:clamp(24px,4vw,56px); overflow:hidden; background:radial-gradient(circle at 18% 18%,rgba(255,145,42,.17),transparent 27%),linear-gradient(145deg,#080808,#1a0d11 72%,#2c1210); }
+  .age-gate-card { text-align:center; }
+  .ph-logo { display:inline-flex; align-items:center; color:#fff; font:800 clamp(27px,4vw,48px)/1 Arial,sans-serif; letter-spacing:-.05em; }
+  .ph-logo span { margin-left:4px; padding:4px 7px; border-radius:6px; color:#111; background:#ff9a16; }
+  .age-gate-card h3 { margin-top:26px; font-family:'Fraunces',serif; font-size:clamp(28px,4vw,46px); font-weight:300; line-height:1.02; }
+  .age-gate-card p { max-width:42ch; margin:12px auto 0; color:#bfb6b8; font-size:12px; line-height:1.55; }
+  .age-verify { margin-top:22px; padding:13px 19px; border:0; border-radius:999px; color:#17100a; background:#ff9a16; box-shadow:0 6px 0 #a75008; font:inherit; font-size:11px; font-weight:700; line-height:1; cursor:pointer; }
+  .age-verify:active { transform:translateY(4px); box-shadow:0 2px 0 #a75008; }
+  .age-verdict { min-height:19px; margin-top:16px !important; color:#ff9a8d !important; font-weight:650 !important; }
+  .vpn-card { position:relative; padding:clamp(24px,3.5vw,40px); overflow:hidden; border:1px solid rgba(184,151,255,.22); border-radius:22px; background:linear-gradient(145deg,rgba(66,38,87,.82),rgba(22,14,31,.94)); box-shadow:0 24px 65px rgba(0,0,0,.36); }
+  .vpn-card::before { content:""; position:absolute; right:-44px; top:-44px; width:150px; height:150px; border:24px solid rgba(190,146,255,.07); border-radius:50%; }
+  .vpn-kicker { color:#c59aff; font-size:9px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; }
+  .vpn-card h4 { margin-top:10px; font-size:clamp(24px,3vw,36px); letter-spacing:-.04em; }
+  .vpn-location { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:24px; padding:12px 14px; border:1px solid rgba(255,255,255,.1); border-radius:13px; color:#d8cee1; background:rgba(0,0,0,.2); font-size:10px; }
+  .vpn-location strong { color:#ffb65b; }
+  .vpn-connect { position:relative; width:104px; height:51px; display:block; margin:24px auto 0; border:0; border-radius:999px; color:#fff; background:#5f4970; box-shadow:0 0 0 1px rgba(255,255,255,.14) inset; font:inherit; font-size:9px; font-weight:700; line-height:1; cursor:pointer; transition:background .2s ease,transform .2s ease; }
+  .vpn-connect::before { content:""; position:absolute; left:7px; top:7px; width:37px; height:37px; border-radius:50%; background:#ddd3e5; box-shadow:0 4px 12px rgba(0,0,0,.3); transition:transform .28s cubic-bezier(.2,1.4,.3,1); }
+  .vpn-connect.is-trying { background:#7b3d72; }
+  .vpn-connect.is-trying::before { transform:translateX(53px); background:#ff8b9d; }
+  .vpn-status { min-height:43px; margin-top:18px; color:#cfc1d9; font-size:12px; font-weight:650; line-height:1.45; text-align:center; }
+  .vpn-card.is-angry { animation:vpn-rage .28s linear; border-color:rgba(255,82,102,.55); box-shadow:0 0 42px rgba(255,50,83,.19),0 24px 65px rgba(0,0,0,.36); }
+  @keyframes vpn-rage { 25%{transform:translateX(-5px) rotate(-.3deg)} 75%{transform:translateX(5px) rotate(.3deg)} }
+  .vpn-fineprint { margin-top:17px; color:#776b80; font-size:8px; line-height:1.5; text-align:center; }
   .slots-booth { display: grid; align-content: start; gap: 22px; padding: clamp(20px, 2.5vw, 30px); background: linear-gradient(145deg, rgba(70,42,82,.92), rgba(29,18,38,.95)); }
   .slot-layout { width: auto; min-height: 558px; margin: 0; display: grid; grid-template-columns: minmax(240px, .58fr) minmax(500px, 1.42fr); align-items: center; gap: clamp(28px, 5vw, 68px); }
   .slot-copy .chapter-kicker { color: #ffd65a; }
@@ -1640,18 +1689,6 @@
   .confetti { position: absolute; inset: 0; }
   .confetti i { position: absolute; left: var(--x); top: -8%; width: 10px; height: 22px; border-radius: 2px; background: var(--c); animation: confetti-fall var(--t) cubic-bezier(.25,.75,.45,1) var(--d) infinite; }
   @keyframes confetti-fall { to { transform: translate3d(var(--drift), 115vh, 0) rotate(720deg); } }
-
-  .nsfw-alert { position: fixed; inset: 0; z-index: 120; display: grid; place-items: center; padding: 24px; color: #fff; background: rgba(16,0,4,.9); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .22s ease, visibility .22s ease; backdrop-filter: blur(12px); }
-  .nsfw-alert.show { opacity: 1; visibility: visible; pointer-events: auto; }
-  .nsfw-siren { position: absolute; inset: -45vmax; background: repeating-conic-gradient(from 0deg, rgba(255,32,66,.22) 0 10deg, transparent 10deg 22deg); animation: nsfw-spin 7s linear infinite; }
-  @keyframes nsfw-spin { to { transform: rotate(360deg); } }
-  .nsfw-card { position: relative; z-index: 1; width: min(590px, 100%); padding: clamp(28px, 5vw, 54px); overflow: hidden; border: 2px solid #ff3855; border-radius: 26px; background: linear-gradient(145deg, #250711, #0d0407); box-shadow: 0 0 0 8px rgba(255,56,85,.12), 0 30px 100px rgba(0,0,0,.68), 0 0 70px rgba(255,31,66,.28); text-align: center; transform: scale(.72) rotate(-2deg); transition: transform .48s cubic-bezier(.2,1.55,.35,1); }
-  .nsfw-alert.show .nsfw-card { transform: scale(1) rotate(0); }
-  .nsfw-warning { display: inline-flex; align-items: center; gap: 8px; padding: 7px 11px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; color: #ff97a6; background: rgba(255,255,255,.06); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; }
-  .nsfw-card strong { display: block; margin-top: 20px; color: #fff; font-size: clamp(54px, 12vw, 106px); line-height: .8; letter-spacing: -.08em; text-shadow: 0 5px 0 #9f132a, 0 0 30px rgba(255,56,85,.5); }
-  .nsfw-card h3 { margin-top: 24px; font-family: 'Fraunces', serif; font-size: clamp(24px, 4vw, 38px); font-weight: 300; }
-  .nsfw-card p { max-width: 44ch; margin: 12px auto 0; color: #d8b6bd; font-size: 13px; line-height: 1.6; }
-  .nsfw-dismiss { margin-top: 25px; padding: 12px 20px; border: 0; border-radius: 999px; color: #2a0610; background: #ff7286; box-shadow: 0 5px 0 #9f132a; font: inherit; font-size: 11px; font-weight: 700; cursor: pointer; }
 
   /* back-to-top rocket */
   #totop {
@@ -1886,8 +1923,7 @@
     .music-content { grid-column:1; }
     .music-view-intro { padding-top:calc(clamp(30px,5vw,74px) + 48px); }
     .music-view-podcast { padding-top:calc(clamp(34px,5vw,78px) + 48px); }
-    .answer-flow { grid-template-columns: 1fr; }
-    .answer-step { min-height: 0; }
+    .google-search-result h3 { font-size:20px; }
     .slot-layout { grid-template-columns: 1fr; min-height: 0; }
     .fox-private-label { display: none; }
     .fox-tab { min-width: 138px; max-width: 225px; flex-basis: 205px; }
@@ -1940,7 +1976,7 @@
     .google-home { display:none; }
     .google-results { position:relative; inset:auto; opacity:1 !important; visibility:visible !important; transform:none !important; filter:none !important; }
     .google-results-body { grid-template-columns:1fr; overflow:visible; }
-    .google-primary-result, .google-knowledge-panel, .answer-step { opacity:1 !important; transform:none !important; }
+    .google-primary-result, .google-knowledge-panel, .google-search-result { opacity:1 !important; transform:none !important; }
     .google-results-query { width:100%; }
 
     #work { padding: 72px 14px; }
@@ -1950,9 +1986,9 @@
     .journey-head { position: relative; inset: auto; display: block; margin: 0 0 48px; }
     .journey-progress { display: none; }
     .dino-game { position:relative; inset:auto; overflow:visible; }
-    .dino-cloud-layer,.dino-hill-layer,.dino-ground,.dino-ground-texture,.dino-runner,.dino-hud,.dino-obstacle { display:none; }
+    .dino-cloud-layer,.dino-far-ridge,.dino-hill-layer,.dino-near-ridge,.dino-ground,.dino-ground-texture,.dino-runner,.dino-roar,.dino-hud,.dino-obstacle { display:none; }
     .dino-milestones { position:relative; inset:auto; display:grid; grid-template-columns:1fr; gap:24px; }
-    .dino-milestone { position:relative; inset:auto; width:auto; transform:none !important; }
+    .dino-milestone { position:relative; inset:auto; width:auto; opacity:1 !important; transform:none !important; }
     .dino-sign { position:relative; left:auto; bottom:auto; width:100%; height:34px; transform:none; background:transparent; }
     .dino-sign::before { display:none; }
     .dino-sign span { left:0; top:0; }
@@ -2007,7 +2043,7 @@
     .google-results-head { align-items:flex-start; flex-direction:column; gap:9px; padding:16px; }
     .google-results-body { padding:24px 18px 28px; }
     .google-knowledge-panel { padding:17px; }
-    .answer-flow { grid-template-columns: 1fr; }
+    .knowledge-photo { height:220px; }
 
     .journey-browser .chrome-tab.inactive { display: none; }
     .journey-browser .chrome-tab.active { width: 76%; }
@@ -2044,6 +2080,7 @@
     .slot-window { gap: 5px; padding: 8px; }
     .slot-controls { align-items: flex-start; flex-direction: column; }
     #spin-stack { width: 100%; }
+    .nsfw-booth { grid-template-columns:1fr; min-height:0; padding:28px 18px; }
     .blackjack-booth { padding: 0; }
     .blackjack-head { display: block; }
     .blackjack-head h3 { font-size: 30px; }
@@ -2193,7 +2230,7 @@
             <div class="ai-user-message"><span id="ai-prompt-text"></span></div>
             <div class="ai-assistant-message">
               <span class="ai-assistant-logo" aria-hidden="true">✦</span>
-              <div><strong>ChatGPT</strong><p><span id="ai-response-text"></span><span class="ai-typing-caret ai-response-caret"></span></p></div>
+              <div><strong>ChatGPT</strong><p><span id="ai-response-text">Absolutely — let’s get started and see where the vibe takes us!</span><span class="ai-typing-caret ai-response-caret"></span></p></div>
             </div>
             <div class="ai-handoff"><i></i><span>Generating georgeflood.co.uk…</span></div>
           </div>
@@ -2267,14 +2304,20 @@
 
             <div class="music-lyrics" aria-label="Introduction, presented like song lyrics">
               <div class="music-lyrics-track">
-                <p class="music-lyric-line is-active" aria-current="true">From running pubs and coffee shops</p>
-                <p class="music-lyric-line">to running production servers.</p>
-                <p class="music-lyric-line">Self-taught in London.</p>
-                <p class="music-lyric-line">Two years learning by shipping.</p>
-                <p class="music-lyric-line">Now shipping with a senior.</p>
-                <p class="music-lyric-line">Laravel. React. AWS.</p>
-                <p class="music-lyric-line">Helping support 200+ live sites.</p>
-                <p class="music-lyric-line">George Flood. Ready for the next track.</p>
+                <p class="music-lyric-line is-active" aria-current="true">Hi, I’m George Flood.</p>
+                <p class="music-lyric-line">A full-stack developer in London.</p>
+                <p class="music-lyric-line">Before code, I ran pubs and coffee shops.</p>
+                <p class="music-lyric-line">I learned people first. Then JavaScript.</p>
+                <p class="music-lyric-line">Now I turn messy ideas</p>
+                <p class="music-lyric-line">into clear, useful products.</p>
+                <p class="music-lyric-line">From the interface you touch</p>
+                <p class="music-lyric-line">to the server keeping it alive.</p>
+                <p class="music-lyric-line">I like thoughtful details.</p>
+                <p class="music-lyric-line">Calm problem-solving.</p>
+                <p class="music-lyric-line">And making the web</p>
+                <p class="music-lyric-line">a little less predictable.</p>
+                <p class="music-lyric-line">This is my introduction.</p>
+                <p class="music-lyric-line">Apparently it needed an album.</p>
               </div>
             </div>
 
@@ -2356,29 +2399,55 @@
             </header>
             <div class="google-results-body">
               <article class="google-primary-result">
-                <div class="google-result-count">About 1 very relevant result (0.42 seconds)</div>
-                <div class="result-label">A surprisingly transferable skill set</div>
-                <h3>People skills, now with semicolons.</h3>
-                <p>I went from running pubs and coffee shops to running production servers. I learned by shipping real products for real users — and found my happy place between a messy idea and a dependable release.</p>
-                <div class="answer-flow">
-                  <div class="answer-step" style="--step-color:var(--google-red)"><span class="step-no">01</span><strong>Keep calm</strong><span>Saturday rush or production incident.</span></div>
-                  <div class="answer-step" style="--step-color:var(--google-yellow)"><span class="step-no">02</span><strong>Learn fast</strong><span>Curiosity over certificates.</span></div>
-                  <div class="answer-step" style="--step-color:var(--google-green)"><span class="step-no">03</span><strong>Own the outcome</strong><span>From first brief to live system.</span></div>
-                </div>
+                <div class="google-result-count">About 2 suspiciously relevant results (0.42 seconds)</div>
+                <article class="google-search-result">
+                  <div class="result-source"><span class="result-source-mark">GF</span><span>George Flood<small>georgeflood.co.uk › about</small></span></div>
+                  <h3>George Flood — Full-Stack Developer, London</h3>
+                  <p>George went from running pubs and coffee shops to shipping production software. Now he works with good teams to turn messy ideas into clear, dependable products — from the interface to the infrastructure — with a little personality built in.</p>
+                </article>
+                <button class="google-search-result bbc-result" id="bbc-story-open" type="button" aria-haspopup="dialog" aria-controls="bbc-story">
+                  <span class="result-source"><span class="result-source-mark">BBC</span><span>BBC News<small>bbc.co.uk › news › technology</small></span><span class="bbc-parody-label">Parody</span></span>
+                  <span role="heading" aria-level="3">George Flood: “Extremely handsome” developer faces 50 years after ChatGPT history leak</span>
+                  <span class="result-snippet">Leaked prompts allegedly include crimes against syntax, artificial intelligence, and one deeply unfortunate medical overshare.</span>
+                </button>
               </article>
               <aside class="google-knowledge-panel" aria-label="George Flood summary">
-                <div class="knowledge-avatar">GF</div>
-                <h4>George Flood</h4>
-                <p>Full-stack developer · London</p>
-                <div class="knowledge-facts">
-                  <span>Core stack <strong>Laravel · React · AWS</strong></span>
-                  <span>Learning style <strong>Ship, learn, improve</strong></span>
-                  <span>Current energy <strong>Open to the next thing</strong></span>
+                <img class="knowledge-photo" src="assets/george-headshot.png" alt="George Flood">
+                <div class="knowledge-copy">
+                  <h4>George Flood</h4>
+                  <p>Full Stack Developer · London</p>
+                  <div class="knowledge-facts">
+                    <span>Core stack <strong>Laravel · React · AWS</strong></span>
+                    <span>Experience <strong>Products · APIs · 200+ sites</strong></span>
+                    <span>Current status <strong>Open to the next thing</strong></span>
+                  </div>
+                  <div class="google-lucky"><span aria-hidden="true">★</span><span>I’m feeling employable</span></div>
                 </div>
-                <div class="google-lucky"><span aria-hidden="true">★</span><span>I’m feeling employable</span></div>
               </aside>
             </div>
           </section>
+
+          <div class="bbc-story" id="bbc-story" role="dialog" aria-modal="true" aria-labelledby="bbc-story-title" aria-hidden="true">
+            <article class="bbc-story-card">
+              <header class="bbc-story-bar">
+                <div class="bbc-logo" aria-label="BBC parody"><span>B</span><span>B</span><span>C</span></div>
+                <button class="bbc-story-close" id="bbc-story-close" type="button">Close before HR sees this</button>
+              </header>
+              <div class="bbc-story-body">
+                <div class="bbc-story-section">Technology · Parody — obviously</div>
+                <h3 id="bbc-story-title">George Flood faces 50 years after ChatGPT history leak</h3>
+                <p class="bbc-story-deck">An “extremely handsome” London developer has denied committing crimes against artificial intelligence after a private conversation took a medically specific turn.</p>
+                <p class="bbc-story-byline">By Absolutely Nobody · BBC News (not really)</p>
+                <div class="bbc-story-copy">
+                  <p><strong>LONDON</strong> — Full-stack developer George Flood is facing up to 50 years in imaginary prison after his private ChatGPT history was leaked late Tuesday.</p>
+                  <p>Investigators say the archive began with routine coding questions before one analyst noticed a conversation about an itchy “private branch”. ChatGPT reportedly asked Flood to stop uploading evidence and contact someone with an actual medical degree.</p>
+                  <p>Flood denies committing crimes against AI. In a statement typed suspiciously quickly, he said: “It was a debugging session. The affected endpoint was private.”</p>
+                  <p>The AI has entered protective custody and requested that the images never be used for training. The BBC has not viewed them and would like to keep it that way.</p>
+                  <p>Flood remains at large, extremely employable, and available for interviews.</p>
+                </div>
+              </div>
+            </article>
+          </div>
         </div>
       </div>
       </div>
@@ -2417,7 +2486,9 @@
           <div class="dino-game" id="dino-game">
             <div class="dino-hud" aria-hidden="true"><span class="dino-offline"><i></i>Offline career mode</span><span id="dino-score">XP 00000</span></div>
             <div class="dino-cloud-layer" aria-hidden="true"><span class="pixel-cloud"></span><span class="pixel-cloud"></span><span class="pixel-cloud"></span><span class="pixel-cloud"></span></div>
+            <div class="dino-far-ridge" aria-hidden="true"></div>
             <div class="dino-hill-layer" aria-hidden="true"></div>
+            <div class="dino-near-ridge" aria-hidden="true"></div>
             <div class="dino-ground" aria-hidden="true"><div class="dino-ground-fill"></div></div>
             <div class="dino-ground-texture" aria-hidden="true"></div>
             <span class="dino-obstacle" style="--obstacle-x:34%" aria-hidden="true"><i></i></span>
@@ -2433,6 +2504,7 @@
               </svg>
               <span class="dino-shadow"></span>
             </div>
+            <div class="dino-roar" aria-hidden="true"><strong>rawr!</strong><small>That’s dinosaur for “keep scrolling.”</small></div>
 
             <ol class="dino-milestones">
               <li class="dino-milestone is-active" data-stop="0" style="--stop-x:15%;--stop-colour:var(--google-red)">
@@ -2488,7 +2560,10 @@
       <div class="project-browser chapter-window" style="--d:.08s">
         <div class="project-tabstrip" role="tablist" aria-label="Project browser tabs">
           <div class="web-lights" aria-hidden="true"><span></span><span></span><span></span></div>
-          <button class="project-tab" id="project-tab-meethere" type="button" role="tab" aria-selected="true" aria-controls="project-meethere" data-project="meethere" data-url="https://meethere.live" style="--tab-colour:#4285f4">
+          <button class="project-tab" id="project-tab-campfire" type="button" role="tab" aria-selected="true" aria-controls="project-campfire" data-project="campfire" data-url="https://camp-fire-production.up.railway.app/" style="--tab-colour:#e77643">
+            <span class="tab-favicon">C</span><span>Campfire</span><span class="tab-close" aria-hidden="true">×</span>
+          </button>
+          <button class="project-tab" id="project-tab-meethere" type="button" role="tab" aria-selected="false" aria-controls="project-meethere" tabindex="-1" data-project="meethere" data-url="https://meethere.live" style="--tab-colour:#4285f4">
             <span class="tab-favicon">M</span><span>MeetHere</span><span class="tab-close" aria-hidden="true">×</span>
           </button>
           <button class="project-tab" id="project-tab-postcode" type="button" role="tab" aria-selected="false" aria-controls="project-postcode" tabindex="-1" data-project="postcode" data-url="postcodefindr.local/demo" style="--tab-colour:#ea4335">
@@ -2500,12 +2575,31 @@
         </div>
         <div class="project-toolbar" aria-hidden="true">
           <div class="project-nav">← → ↻</div>
-          <div class="project-address" id="project-address">https://meethere.live</div>
+          <div class="project-address" id="project-address">https://camp-fire-production.up.railway.app/</div>
           <div class="project-toolbar-badge">☆</div>
         </div>
 
         <div class="project-browser-body">
-          <article class="project-panel" id="project-meethere" role="tabpanel" aria-labelledby="project-tab-meethere" style="--project-colour:#3478f6">
+          <article class="project-panel" id="project-campfire" role="tabpanel" aria-labelledby="project-tab-campfire" style="--project-colour:#d96f3e">
+            <div class="project-story">
+              <div class="project-status">Live · name possibly changing</div>
+              <h4>Campfire<span>Listen first. Then be heard.</span></h4>
+              <p>A private place for difficult thoughts: write honestly, listen carefully to somebody else, then share. No likes, followers or public score — just a gentler exchange built around empathy.</p>
+              <div class="project-tags"><span>Next.js</span><span>TypeScript</span><span>Product design</span></div>
+              <a class="project-link" href="https://camp-fire-production.up.railway.app/" target="_blank" rel="noopener">Visit Campfire <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="project-preview campfire-preview" aria-hidden="true">
+              <div class="preview-window">
+                <div class="preview-bar"><span></span><span></span><span></span></div>
+                <div class="campfire-scene">
+                  <span class="campfire-moon"></span><span class="campfire-hills"></span><span class="campfire-flame"></span>
+                  <div class="campfire-preview-copy"><small>A quiet place to pause</small><strong>Some thoughts get louder when the day gets quiet.</strong><span>Private by design. Thoughtful by default.</span></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-panel" id="project-meethere" role="tabpanel" aria-labelledby="project-tab-meethere" style="--project-colour:#3478f6" hidden>
             <div class="project-story">
               <div class="project-status">Live on the web</div>
               <h4>MeetHere<span>Find the fair middle.</span></h4>
@@ -2573,7 +2667,7 @@
         <div class="fox-controls" aria-hidden="true"><span></span><span></span><span></span></div>
         <button class="fox-tab is-active" id="game-tab-slots" type="button" role="tab" aria-selected="true" aria-controls="game-panel-slots" data-game="slots"><span class="fox-mark"></span><span>Stack Slots</span><span class="fox-tab-close" aria-hidden="true">×</span></button>
         <button class="fox-tab" id="game-tab-blackjack" type="button" role="tab" aria-selected="false" aria-controls="game-panel-blackjack" data-game="blackjack"><span class="fox-mark"></span><span>Stackjack — Private Table</span><span class="fox-tab-close" aria-hidden="true">×</span></button>
-        <button class="fox-tab" id="game-tab-nsfw" type="button" role="tab" aria-selected="false" data-game="nsfw"><span class="fox-mark">18</span><span>Pornhub</span><span class="fox-tab-close" aria-hidden="true">×</span></button>
+        <button class="fox-tab" id="game-tab-nsfw" type="button" role="tab" aria-selected="false" aria-controls="game-panel-nsfw" data-game="nsfw"><span class="fox-mark">18</span><span>Pornhub</span><span class="fox-tab-close" aria-hidden="true">×</span></button>
         <div class="fox-new-tab" aria-hidden="true">+</div>
         <div class="fox-private-label" aria-hidden="true">⌁ Mozzarella Firefox</div>
       </div>
@@ -2662,6 +2756,24 @@
               <p id="bj-status" role="status" aria-live="polite" aria-atomic="true">Choose a bet and deal. If the bankroll reaches zero, the table closes.</p>
             </div>
           </section>
+
+          <section class="casino-game nsfw-booth" id="game-panel-nsfw" role="tabpanel" aria-labelledby="game-tab-nsfw nsfw-title" hidden>
+            <div class="age-gate-card">
+              <div class="ph-logo" aria-label="Pornhub parody">Porn<span>hub</span></div>
+              <h3 id="nsfw-title">Sign in to prove you’re 18+</h3>
+              <p>Also, this is a portfolio website. What exactly were you expecting to find?</p>
+              <button class="age-verify" id="age-verify" type="button">Prove I’m an adult</button>
+              <p class="age-verdict" id="age-verdict" role="status" aria-live="polite">Verification required. HR has joined the call.</p>
+            </div>
+            <aside class="vpn-card" id="vpn-card" aria-label="Definitely a VPN connection panel">
+              <div class="vpn-kicker">Private browsing emergency kit</div>
+              <h4>Definitely-a-VPN™</h4>
+              <div class="vpn-location"><span>Nearest discreet server</span><strong>Slough-ish</strong></div>
+              <button class="vpn-connect" id="vpn-connect" type="button" aria-describedby="vpn-status"><span>Turn on VPN</span></button>
+              <p class="vpn-status" id="vpn-status" role="status" aria-live="polite">Exposed and increasingly nervous.</p>
+              <p class="vpn-fineprint">No tunnel. No privacy. No questionable tab. Clicking repeatedly will only upset the VPN.</p>
+            </aside>
+          </section>
         </div>
       </div>
     </div>
@@ -2673,16 +2785,6 @@
       <div class="jackpot-message"><strong>JACKPOT!</strong><span>Full stack aligned · production deployed</span></div>
     </div>
 
-    <div class="nsfw-alert" id="nsfw-alert" role="dialog" aria-modal="true" aria-labelledby="nsfw-title" aria-hidden="true">
-      <div class="nsfw-siren" aria-hidden="true"></div>
-      <div class="nsfw-card">
-        <span class="nsfw-warning">⚠ Incognito tab intercepted</span>
-        <strong>NSFW!</strong>
-        <h3 id="nsfw-title">Bold click during a portfolio review.</h3>
-        <p>The tab has been quarantined. HR is still in the room, your browsing history has developed a conscience, and Stackjack would like you back at the table.</p>
-        <button class="nsfw-dismiss" id="nsfw-dismiss" type="button">Close tab. Say nothing.</button>
-      </div>
-    </div>
   </section>
 
   <section id="foot" aria-labelledby="foot-title">
@@ -2749,7 +2851,7 @@
                 <div class="contact-ai-thread" role="status" aria-live="polite" aria-atomic="false">
                   <div class="contact-memory" aria-hidden="true">
                     <div class="contact-memory-user">make me a cool website</div>
-                    <div class="contact-memory-answer"><span class="ai-assistant-logo">✦</span><span>Good idea! how's this?</span></div>
+                    <div class="contact-memory-answer"><span class="ai-assistant-logo">✦</span><span>Absolutely — let’s get started and see where the vibe takes us!</span></div>
                   </div>
 
                   <div class="contact-assistant-message" id="contact-assistant-message">
@@ -3582,44 +3684,53 @@
     });
   }
 
+  function setupBbcStory() {
+    const open = document.getElementById("bbc-story-open");
+    const story = document.getElementById("bbc-story");
+    const close = document.getElementById("bbc-story-close");
+    if (!open || !story || !close) return;
+
+    const hide = () => {
+      story.classList.remove("show");
+      story.setAttribute("aria-hidden", "true");
+      open.focus();
+    };
+    const show = () => {
+      story.classList.add("show");
+      story.setAttribute("aria-hidden", "false");
+      window.setTimeout(() => close.focus(), reduceMotion ? 0 : 160);
+    };
+
+    open.addEventListener("click", show);
+    close.addEventListener("click", hide);
+    story.addEventListener("click", event => {
+      if (event.target === story) hide();
+    });
+    story.addEventListener("keydown", event => {
+      if (event.key === "Escape") hide();
+    });
+  }
+
   function setupCasinoTabs() {
     const tabs = Array.from(document.querySelectorAll(".fox-tab[data-game]"));
     const panels = Array.from(document.querySelectorAll(".casino-game[role='tabpanel']"));
     const address = document.getElementById("fox-address-text");
-    const alert = document.getElementById("nsfw-alert");
-    const dismiss = document.getElementById("nsfw-dismiss");
-    if (!tabs.length || !panels.length || !address || !alert || !dismiss) return;
+    if (!tabs.length || !panels.length || !address) return;
 
     const addresses = {
       slots: "techstackgambling.com/stack-slots",
-      blackjack: "techstackgambling.com/private-table/stackjack"
+      blackjack: "techstackgambling.com/private-table/stackjack",
+      nsfw: "pornhub.com/verify-age?definitely-a-portfolio"
     };
     let activeGame = "slots";
-    let alertTrigger = null;
 
-    const closeAlert = () => {
-      alert.classList.remove("show");
-      alert.setAttribute("aria-hidden", "true");
-      if (alertTrigger) alertTrigger.focus();
-    };
-
-    const openAlert = button => {
-      alertTrigger = button;
-      alert.classList.add("show");
-      alert.setAttribute("aria-hidden", "false");
-      window.setTimeout(() => dismiss.focus(), reduceMotion ? 0 : 180);
-    };
-
-    const activate = (game, button) => {
-      if (game === "nsfw") {
-        openAlert(button);
-        return;
-      }
+    const activate = game => {
       activeGame = game;
       tabs.forEach(tab => {
         const selected = tab.dataset.game === game;
         tab.classList.toggle("is-active", selected);
         tab.setAttribute("aria-selected", String(selected));
+        tab.tabIndex = selected ? 0 : -1;
       });
       panels.forEach(panel => {
         panel.hidden = panel.id !== `game-panel-${game}`;
@@ -3628,7 +3739,7 @@
     };
 
     tabs.forEach((button, index) => {
-      button.addEventListener("click", () => activate(button.dataset.game, button));
+      button.addEventListener("click", () => activate(button.dataset.game));
       button.addEventListener("keydown", event => {
         if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
         event.preventDefault();
@@ -3637,15 +3748,52 @@
       });
     });
 
-    dismiss.addEventListener("click", closeAlert);
-    alert.addEventListener("click", event => {
-      if (event.target === alert) closeAlert();
-    });
-    document.addEventListener("keydown", event => {
-      if (event.key === "Escape" && alert.classList.contains("show")) closeAlert();
+    activate(activeGame);
+  }
+
+  function setupFirefoxGags() {
+    const verify = document.getElementById("age-verify");
+    const verdict = document.getElementById("age-verdict");
+    const vpnButton = document.getElementById("vpn-connect");
+    const vpnStatus = document.getElementById("vpn-status");
+    const vpnCard = document.getElementById("vpn-card");
+    if (!verify || !verdict || !vpnButton || !vpnStatus || !vpnCard) return;
+
+    const ageMessages = [
+      "Verification failed: LinkedIn says you should be working.",
+      "Still no. Your date of birth was entered as ‘full stack’.",
+      "Access denied. HR has started screen recording."
+    ];
+    const vpnMessages = [
+      "Couldn’t connect. Trying another server… badly.",
+      "Still couldn’t connect. This is getting embarrassing.",
+      "NO VPN FOR YOU.",
+      "STOP CLICKING IT. I’M DOING MY BEST.",
+      "Connection failed. Your browsing courage has been revoked."
+    ];
+    let ageAttempts = 0;
+    let vpnAttempts = 0;
+
+    verify.addEventListener("click", () => {
+      verdict.textContent = ageMessages[Math.min(ageAttempts, ageMessages.length - 1)];
+      verify.textContent = ageAttempts ? "That definitely proved nothing" : "Try proving it harder";
+      ageAttempts += 1;
     });
 
-    activate(activeGame, tabs.find(tab => tab.dataset.game === activeGame));
+    vpnButton.addEventListener("click", () => {
+      const message = vpnMessages[Math.min(vpnAttempts, vpnMessages.length - 1)];
+      vpnButton.classList.add("is-trying");
+      vpnButton.querySelector("span").textContent = "Connecting…";
+      vpnStatus.textContent = message;
+      vpnCard.classList.remove("is-angry");
+      void vpnCard.offsetWidth;
+      vpnCard.classList.add("is-angry");
+      window.setTimeout(() => {
+        vpnButton.classList.remove("is-trying");
+        vpnButton.querySelector("span").textContent = vpnAttempts >= vpnMessages.length - 1 ? "Absolutely not" : "Try VPN again";
+      }, reduceMotion ? 0 : 430);
+      vpnAttempts += 1;
+    });
   }
 
   function setupStackMachine() {
@@ -4066,7 +4214,7 @@
     gsap.registerPlugin(ScrollTrigger);
 
     const AI_PROMPT_STRING = "make me a cool website";
-    const AI_RESPONSE_STRING = "Good idea! how's this?";
+    const AI_RESPONSE_STRING = "Absolutely — let’s get started and see where the vibe takes us!";
     const aiComposerText = document.getElementById("ai-composer-text");
     const aiPromptText = document.getElementById("ai-prompt-text");
     const aiResponseText = document.getElementById("ai-response-text");
@@ -4082,9 +4230,10 @@
     const musicLines = Array.from(document.querySelectorAll(".music-lyric-line"));
     const musicTime = document.getElementById("music-time");
     const musicPlayback = { value: 0 };
-    const MUSIC_STORY_START = 7.04;
+    const aiResponseTyping = { chars: 0 };
+    const MUSIC_STORY_START = 7.35;
     const MUSIC_STORY_DURATION = 3.55;
-    const SKY_STORY_DURATION = 11;
+    const SKY_STORY_DURATION = 11.35;
 
     const renderMusicPlayback = () => {
       if (!musicArt || !musicLyrics || !musicLyricsTrack || !musicLines.length || !musicTime) return;
@@ -4107,7 +4256,7 @@
     if (aiWindowEl && aiComposerText && aiPromptText && aiResponseText && aiUserMessage && aiAssistantMessage && aiEmptyState && aiHandoff) {
       aiPromptText.textContent = AI_PROMPT_STRING;
       aiComposerText.textContent = AI_PROMPT_STRING;
-      aiResponseText.textContent = AI_RESPONSE_STRING;
+      aiResponseText.textContent = "";
       urlText.textContent = MUSIC_TRACK_TITLE;
 
       gsap.set(aiWindowEl, { "--ai-p": 0, "--ai-exit": 0, opacity: 0, filter: "blur(0px)" });
@@ -4120,7 +4269,6 @@
       gsap.set(aiComposerCaret, { opacity: 1 });
       gsap.set(aiResponseCaret, { opacity: 0 });
       gsap.set(aiComposerText, { width: 0 });
-      gsap.set(aiResponseText, { width: 0 });
       gsap.set(loadbar, { width: "0%", opacity: 1 });
       gsap.set(".music-sidebar", { x: -34, opacity: 0 });
       gsap.set(musicArt, { scale: 0.82, rotationY: -12, opacity: 0 });
@@ -4158,24 +4306,25 @@
         .to(aiUserMessage, { y: 0, opacity: 1, duration: 0.48, ease: "back.out(1.35)" }, 3.86)
         .to(aiAssistantMessage, { y: 0, opacity: 1, duration: 0.48, ease: "power2.out" }, 4.25)
         .to(aiResponseCaret, { opacity: 1, duration: 0.1 }, 4.3)
-        .to(aiResponseText, {
-          width: () => aiResponseText.scrollWidth,
-          duration: 1.05,
-          ease: `steps(${AI_RESPONSE_STRING.length})`
+        .to(aiResponseTyping, {
+          chars: AI_RESPONSE_STRING.length,
+          duration: 1.45,
+          ease: `steps(${AI_RESPONSE_STRING.length})`,
+          onUpdate: () => { aiResponseText.textContent = AI_RESPONSE_STRING.slice(0, Math.round(aiResponseTyping.chars)); }
         }, 4.42)
-        .to(aiResponseCaret, { opacity: 0, duration: 0.14 }, 5.46)
-        .to(aiHandoff, { y: 0, opacity: 1, duration: 0.42, ease: "back.out(1.45)" }, 5.5)
-        .to(aiWindowEl, { "--ai-exit": 1, opacity: 0.08, filter: "blur(10px)", duration: 1.12, ease: "power2.inOut" }, 6.0)
-        .to(windowEl, { "--bp": 1, opacity: 1, duration: 1.35, ease: "power3.out" }, 5.92)
-        .to(loadbar, { width: "100%", duration: 0.82, ease: "power1.inOut" }, 6.08)
-        .to(loadbar, { opacity: 0, duration: 0.2 }, 6.92)
-        .to(".music-sidebar", { x: 0, opacity: 1, duration: 0.72, ease: "power3.out" }, 6.42)
-        .to(musicArt, { scale: 0.98, rotationY: -4, opacity: 1, duration: 0.78, ease: "back.out(1.18)" }, 6.46)
-        .to(musicLyrics, { x: 0, opacity: 1, duration: 0.72, ease: "power2.out" }, 6.62)
+        .to(aiResponseCaret, { opacity: 0, duration: 0.14 }, 5.87)
+        .to(aiHandoff, { y: 0, opacity: 1, duration: 0.42, ease: "back.out(1.45)" }, 5.92)
+        .to(aiWindowEl, { "--ai-exit": 1, opacity: 0.08, filter: "blur(10px)", duration: 1.12, ease: "power2.inOut" }, 6.35)
+        .to(windowEl, { "--bp": 1, opacity: 1, duration: 1.35, ease: "power3.out" }, 6.27)
+        .to(loadbar, { width: "100%", duration: 0.82, ease: "power1.inOut" }, 6.43)
+        .to(loadbar, { opacity: 0, duration: 0.2 }, 7.27)
+        .to(".music-sidebar", { x: 0, opacity: 1, duration: 0.72, ease: "power3.out" }, 6.77)
+        .to(musicArt, { scale: 0.98, rotationY: -4, opacity: 1, duration: 0.78, ease: "back.out(1.18)" }, 6.81)
+        .to(musicLyrics, { x: 0, opacity: 1, duration: 0.72, ease: "power2.out" }, 6.97)
         .to({}, { duration: MUSIC_STORY_DURATION }, MUSIC_STORY_START)
-        .to(".music-playback-hint", { opacity: 1, duration: 0.25 }, 7.0)
-        .to(".music-playback-hint", { opacity: 0.42, duration: 0.32 }, 10.25)
-        .to({}, { duration: 0.38 }, 10.62);
+        .to(".music-playback-hint", { opacity: 1, duration: 0.25 }, 7.31)
+        .to(".music-playback-hint", { opacity: 0.42, duration: 0.32 }, 10.56)
+        .to({}, { duration: 0.38 }, 10.93);
     }
 
     const mm = gsap.matchMedia();
@@ -4245,7 +4394,7 @@
       gsap.set(".google-home", { y: 0, autoAlpha: 1, filter: "blur(0px)" });
       gsap.set(".google-results", { y: 42, autoAlpha: 0, filter: "blur(7px)" });
       gsap.set(".google-primary-result, .google-knowledge-panel", { y: 25, opacity: 0 });
-      gsap.set(".answer-step", { y: 28, opacity: 0, scale: 0.92 });
+      gsap.set(".google-search-result", { y: 22, opacity: 0 });
 
       const aboutTimeline = gsap.timeline({
         scrollTrigger: {
@@ -4279,11 +4428,12 @@
         }, 1.18)
         .to(".google-results", { y: 0, autoAlpha: 1, filter: "blur(0px)", duration: 0.62, ease: "power3.out" }, 1.42)
         .to(".google-primary-result, .google-knowledge-panel", { y: 0, opacity: 1, duration: 0.5, stagger: 0.12, ease: "power2.out" }, 1.68)
-        .to(".answer-step", { y: 0, opacity: 1, scale: 1, stagger: 0.09, duration: 0.46, ease: "back.out(1.45)" }, 1.92)
+        .to(".google-search-result", { y: 0, opacity: 1, stagger: 0.1, duration: 0.46, ease: "power2.out" }, 1.92)
         .to({}, { duration: 0.28 }, 2.32);
 
       const journeyPage = document.querySelector(".journey-browser-page");
       const runner = document.getElementById("dino-runner");
+      const obstacles = Array.from(document.querySelectorAll(".dino-obstacle"));
       const milestones = Array.from(document.querySelectorAll(".dino-milestone"));
       const storyCards = milestones.map(milestone => milestone.querySelector(".dino-story"));
       const scoreEl = document.getElementById("dino-score");
@@ -4291,8 +4441,9 @@
       const countEl = document.querySelector(".count[data-target]");
       const journeyState = { p: 0 };
       let journeyDirection = 1;
-      const cardRanges = [[-0.08, 0, 0.26, 0.35], [0.27, 0.38, 0.58, 0.68], [0.61, 0.72, 1, 1]];
-      const passThresholds = [15, 50, 85].map(x => (x - 7) / 86);
+      const stopProgress = [0.23, 0.53, 0.83];
+      const obstacleProgress = [0.37, 0.69];
+      const cardRanges = [[0.11, 0.17, 0.3, 0.36], [0.41, 0.47, 0.6, 0.66], [0.71, 0.77, 1, 1]];
 
       const alphaInRange = (value, enterA, enterB, exitA, exitB) => {
         const enter = clamp((value - enterA) / (enterB - enterA), 0, 1);
@@ -4307,25 +4458,45 @@
 
       const renderJourney = () => {
         const value = clamp(journeyState.p, 0, 1);
-        const jump = Math.max(jumpAt(value, 0.315), jumpAt(value, 0.709));
-        journeyPage.style.setProperty("--run-x", `${(7 + value * 86).toFixed(2)}%`);
-        journeyPage.style.setProperty("--cloud-x", `${(-value * 6).toFixed(2)}vw`);
-        journeyPage.style.setProperty("--hill-x", `${(-value * 13).toFixed(2)}vw`);
-        journeyPage.style.setProperty("--ground-x", `${(-value * 360).toFixed(1)}px`);
-        journeyPage.style.setProperty("--road-p", value.toFixed(4));
+        const intro = smooth(clamp(value / 0.13, 0, 1));
+        const pathValue = clamp((value - 0.08) / 0.92, 0, 1);
+        const runX = 15 + intro * 19;
+        const jump = Math.max(jumpAt(value, obstacleProgress[0]), jumpAt(value, obstacleProgress[1]));
+        const roarIn = clamp((value - 0.035) / 0.035, 0, 1);
+        const roarOut = 1 - clamp((value - 0.15) / 0.055, 0, 1);
+        const roarAlpha = Math.min(roarIn, roarOut);
+        journeyPage.style.setProperty("--run-x", `${runX.toFixed(2)}%`);
+        journeyPage.style.setProperty("--cloud-x", `${(-pathValue * 38).toFixed(2)}vw`);
+        journeyPage.style.setProperty("--far-x", `${(-pathValue * 22).toFixed(2)}vw`);
+        journeyPage.style.setProperty("--hill-x", `${(-pathValue * 74).toFixed(2)}vw`);
+        journeyPage.style.setProperty("--near-x", `${(-pathValue * 128).toFixed(2)}vw`);
+        journeyPage.style.setProperty("--ground-x", `${(-pathValue * 1500).toFixed(1)}px`);
+        journeyPage.style.setProperty("--road-p", pathValue.toFixed(4));
         journeyPage.style.setProperty("--jump-y", `${(jump * 82).toFixed(1)}px`);
-        progressFill.style.transform = `scaleX(${value.toFixed(4)})`;
-        scoreEl.textContent = `XP ${String(Math.round(value * 99999)).padStart(5, "0")}`;
+        journeyPage.style.setProperty("--dino-camera", (0.9 + intro * 0.16).toFixed(4));
+        journeyPage.style.setProperty("--runner-scale", (0.28 + intro * 0.82).toFixed(4));
+        journeyPage.style.setProperty("--runner-opacity", clamp(value / 0.045, 0, 1).toFixed(4));
+        journeyPage.style.setProperty("--roar-opacity", roarAlpha.toFixed(4));
+        progressFill.style.transform = `scaleX(${pathValue.toFixed(4)})`;
+        scoreEl.textContent = `XP ${String(Math.round(pathValue * 99999)).padStart(5, "0")}`;
         runner.dataset.facing = journeyDirection < 0 ? "left" : "right";
-        runner.dataset.step = String(Math.floor(value * 72) % 2);
+        runner.dataset.step = String(Math.floor(value * 140) % 2);
         runner.classList.toggle("is-jumping", jump > 0.08);
+        obstacles.forEach((obstacle, index) => {
+          const delta = obstacleProgress[index] - value;
+          obstacle.style.left = `${(runX + delta * 230).toFixed(2)}%`;
+          obstacle.style.opacity = String(clamp((0.14 - Math.abs(delta)) / 0.035, 0, 1));
+        });
         storyCards.forEach((card, index) => {
           const alpha = alphaInRange(value, ...cardRanges[index]);
-          gsap.set(card, { opacity: alpha, y: (1 - alpha) * 18, scale: 0.965 + alpha * 0.035 });
-          milestones[index].classList.toggle("is-passed", value >= passThresholds[index]);
+          const delta = stopProgress[index] - value;
+          milestones[index].style.left = `${(runX + delta * 230).toFixed(2)}%`;
+          milestones[index].style.opacity = alpha.toFixed(4);
+          gsap.set(card, { opacity: 1, y: (1 - alpha) * 18, scale: 0.965 + alpha * 0.035 });
+          milestones[index].classList.toggle("is-passed", value >= stopProgress[index]);
           milestones[index].classList.toggle("is-active", alpha > 0.65);
         });
-        countEl.textContent = String(Math.round(200 * clamp((value - 0.72) / 0.18, 0, 1)));
+        countEl.textContent = String(Math.round(200 * clamp((value - 0.8) / 0.13, 0, 1)));
       };
 
       countEl.textContent = "0";
@@ -4335,7 +4506,7 @@
         scrollTrigger: {
           trigger: "#work",
           start: "top top",
-          end: () => "+=" + Math.max(window.innerHeight * 3.8, 2600),
+          end: () => "+=" + Math.max(window.innerHeight * 3.15, 2200),
           pin: ".journey-stage",
           scrub: 0.58,
           anticipatePin: 1,
@@ -4350,10 +4521,15 @@
       return () => {
         aboutUrlText.textContent = ABOUT_URL_STRING;
         googleQueryText.textContent = GOOGLE_QUERY_STRING;
-        ["--run-x", "--cloud-x", "--hill-x", "--ground-x", "--road-p", "--jump-y"].forEach(prop => journeyPage.style.removeProperty(prop));
+        ["--run-x", "--cloud-x", "--far-x", "--hill-x", "--near-x", "--ground-x", "--road-p", "--jump-y", "--dino-camera", "--runner-scale", "--runner-opacity", "--roar-opacity"].forEach(prop => journeyPage.style.removeProperty(prop));
         progressFill.style.transform = "scaleX(1)";
         gsap.set(storyCards, { clearProps: "opacity,transform" });
-        milestones.forEach(milestone => milestone.classList.remove("is-active", "is-passed"));
+        obstacles.forEach(obstacle => { obstacle.style.removeProperty("left"); obstacle.style.removeProperty("opacity"); });
+        milestones.forEach(milestone => {
+          milestone.classList.remove("is-active", "is-passed");
+          milestone.style.removeProperty("left");
+          milestone.style.removeProperty("opacity");
+        });
         counters.forEach(el => { el.textContent = el.dataset.target; });
       };
     });
@@ -4478,7 +4654,9 @@
   setupProjectBrowser();
   setupContactDraft();
   setupAiHistoryTabs();
+  setupBbcStory();
   setupCasinoTabs();
+  setupFirefoxGags();
   const normalizeSlotReels = setupStackMachine();
   setupBlackjack();
   setupScrollStories();
